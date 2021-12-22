@@ -12,7 +12,7 @@
   "scripts": {
     "build": "npm install",
     "start": "cypress run --headless",
-    "test":  "npx cypress open"
+    "test": "npx cypress open"
   },
   "author": "",
   "license": "ISC"
