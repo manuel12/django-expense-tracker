@@ -1,0 +1,180 @@
+{
+  "today": [
+    {
+      "amount": 25.00,
+      "content": "Gym memebership",
+      "category": "Monthly bill",
+      "source": "McFit Gym"
+    },
+    {
+      "amount": 9.99,
+      "content": "Audible bill",
+      "category": "Monthly bill",
+      "source": "Audible"
+    },
+    {
+      "amount": 18.00,
+      "content": "avocado, salmon, blueberries",
+      "category": "Groceries",
+      "source": "Carrefour"
+    },
+    {
+      "amount": 7.00,
+      "content": "Uber",
+      "category": "Taxi fare",
+      "source": "Uber"
+    },
+    {
+      "amount": 6.00,
+      "content": "HDMI Cable",
+      "category": "Online shopping",
+      "source": "Amazon"
+    }
+  ],
+				
+  "one_week_ago": [
+    {
+      "amount": 16.00,
+      "content": "Bar tab",
+      "category": "Bar tabs",
+      "source": "Beach bar"
+    }
+  ],
+  "two_weeks_ago": [
+    {
+      "amount": 20.00,
+      "content": "Museum entrance",
+      "category": "Miscellaneous",
+      "source": "Main Square Museum"
+    }
+  ],
+  "three_weeks_ago": [
+    {
+      "amount": 13.00,
+      "content": "headphones",
+      "category": "Electronics",
+      "source": "MediaMarkt"
+    },
+    {
+      "amount": 8.00,
+      "content": "Uber fare",
+      "category": "Taxi fare",
+      "source": "Uber"
+    }
+  ],
+
+  "one_month_ago": [
+    {
+      "amount": 25.00,
+      "content": "Gym memebership",
+      "category": "Monthly bill",
+      "source": "McFit Gym"
+    },
+    {
+      "amount": 9.99,
+      "content": "Audible bill",
+      "category": "Monthly bill",
+      "source": "Audible"
+    },
+    {
+      "amount": 6.00,
+      "content": "Uber fare",
+      "category": "Taxi fare",
+      "source": "Uber"
+    },
+    {
+      "amount": 8,
+      "content": "Cat food",
+      "category": "Groceries",
+      "source": "Pet store"
+    },
+    {
+      "amount": 6,
+      "content": "Ice Cream",
+      "category": "Groceries",
+      "source": "Lidl"
+    },
+    {
+      "amount": 12.00,
+      "content": "Bar tab",
+      "category": "Bar tabs",
+      "source": "Beach bar"
+    }
+  ],
+  "two_month_ago": [
+    {
+      "amount": 12.00,
+      "content": "book",
+      "category": "Online shopping",
+      "source": "Amazon"
+    },
+    {
+      "amount": 25.00,
+      "content": "Gym memebership",
+      "category": "Monthly bill",
+      "source": "McFit Gym"
+    },
+    {
+      "amount": 9.99,
+      "content": "Audible bill",
+      "category": "Monthly bill",
+      "source": "Audible"
+    },
+    {
+      "amount": 6,
+      "content": "Ice Cream",
+      "category": "Groceries",
+      "source": "Lidl"
+    },
+    {
+      "amount": 10,
+      "content": "Cat food",
+      "category": "Groceries",
+      "source": "Pet store"
+    },    {
+      "amount": 12,
+      "content": "Tuna, chicken, brocoli",
+      "category": "Groceries",
+      "source": "Lidl"
+    }
+  ],
+  "three_month_ago": [
+    {
+      "amount": 25.00,
+      "content": "Gym memebership",
+      "category": "Monthly bill",
+      "source": "McFit Gym"
+    },
+    {
+      "amount": 9.99,
+      "content": "Audible bill",
+      "category": "Monthly bill",
+      "source": "Audible"
+    },
+    {
+      "amount": 15.66,
+      "content": "Salmon, avocado, chocalate, walnuts",
+      "category": "Groceries",
+      "source": "Carrefour"
+    },
+    {
+      "amount": 8,
+      "content": "Cat food",
+      "category": "Groceries",
+      "source": "Pet store"
+    },
+    {
+      "amount": 4,
+      "content": "Ice Cream",
+      "category": "Groceries",
+      "source": "Lidl"
+    },
+    {
+      "amount": 10,
+      "content": "Tuna, chicken, brocoli",
+      "category": "Groceries",
+      "source": "Lidl"
+    }
+  ]
+}
+

@@ -5,14 +5,8 @@
 /e2e/.vscode
 __pycache__/
 
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
+db.sqlite3
+staticfiles/
 
 # misc
 .DS_Store
@@ -21,6 +15,3 @@ __pycache__/
 .env.test.local
 .env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*

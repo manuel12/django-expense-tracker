@@ -1,0 +1,7 @@
+{
+  "baseUrl": "http://localhost:8000/",
+  "chartsUrl": "http://localhost:8000/charts/",
+  "loginUrl": "http://localhost:8000/accounts/login/",
+  "herokuUrl": "https://expense-tracker16.herokuapp.com/",
+  "video": false
+}

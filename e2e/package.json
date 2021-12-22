@@ -1,0 +1,19 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cypress": "^7.3.0",
+    "deep-equal": "^2.0.5",
+    "wish": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "npm install",
+    "start": "cypress run --headless",
+    "test":  "npx cypress open"
+  },
+  "author": "",
+  "license": "ISC"
+}

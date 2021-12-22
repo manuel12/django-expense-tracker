@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Budget{% endblock %}
+
+{% block content %}
+<div class="form-group">
+<form class="budget-form font-weight-bold" method="post"
+    data-test="budget-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-primary" value="Save"
+        data-test="add-budget-save">
+    <a href="{% url 'expenses:charts' %}"
+        data-test="add-budget-cancel" />Cancel</a>
+</form>
+</div>
+{% endblock content %}

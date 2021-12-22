@@ -1,0 +1,77 @@
+{
+  "testusers": [{
+      "username": "testuser1",
+      "password": "testpass1"
+  }, {
+      "username": "testuser2",
+      "password": "testpass2"
+  }, {
+      "username": "new_test_user",
+      "password1": "new_password",
+      "password2": "new_password"
+  }],
+
+  "updatedExpenseData": {
+      "amount": 30.00,
+      "content": "Wine bottle",
+      "category": "Bar tabs",
+      "source": "Beach bar"
+  },
+
+  "budgetData": {
+      "amount": 35.00
+  },
+
+  "updatedBudgetData": {
+      "amount": 50.00
+  },
+
+  "expenses": [{
+        "amount": 2.00,
+        "content": "Coca cola",
+        "category": "Groceries",
+        "source": "LIDL"
+    },
+    {  
+        "amount": 20.00,
+        "content": "meat, eggs, bacons, tomatoes, fish, spinach",
+        "category": "Groceries",
+        "source": "LIDL"
+    },
+    {
+        "amount": 15.00,
+        "content": "headphones",
+        "category": "Electronics",
+        "source": "MediaMarkt"
+    },
+    {
+        "amount": 32.00,
+        "content": "Phone bill",
+        "category": "Miscellaneous",
+        "source": "O2"
+    },
+    {
+        "amount": 25.00,
+        "content": "Gym memebership",
+        "category": "Miscellaneous",
+        "source": "McFit Gym"
+    },
+    {
+        "amount": 10.00,
+        "content": "milk, eggs",
+        "category": "Groceries",
+        "source": "LIDL"
+    },
+    {
+        "amount": 20,
+        "content": "eggs, bacon",
+        "category": "Groceries",
+        "source": "LIDL"
+    }, {
+        "amount": 15,
+        "content": "beef, milk",
+        "category": "Groceries",
+        "source": "Carrefour"
+    }
+  ]
+}
