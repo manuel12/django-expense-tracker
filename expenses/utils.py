@@ -109,19 +109,19 @@ class DateGenerator:
     @staticmethod
     def get_date_one_month_ago():
         todays_date = DateGenerator.get_date()
-        changed_date = todays_date.replace(month=todays_date.month -1)
+        changed_date = todays_date + relativedelta(months= - 1)
         return DateGenerator.get_formated_date(changed_date)
 
     @staticmethod
     def get_date_two_months_ago():
         todays_date = DateGenerator.get_date()
-        changed_date = todays_date.replace(month=todays_date.month -2)
+        changed_date = todays_date + relativedelta(months= - 2)
         return DateGenerator.get_formated_date(changed_date)
 
     @staticmethod
     def get_date_three_months_ago():
         todays_date = DateGenerator.get_date()
-        changed_date = todays_date.replace(month=todays_date.month -3)
+        changed_date = todays_date + relativedelta(months= - 3)
         return DateGenerator.get_formated_date(changed_date)
 
     @staticmethod
