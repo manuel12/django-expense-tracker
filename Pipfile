@@ -9,12 +9,12 @@ flake8 = "*"
 pylint = "*"
 gunicorn = "==19.9.0"
 whitenoise = "==4.1.4"
-python-dotenv = "*"
 dj-database-url = "*"
 django-heroku = "*"
 isoweek = "*"
 python-dateutil = "*"
 coverage = "*"
+django-environ = "*"
 
 [dev-packages]
 

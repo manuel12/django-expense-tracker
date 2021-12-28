@@ -13,14 +13,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import django_heroku
 import dj_database_url
-import dotenv
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Load .env variables
-dotenv.load_dotenv(
-  os.path.join(os.path.dirname(__file__), '.env')
-)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -28,11 +27,11 @@ dotenv.load_dotenv(
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^xz#4uh%+(etb!bp+i&ag38i597sith8@67t08o5)+xry*6tx!' # os.getenv("SECRET_KEY")
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.getenv('DEBUG')
+DEBUG = env('DEBUG')
 
 
 ALLOWED_HOSTS = [
@@ -92,7 +91,7 @@ WSGI_APPLICATION = 'expense_tracker.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 
-if os.getenv("DEVELOPMENT"):
+if env("DEVELOPMENT"):
   DATABASES = {
     'default': {
       'ENGINE': 'django.db.backends.sqlite3',
@@ -105,9 +104,9 @@ else:
   DATABASES = {
     'default': {
       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-      'NAME': os.getenv("DB_NAME"),
-      'USER': os.getenv("DB_USER"),
-      'PASSWORD': os.getenv("DB_PASSWORD"),
+      'NAME': env("DB_NAME"),
+      'USER': env("DB_USER"),
+      'PASSWORD': env("DB_PASSWORD"),
       'HOST': 'localhost',
       'PORT': 5432
     }

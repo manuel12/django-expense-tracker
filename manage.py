@@ -2,7 +2,6 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import dotenv
 
 
 def main():
@@ -24,8 +23,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# Load .env variables
-dotenv.load_dotenv(
-  os.path.join(os.path.dirname(__file__), '.env')
-)
