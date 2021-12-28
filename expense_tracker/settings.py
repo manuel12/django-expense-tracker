@@ -91,16 +91,8 @@ WSGI_APPLICATION = 'expense_tracker.wsgi.application'
 # Databases
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# EDB Data
-# Password: SoftEDB123!
 
-# POSTGRES DATA
-# Username: postgres
-# Password: postgresDB123
-# Port: 5432
-
-
-if True:
+if os.getenv("DEVELOPMENT"):
   DATABASES = {
     'default': {
       'ENGINE': 'django.db.backends.sqlite3',
