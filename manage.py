@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
-import os
 import sys
-
+import os
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expense_tracker.settings')
-
-    if os.getenv('DJANGO_SETTINGS_MODULE'):
-      os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE')
-
     try:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expense_tracker.settings')
+
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
