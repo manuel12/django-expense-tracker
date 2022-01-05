@@ -4,16 +4,20 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "cypress": "^7.3.0",
+    "cypress-image-snapshot": "^4.0.1",
     "deep-equal": "^2.0.5",
+    "faker": "^5.5.3",
     "wish": "^1.0.1"
   },
-  "devDependencies": {},
   "scripts": {
     "build": "npm install",
-    "start": "cypress run --headless",
-    "test": "npx cypress open"
+    "test": "cypress run",
+    "test:headless": "cypress run --headless",
+    "test:open": "npx cypress open"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^9.2.1"
+  }
 }
