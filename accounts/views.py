@@ -8,7 +8,9 @@ from expenses.models import Expense
 
 
 def logout_view(request):
+    # Delete testuser data to start from scratch when testing.
     Expense.objects.delete_testuser_expenses(request)
+    Expense.objects.delete_testuser_budget(request)
 
     logout(request)
     return redirect('expenses:home')
