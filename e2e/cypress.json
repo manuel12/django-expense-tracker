@@ -2,6 +2,19 @@
   "baseUrl": "http://localhost:8000/",
   "chartsUrl": "http://localhost:8000/charts/",
   "loginUrl": "http://localhost:8000/accounts/login/",
+  "signupUrl": "http://localhost:8000/accounts/signup/",
   "herokuUrl": "https://expense-tracker16.herokuapp.com/",
-  "video": false
+
+  "viewportWidth": 1000,
+  "viewportHeight": 600,
+
+  "video": false,
+  "projectId": "72wyad",
+
+  "integrationFolder": "cypress/integration/",
+  "retries": {
+    "openMode": 0,
+    "runMode": 1
+  }
+
 }
