@@ -27,7 +27,7 @@ class LoginPageTemplateTests(TestCase):
 class SingupPageTemplateTests(TestCase):
     
   def setUp(self):
-      self.response = self.client.get('/accounts/signup/')
+      self.response = self.client.get(reverse('accounts:signup'))
 
   def test_signuppage_contains_correct_html(self):
       self.assertContains(self.response, 'You are not logged in.')
@@ -55,7 +55,7 @@ class SingupPageTemplateTests(TestCase):
 class HomePageTemplateTests(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -74,7 +74,7 @@ class HomePageTemplateTests(TestCase):
 class AddExpenseTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -98,7 +98,7 @@ class AddExpenseTest(TestCase):
 class UpdateExpenseTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -134,7 +134,7 @@ class UpdateExpenseTest(TestCase):
 class DeleteExpenseTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -165,7 +165,7 @@ class DeleteExpenseTest(TestCase):
 class AddBudgetTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -185,7 +185,7 @@ class AddBudgetTest(TestCase):
 class UpdateBudgetTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -212,7 +212,7 @@ class UpdateBudgetTest(TestCase):
 class DeleteBudgetTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -238,7 +238,7 @@ class DeleteBudgetTest(TestCase):
 class Test404Page(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
