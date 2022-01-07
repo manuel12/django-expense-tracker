@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap -->
   <link 
     rel="stylesheet" 
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
@@ -29,7 +27,7 @@
   <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
   
 
-  <title>{% block title %}Expense Tracker App{% endblock title %}</title>
+  <title>{% block title %}Expense Tracker{% endblock title %}</title>
 </head>
 <body>
 
@@ -43,7 +41,7 @@
           <a class="nav-link" href="{% url 'expenses:home' %}">Home <span class="sr-only">(current)</span></a>
         </div>
         <div class="nav-item">
-          <a class="nav-link" href="{% url 'expenses:charts' %}">Charts & Analytics</a>
+          <a class="nav-link" href="{% url 'expenses:charts' %}">Charts & Statistics</a>
         </div>
     </div>
   </nav>
@@ -66,21 +64,21 @@
   </div>
   <script>
     window.onload = function() {
-      handleContainerSize()
+      maxContainerWidthOnPortrait()
 
       if(isPortrait()) {
-        unsetCenterPaginationBar()
+        unsetJustifyPaginationBar()
       } else {
-        setCenterPaginationBar()
+        centerJustifyPaginationBar()
       }
     }
 
     window.onresize = function(e) {
       console.log('Screen resized')
       if(isPortrait()) {
-        unsetCenterPaginationBar()
+        unsetJustifyPaginationBar()
       } else {
-        setCenterPaginationBar()
+        centerJustifyPaginationBar()
       }
     }
 
