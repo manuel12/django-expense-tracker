@@ -11,7 +11,7 @@ test_data_file = 'expenses/tests/testData.json'
 class ExpenseModelManagerTests(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
       expenses = test_data['expenses']
 
