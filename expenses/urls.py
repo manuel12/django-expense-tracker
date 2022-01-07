@@ -9,7 +9,6 @@ urlpatterns = [
     path('charts/', views.charts, name='charts'),
 
     path('add/', views.add_expense, name='add'),
-    path('view/<int:pk>/', views.view_expense, name='view'),
     path('update/<int:pk>/', views.update_expense, name='update'),
     path('delete/<int:pk>/', views.delete_expense, name='delete'),
 
@@ -25,6 +24,7 @@ urlpatterns = [
     path('expenses-by-month-bar-chart-data/', views.expenses_by_month_bar_chart_data, name='expenses_by_month_bar_chart_data'),
     path('expenses-by-week-bar-chart-data/', views.expenses_by_week_bar_chart_data, name='expenses_by_week_bar_chart_data'),
 
-    path('delete-test-user-expenses', views.delete_test_user_expenses, name='delete_test_user_expenses')
+    path('add-testuser-data/', views.add_testuser_data, name='add_testuser_data'),
+    path('delete-testuser-data/', views.delete_testuser_data, name='delete_testuser_data')
 ]
 
