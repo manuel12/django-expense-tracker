@@ -7,7 +7,7 @@
 <h3>Update expense:</h3>
 <form action="{% url 'expenses:update' expense.pk %}"
     class="expense-form font-weight-bold" method="post"
-    data-test="expense-form">
+    data-test="update-expense-form">
     {% csrf_token %}
     {{ form.as_p }}
     <button name="submit" type="submit" class="btn btn-primary"
