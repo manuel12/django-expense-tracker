@@ -11,7 +11,7 @@ test_data_file = 'expenses/tests/testData.json'
 class TestExpenseForm(TestCase):
   
   def setUp(self):
-    test_data = utils.read_from_json(test_data_file)
+    test_data = utils.get_data_from_json(test_data_file)
     expenses = test_data['expenses']
     users = test_data['testusers']
     expense = dict(expenses[0])
@@ -68,7 +68,7 @@ class TestExpenseForm(TestCase):
 class TestBudgetForm(TestCase):
 
   def setUp(self):
-    test_data = utils.read_from_json(test_data_file)
+    test_data = utils.get_data_from_json(test_data_file)
     budget = test_data['budgetData']
     users = test_data['testusers']
 
