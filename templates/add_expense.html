@@ -6,7 +6,7 @@
 
 <div class="form-group">
 <form class="expense-form font-weight-bold" method="post"
-    data-test="expense-form">
+    data-test="add-expense-form">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn btn-primary" value="Save"
