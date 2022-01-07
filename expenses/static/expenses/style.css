@@ -98,7 +98,6 @@ thead {
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;
-  /* width: 50%; */
 }
 
 
@@ -115,10 +114,10 @@ thead {
   margin-bottom: 10px;
 }
 
-#monthlyExpensesBarChart,
-#weeklyExpensesBarChart,
-#totalExpensesPieChart,
-#monthlyExpensesPieChart {
+#monthly-expenses-bar-chart,
+#weekly-expenses-bar-chart,
+#total-expenses-pie-chart,
+#monthly-expenses-pie-chart {
   background-color: white;
   border-radius: 20px;
 }
@@ -131,23 +130,6 @@ thead {
 
 .table-bg {
   background-color: white;
-}
-
-#pagination-container {
-  /* margin-left: 15%; 
-  margin-right: 15%; */
-}
-
-.pagination {
-  justify-content: center;
-  /* width: 100%; */
-  overflow-x: auto;
-}
-
-.pagination a {
-  display: inline-block;
-  color: black;
-  padding: 8px 16px;
 }
 
 #statistics-table {
@@ -168,4 +150,21 @@ thead {
   margin-left: 25%;
   margin-right: 25%;
   width: 50%;
+}
+
+#pagination-container {
+  /* margin-left: 15%; 
+  margin-right: 15%; */
+}
+
+.pagination {
+  justify-content: center;
+  /* width: 100%; */
+  overflow-x: auto;
+}
+
+.pagination a {
+  display: inline-block;
+  color: black;
+  padding: 8px 16px;
 }
