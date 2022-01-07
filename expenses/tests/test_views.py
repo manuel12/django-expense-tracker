@@ -22,35 +22,40 @@ class LoginPageTests(TestCase):
       self.assertEqual(self.response.status_code, 200)
 
   def test_loginpage_url_name(self):
-      response = self.client.get(reverse('accounts:login'));
-      self.assertEqual(response.status_code, 200)
+      url = reverse('accounts:login')
+      self.assertEqual(url, '/accounts/login/')
 
   def test_loginpage_template(self):
       self.assertTemplateUsed(self.response, 'registration/login.html')
 
   def test_loginpage_post_action(self):  
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']    
 
       credentials = {
         'username': users[1]['username'],
         'password': users[1]['password']
       }
-      User.objects.create_user(**credentials)
+      User.objects.create_user(
+        username=users[1]['username'], 
+        password=users[1]['password'])
 
       self.client.post(reverse('accounts:login'), credentials)
       self.assertIn('_auth_user_id', self.client.session)    
 
 
   def test_loginpage_redirects_home_on_success(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']    
 
       credentials = {
         'username': users[1]['username'],
         'password': users[1]['password']
       }
-      User.objects.create_user(**credentials)
+      User.objects.create_user(
+        username=users[1]['username'],
+        password=users[1]['password']
+      )
 
       response = self.client.post(reverse('accounts:login'), credentials)
       self.assertEqual(response.url, '/')
@@ -75,7 +80,7 @@ class SingupPageTests(TestCase):
       )
 
   def test_signuppage_post_action(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers'] 
 
       credentials = {
@@ -88,7 +93,7 @@ class SingupPageTests(TestCase):
       self.assertEqual(User.objects.count(), 1)
 
   def test_signuppage_redirects_to_home_on_success(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers'] 
 
       credentials = {
@@ -104,7 +109,7 @@ class SingupPageTests(TestCase):
 class HomePageTests(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -143,7 +148,7 @@ class HomePageTests(TestCase):
 class AddExpenseTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       self.user = User.objects.create_user(
@@ -178,7 +183,7 @@ class AddExpenseTest(TestCase):
       )
 
   def test_addpage_post_action(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       expenses = test_data['expenses']
       test_expense = expenses[0]
       time_of_post = timezone.now()
@@ -201,7 +206,7 @@ class AddExpenseTest(TestCase):
       self.assertEqual(time_of_post, new_expense.date)
 
   def test_redirect_to_home_on_success(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       expenses = test_data['expenses']
       test_expense = expenses[0]
       time_of_post = timezone.now()
@@ -220,7 +225,7 @@ class AddExpenseTest(TestCase):
 class UpdateExpenseTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       self.user = User.objects.create_user(
@@ -295,7 +300,7 @@ class UpdateExpenseTest(TestCase):
 class DeleteExpenseTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       user = User.objects.create_user(
@@ -354,7 +359,7 @@ class DeleteExpenseTest(TestCase):
 class AddBudgetTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       self.user = User.objects.create_user(
@@ -399,7 +404,7 @@ class AddBudgetTest(TestCase):
 
     self.assertEqual(Budget.objects.count(), 1)
 
-  def test_redirect_to_charts_on_success(self):
+  def test_redirect_to_home_on_success(self):
     response = self.client.post(reverse('expenses:add_budget'), {
       'amount': self.budget['amount'],
       'owner': self.user
@@ -411,7 +416,7 @@ class AddBudgetTest(TestCase):
 class UpdateBudgetTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       self.user = User.objects.create_user(
@@ -461,7 +466,7 @@ class UpdateBudgetTest(TestCase):
     self.test_budget.refresh_from_db()
     self.assertEqual(self.test_budget.amount, self.updated_test_budget['amount'])
 
-  def test_redirect_to_charts_on_success(self):
+  def test_redirect_to_home_on_success(self):
     response = self.client.post(reverse('expenses:update_budget'), {
       'amount': self.updated_test_budget['amount'],
       'owner': self.user
@@ -473,7 +478,7 @@ class UpdateBudgetTest(TestCase):
 class DeleteBudgetTest(TestCase):
 
   def setUp(self):
-      test_data = utils.read_from_json(test_data_file)
+      test_data = utils.get_data_from_json(test_data_file)
       users = test_data['testusers']
 
       self.user = User.objects.create_user(
@@ -516,6 +521,6 @@ class DeleteBudgetTest(TestCase):
     self.client.post(reverse('expenses:delete_budget'))
     self.assertEqual(Budget.objects.count(), 0)
 
-  def test_redirect_to_charts_on_success(self):
+  def test_redirect_to_home_on_success(self):
     response = self.client.post(reverse('expenses:delete_budget'))
     self.assertEqual(response.url, '/')
