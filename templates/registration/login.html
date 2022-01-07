@@ -1,20 +1,41 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
-{% block content %}
+{% block content %} 
+
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+
+  <p>Your username and password didn't match. Please try again.</p>
+
 {% endif %}
 
 <div class="form-group font-weight-bold">
-<form method="post" action="{% url 'accounts:login' %}">
+  <form method="post" action="{% url 'accounts:login' %}" data-test="login-form">
     {% csrf_token %}
-    <p>Username:
-    <input type="text" name="username" class="form-control" id="id_username"></p>
-    <p>Password:
-    <input type="password" name="password" class="form-control" id="id_password"></p>
-    <button name="submit" class="btn btn-primary" data-test="login">Log In</button>
-    <input type="hidden" name="text" value="{% url 'expenses:home' %}">
-</form>
+    <p>
+      Username:
+      <input
+        type="text"
+        name="username"
+        class="form-control"
+        id="id_username"
+        data-test="username"
+      />
+    </p>
+    <p>
+      Password:
+      <input
+        type="password"
+        name="password"
+        class="form-control"
+        id="id_password"
+        data-test="password"
+      />
+    </p>
+    <button name="submit" class="btn btn-primary" data-test="login">
+      Log In
+    </button>
+    <input type="hidden" name="text" value="{% url 'expenses:home' %}" />
+  </form>
 </div>
 
 {% endblock content %}
