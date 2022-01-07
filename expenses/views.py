@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse, request
@@ -12,6 +13,8 @@ from expenses import utils
 
 @login_required
 def homepage(request):
+    # Add expenses to testuser to showcase expense and statistics tables
+    # and charts.
     Expense.objects.add_testuser_expenses(request)
 
     template = 'homepage.html'
@@ -47,11 +50,11 @@ def homepage(request):
     if budget:
       current_month_expenses = Expense.objects.get_monthly_expense_sum(owner=request.user)
       expenses_vs_budget_percentage_diff = (current_month_expenses / budget * 100) if budget else 0
-      over_budget = current_month_expenses - budget
+      amount_over_budget = current_month_expenses - budget
 
       context['current_month_expenses'] = current_month_expenses
       context['expenses_vs_budget_percentage_diff'] = expenses_vs_budget_percentage_diff
-      context['over_budget'] = over_budget
+      context['amount_over_budget'] = amount_over_budget
 
     return render(request, template, context)
 
@@ -244,7 +247,7 @@ def total_expenses_pie_chart_data(request):
 def monthly_expenses_pie_chart_data(request):
     user_expenses = Expense.objects.filter(owner=request.user)
 
-    month_num = utils.get_current_date_num('month')
+    month_num = utils.get_month_num()
     monthly_expenses = user_expenses.filter(date__month=month_num)
 
     chart_data = {}
@@ -262,17 +265,12 @@ def monthly_expenses_pie_chart_data(request):
 @login_required
 def expenses_by_month_bar_chart_data(request):
     user_expenses = Expense.objects.filter(owner=request.user)
-    months = utils.get_months_list()
+    current_year = utils.get_year_num()
+    last_year = current_year - 1
 
-    chart_data = {}
-    for month in months:
-        month_num = months.index(month) + 1
-        monthly_expenses = user_expenses.filter(date__month=month_num)
-
-        if monthly_expenses:
-            monthly_expenses_sum = round(monthly_expenses.aggregate(
-                                    amount=Sum('amount'))['amount'], 2)
-            chart_data[month] = monthly_expenses_sum
+    last_year_month_expenses = utils.get_yearly_month_expense_data(last_year, user_expenses)
+    current_year_month_expenses = utils.get_yearly_month_expense_data(current_year, user_expenses)
+    chart_data = {**last_year_month_expenses, **current_year_month_expenses}
     return JsonResponse(chart_data)
 
 
@@ -294,12 +292,26 @@ def expenses_by_week_bar_chart_data(request):
 
 
 @login_required
-def delete_test_user_expenses(request):
+def add_testuser_data(request):
+    user = str(request.user)
+    if user == ('testuser1' or 'testuser3'):
+        req_post_dict = dict(request.POST)
+        expenses_str_dict = req_post_dict['expenses'][0]
+        expenses = json.loads(expenses_str_dict)
+
+        Expense.objects.create_test_expenses(request.user, expenses)
+        return redirect('expenses:home')
+
+
+@login_required
+def delete_testuser_data(request):
+    """Function to remove all data from testusers that can be access via url by tests."""
     user = str(request.user)
 
-    if user == 'testuser1':
-      Expense.objects.delete_testuser_expenses(request)
-      return redirect('expenses:home')
+    if user == ('testuser1' or 'testuser3'):
+        Expense.objects.delete_testuser_expenses(request)
+        Expense.objects.delete_testuser_budget(request)
+        return redirect('expenses:home')
     else:
-      print('Not allowed to delete the expenses of any user other than testuser1')
-      return redirect('expenses:home')
+        print('Not allowed to delete the expenses or budget of any user other than testuser1 and testuser3')
+        return redirect('expenses:home')
