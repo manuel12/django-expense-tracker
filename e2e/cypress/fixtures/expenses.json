@@ -31,7 +31,7 @@
       "source": "Amazon"
     }
   ],
-				
+
   "one_week_ago": [
     {
       "amount": 16.00,
@@ -103,7 +103,7 @@
   ],
   "two_month_ago": [
     {
-      "amount": 12.00,
+      "amount": 8.00,
       "content": "book",
       "category": "Online shopping",
       "source": "Amazon"
