@@ -2,5 +2,7 @@
     "amount": 300.00,
     "content": "PS5",
     "category": "Electronics",
-    "source": "MediaMarkt"
+    "source": "MediaMarkt",
+
+    "categoryExpenseAmount": 300.00 
 }
