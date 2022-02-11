@@ -8,8 +8,7 @@
   "viewportWidth": 1000,
   "viewportHeight": 600,
 
-  "video": false,
-  "projectId": "72wyad",
+  "video": true,
 
   "integrationFolder": "cypress/integration/",
   "retries": {
