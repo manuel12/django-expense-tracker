@@ -21,6 +21,11 @@
                     <li>Your password must contain at least 8 characters.</li>
                     <li>Your password can’t be a commonly used password.</li>
                     <li>Your password can’t be entirely numeric.</li>
+                    {% if errors %}
+                      {% for error in errors %}
+                        <li style="color: yellow;" data-test="error-labels">{{ error }}</li>
+                      {% endfor %}
+                    {% endif %}
                 </ul>
             </span>
         </p>
