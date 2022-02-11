@@ -1,5 +1,9 @@
 import { addMatchImageSnapshotCommand } from "cypress-image-snapshot/command";
-addMatchImageSnapshotCommand();
+
+addMatchImageSnapshotCommand({
+  failureThreshold: 0.1,            // threshold for entire image
+  failureThresholdType: 'percent',  // percent of image or number of pixels
+});
 
 const { Expense, ExpenseGenerator, makeAPICall } = require("../support/utils");
 
@@ -35,10 +39,44 @@ Cypress.Commands.add("loginWithAPI", () => {
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.get("p > a").click();
+  cy.url().then((url) => {
+    const isLoggedIn =
+      !url.includes(Cypress.config("signupUrl")) && !url.includes(Cypress.config("loginUrl"));
+      if (isLoggedIn) cy.get("p > a").click();
+  });
+});
+
+Cypress.Commands.add("loginWithAdmin", () => {
+  cy.visit("http://localhost:8000/admin");
+  cy.get("#id_username").type(Cypress.env("adminUser"));
+  cy.get("#id_password").type(Cypress.env("adminPass"));
+  cy.get(".submit-row > input").click();
 })
 
+Cypress.Commands.add("logoutWithAdmin", () => {
+  cy.visit("/admin/logout/");
+})
 
+Cypress.Commands.add("deleteTestuser", (username) => {
+  cy.log(`username: ${username}`)
+
+  cy.loginWithAdmin();
+  cy.visit("http://localhost:8000/admin/auth/user/");
+
+  cy.get("tbody > tr")
+    .first()
+    .then(($el) => {
+      const textContent = $el[0].textContent;
+      cy.log(`textContent: ${textContent}`)
+
+      if (textContent.includes(username)) {
+        cy.get(":nth-child(1) > .action-checkbox > .action-select").click();
+        cy.get("select").select("Delete selected users")
+        cy.get(".button").click()
+        cy.get("[type='submit']").click()
+      }
+    });
+});
 
 Cypress.Commands.add("addExpense", (data, submit = true) => {
   cy.visit("/");
