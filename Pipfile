@@ -15,6 +15,7 @@ isoweek = "*"
 python-dateutil = "*"
 coverage = "*"
 django-environ = "*"
+dj-static = "*"
 
 [dev-packages]
 
