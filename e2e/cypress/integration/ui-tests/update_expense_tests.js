@@ -46,7 +46,7 @@ describe("Update expense Tests", function() {
     })
   })
 
-  it("should not allow to update an expense while leaving 'amount' field at 0.", function() {
+  it("should not allow to update an expense while leaving 'amount' field at 0", function () {
     cy.updateExpenseField('amount', 0)
     
     cy.url().should('eq', this.updateExpensePageURL)
@@ -56,7 +56,7 @@ describe("Update expense Tests", function() {
   })
 
   fieldsToUpdate.forEach((fieldToUpdate) => {
-    it(`should not allow to update an expense while leaving ${fieldToUpdate} field empty.`, function() {
+    it(`should not allow to update an expense while leaving ${fieldToUpdate} field empty`, function() {
       fieldToUpdate === 'category' ? 
         cy.updateExpenseField(fieldToUpdate, "---------") : cy.updateExpenseField(fieldToUpdate, " ")
       cy.url().should('eq', this.updateExpensePageURL)
@@ -64,7 +64,7 @@ describe("Update expense Tests", function() {
     })
   })
 
-  it("should not allow to update an expense with more than 10 digits in 'amount' number.", function() {
+  it("should not allow to update an expense with more than 10 digits in 'amount' number", function () {
     cy.updateExpenseField('amount', 99999999999)
     
     cy.url().should('eq', this.updateExpensePageURL)
@@ -72,7 +72,7 @@ describe("Update expense Tests", function() {
       .and('contain', 'Ensure that there are no more than 10 digits in total.')
   })
 
-  it("should not allow to update an expense with an incorrect format date.", function() {
+  it("should not allow to update an expense with an incorrect format date", function () {
     cy.updateExpenseField('date', "2020/12/12 1230pm")
 
     cy.url().should('eq', this.updateExpensePageURL)
@@ -80,7 +80,7 @@ describe("Update expense Tests", function() {
       .and('contain', 'Enter a valid date/time.')  
   })
 
-  it("should display the old expense amount when user clicks the cancel button on the form.", function() {
+  it("should display the old expense amount when user clicks the cancel button on the form", function () {
     cy.updateExpenseField('amount', 10000, false)
 
     cy.get('[data-test=update-expense-cancel]').click()

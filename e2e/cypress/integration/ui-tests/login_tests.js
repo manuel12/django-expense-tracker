@@ -13,7 +13,7 @@ describe("Login Tests", () => {
     })
   })
 
-  it("should login with a valid username and password.", function() {
+  it("should login with a valid username and password", function () {
     cy.login(this.testuser.username, this.testuser.password)
 
     cy.url().should('eq', Cypress.config().baseUrl)
@@ -22,7 +22,7 @@ describe("Login Tests", () => {
       .and('contain', 'Log Out')
   })
 
-  it("should not login with an invalid username and valid password.", function() {
+  it("should not login with an invalid username and valid password", function () {
     cy.login("fake@username.123", this.testuser.password)
 
     cy.url().should('eq', Cypress.config().loginUrl)

@@ -19,7 +19,7 @@ describe("Add budget Tests", () => {
     Cypress.Cookies.preserveOnce("sessionid");
   });
 
-  it("should add a budget.", function () {
+  it("should add a budget", function () {
     cy.addBudget(this.budget);
 
     cy.url().should("eq", Cypress.config().baseUrl);
@@ -32,7 +32,7 @@ describe("Add budget Tests", () => {
     cy.get("[data-test=delete-budget]").should("be.visible");
   });
 
-  it("should not allow to add a budget while leaving a 'amount' field on 0.", function () {
+  it("should not allow to add a budget while leaving a 'amount' field on 0", function () {
     this.budget.amount = 0;
     cy.addBudget(this.budget);
 
@@ -40,7 +40,7 @@ describe("Add budget Tests", () => {
     cy.get("[data-test=add-budget-form]").should("be.visible");
   });
 
-  it("should not allow to add a budget while leaving a required field empty.", function () {
+  it("should not allow to add a budget while leaving a required field empty", function () {
     this.budget.amount = "   ";
     cy.addBudget(this.budget);
 
@@ -48,7 +48,7 @@ describe("Add budget Tests", () => {
     cy.get("[data-test=add-budget-form]").should("be.visible");
   });
 
-  it("should not allow to add a budget with more than 5 digits in 'amount' number.", function () {
+  it("should not allow to add a budget with more than 5 digits in 'amount' number", function () {
     this.budget.amount = 999999;
     cy.addBudget(this.budget);
 
@@ -58,7 +58,7 @@ describe("Add budget Tests", () => {
       .and("contain", "Ensure that there are no more than 5 digits in total.");
   });
 
-  it("should remove 'Add Budget' button once the user has added a budget.", function () {
+  it("should remove 'Add Budget' button once the user has added a budget", function () {
     this.budget.amount = 30;
     cy.addBudget(this.budget);
 

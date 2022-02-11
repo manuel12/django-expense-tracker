@@ -14,7 +14,7 @@ describe("Delete expense Tests", () => {
     Cypress.Cookies.preserveOnce('sessionid')
   })
 
-  it("should delete an expense.", function() {
+  it("should delete an expense", function () {
     cy.get('[data-test^=delete-expense]').first().click()
     cy.get('[data-test=delete-expense-yes]').first().click()
     
@@ -23,7 +23,7 @@ describe("Delete expense Tests", () => {
     cy.get('[data-test=expense-table]').should('not.exist')
   })
 
-  it("should still display the expense table with expense data after user clicks the cancel button on the form.", function() {
+  it("should still display the expense table with expense data after user clicks the cancel button on the form", function () {
     cy.get('[data-test^=delete-expense]').first().click()
     cy.get('[data-test=delete-expense-no]').click()
 

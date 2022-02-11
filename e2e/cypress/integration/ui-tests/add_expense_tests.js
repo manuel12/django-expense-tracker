@@ -19,7 +19,7 @@ describe("Add expense Tests", () => {
     Cypress.Cookies.preserveOnce('sessionid')
   })
   
-  it("should add an expense.", function() {
+  it("should add an expense", function () {
     cy.addExpense(this.expense)
     
     cy.url().should('eq', Cypress.config().baseUrl)
@@ -31,7 +31,7 @@ describe("Add expense Tests", () => {
       .and('contain', this.expense.date)
   })
 
-  it("should not allow to add an expense while leaving 'amount' field at 0.", function() {
+  it("should not allow to add an expense while leaving 'amount' field at 0", function () {
     this.expense.amount = 0
     cy.addExpense(this.expense)
     
@@ -41,7 +41,7 @@ describe("Add expense Tests", () => {
   })
 
   fieldsToEmpty.forEach((fieldToEmpty) => {
-    it(`should not allow to add an expense while leaving ${fieldToEmpty} field empty.`, function() {
+    it(`should not allow to add an expense while leaving ${fieldToEmpty} field empty`, function() {
       cy.addExpense(this.expense, false)
   
       if(fieldToEmpty == 'category')
@@ -55,7 +55,7 @@ describe("Add expense Tests", () => {
     })
   })
 
-  it("should not allow to add an expense with a huge 'amount' number.", function() {
+  it("should not allow to add an expense with a huge 'amount' number", function () {
     this.expense.amount = 99999999999 
     cy.addExpense(this.expense)
 
@@ -65,7 +65,7 @@ describe("Add expense Tests", () => {
 
   })
 
-  it("should not allow to add an expense with an incorrect format date.", function() {  
+  it("should not allow to add an expense with an incorrect format date", function () {  
     this.expense.date = '20201210 1200pm' 
     cy.addExpense(this.expense)
 

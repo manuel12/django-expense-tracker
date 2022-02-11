@@ -24,7 +24,7 @@ describe("Update budget Tests", function () {
     Cypress.Cookies.preserveOnce("sessionid");
   });
 
-  it("should update a budget's amount.", function () {
+  it("should update a budget's amount", function () {
     cy.updateBudgetField(this.newBudget.amount);
 
     cy.url().should("eq", Cypress.config().baseUrl);
@@ -37,7 +37,7 @@ describe("Update budget Tests", function () {
     cy.get("[data-test=delete-budget]").should("be.visible");
   });
 
-  it("should not allow to update a budget while leaving a amount field empty.", function () {
+  it("should not allow to update a budget while leaving a amount field empty", function () {
     this.newBudget.amount = "   ";
     cy.updateBudgetField(this.newBudget.amount);
 
@@ -45,7 +45,7 @@ describe("Update budget Tests", function () {
     cy.get("[data-test=update-budget-form]").should("be.visible");
   });
 
-  it("should not allow to update a budget with more than 5 digits in 'amount' number.", function () {
+  it("should not allow to update a budget with more than 5 digits in 'amount' number", function () {
     this.newBudget.amount = 999999;
     cy.updateBudgetField(this.newBudget.amount);
 
@@ -55,7 +55,7 @@ describe("Update budget Tests", function () {
       .and("contain", "Ensure that there are no more than 5 digits in total.");
   });
 
-  it("should display the old budget amount when user clicks the cancel button on the form.", function () {
+  it("should display the old budget amount when user clicks the cancel button on the form", function () {
     cy.updateBudgetField(this.newBudget.amount, false);
 
     cy.get("[data-test=update-budget-cancel]").click();

@@ -17,7 +17,7 @@ describe("Delete budget Tests", () => {
     Cypress.Cookies.preserveOnce("sessionid");
   });
 
-  it("should delete a budget.", function () {
+  it("should delete a budget", function () {
     cy.deleteBudget();
 
     cy.url().should("eq", Cypress.config().baseUrl);
@@ -27,7 +27,7 @@ describe("Delete budget Tests", () => {
     cy.get("[data-test=delete-budget]").should("not.exist");
   });
 
-  it("should display the old budget amount when user clicks the cancel button on the form.", function () {
+  it("should display the old budget amount when user clicks the cancel button on the form", function () {
     cy.get("[data-test=delete-budget]").click();
     cy.get("[data-test=delete-budget-cancel]").click();
 
