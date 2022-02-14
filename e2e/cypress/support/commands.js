@@ -58,17 +58,14 @@ Cypress.Commands.add("logoutWithAdmin", () => {
 })
 
 Cypress.Commands.add("deleteTestuser", (username) => {
-  cy.log(`username: ${username}`)
-
   cy.loginWithAdmin();
   cy.visit("http://localhost:8000/admin/auth/user/");
 
   cy.get("tbody > tr")
     .first()
     .then(($el) => {
-      const textContent = $el[0].textContent;
-      cy.log(`textContent: ${textContent}`)
 
+      const textContent = $el[0].textContent;
       if (textContent.includes(username)) {
         cy.get(":nth-child(1) > .action-checkbox > .action-select").click();
         cy.get("select").select("Delete selected users")
