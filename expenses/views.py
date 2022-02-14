@@ -294,7 +294,7 @@ def expenses_by_week_bar_chart_data(request):
 @login_required
 def add_testuser_data(request):
     user = str(request.user)
-    if user == ('testuser1' or 'testuser3'):
+    if user == 'testuser1' or user == 'testuser3':
         req_post_dict = dict(request.POST)
         expenses_str_dict = req_post_dict['expenses'][0]
         expenses = json.loads(expenses_str_dict)
@@ -308,7 +308,7 @@ def delete_testuser_data(request):
     """Function to remove all data from testusers that can be access via url by tests."""
     user = str(request.user)
 
-    if user == ('testuser1' or 'testuser3'):
+    if user == 'testuser1' or user == 'testuser3':
         Expense.objects.delete_testuser_expenses(request)
         Expense.objects.delete_testuser_budget(request)
         return redirect('expenses:home')
