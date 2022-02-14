@@ -14,7 +14,8 @@ from expenses import utils
 
 class ExpenseManager(models.Manager):
     def add_testuser_expenses(self, request):
-        if str(request.user) == 'testuser3':
+        if str(request.user) == 'testuser1': 
+        #or \str(request.user) == 'testuser3':
             test_user_expenses = Expense.objects.filter(owner=request.user)
 
             if not test_user_expenses:
@@ -40,16 +41,14 @@ class ExpenseManager(models.Manager):
             exp.save()
 
     def delete_testuser_expenses(self, request):
-        if str(request.user) == 'testuser1' or \
-            str(request.user) == 'testuser3':
+        if str(request.user) == 'testuser1' or str(request.user) == 'testuser3':
 
             test_user_expenses = Expense.objects.filter(owner=request.user)
             for expense in test_user_expenses:
                 expense.delete()
 
     def delete_testuser_budget(self, request):
-        if str(request.user) == 'testuser1' or \
-            str(request.user) == 'testuser3':
+        if str(request.user) == 'testuser1' or str(request.user) == 'testuser3':
             test_user_budget = Budget.objects.all()
             test_user_budget.delete()
 
