@@ -11,7 +11,6 @@ describe("Signup Tests", () => {
   
   beforeEach(() => {
     cy.visit("/");
-    cy.fixture("testuser").as("testuser");
   });
 
   it("should show show homepage after signup", function () {
