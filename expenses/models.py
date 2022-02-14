@@ -15,7 +15,6 @@ from expenses import utils
 class ExpenseManager(models.Manager):
     def add_testuser_expenses(self, request):
         if str(request.user) == 'testuser1': 
-        #or \str(request.user) == 'testuser3':
             test_user_expenses = Expense.objects.filter(owner=request.user)
 
             if not test_user_expenses:
