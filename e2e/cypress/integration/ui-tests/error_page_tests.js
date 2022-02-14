@@ -1,12 +1,18 @@
 describe("Error page Tests", () => {
-  before(() => {
-    cy.loginWithAPI();
-  })
+    before(() => {
+      cy.loginAndCleanUp();
+    })
 
-  it.skip("should display 404 page", function() {
-    cy.visit('/' + 'non_existing_page', {failOnStatusCode: false})
-    cy.get('body > div.container')
-      .and('contain', 'The item you requested is not available. (404)')    
-  })
-})
+    it("should display 404 page", function() {
+      const url = '/non-existing-page'
+      cy.request({
+        url,
+        failOnStatusCode: false
+      })
+      .its('status')
+      .should('equal', 404)
 
+      cy.visit(url, {failOnStatusCode: false})
+      cy.contains('span', '404')
+    })
+  })
