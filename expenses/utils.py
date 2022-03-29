@@ -225,20 +225,20 @@ class ExpenseGenerator:
     def modify_expense_date(self, expense_index, date_section, expense_data, days_to_add):
         """
         Modifies the date of an expense by adding days to it
+        (e.g. original date = 15/03 - modified date = 17/03)
         in order to not have all dates from either today or 
         a month ago, and so on, grouped in the same day.
 
         Skips the first expense of an array of date section expenses 
         in order to live that expense on the original date (e.g. one month ago).
+        Also skips modifying expense date in case date_section equals today
+        as this would add expense dates in the future.
         """
-        if(expense_index != 0 and
-          (date_section == "today" or
-          date_section == "one_month_ago" or
-          date_section == "two_month_ago" or
-          date_section == "three_month_ago")):
+        if(expense_index == 0 or date_section == "today"):
+            return
 
-          days_to_add += 1
-          current_date = expense_data['date']
-          expense_data['date'] = DateGenerator.modify_date_with_timedelta(current_date, days_to_add)
+        days_to_add += 1
+        current_date = expense_data['date']
+        expense_data['date'] = DateGenerator.modify_date_with_timedelta(current_date, days_to_add)
 
 
