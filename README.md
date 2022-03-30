@@ -34,6 +34,16 @@ You can find your current monthly expenses (with controls for editing or deletin
 
 ![Display gif navigating to Charts & Analytics section](demo/charts-and-analytics-demo.gif)
 
+<br />
+
+### Credentials ###   
+username: testuser1  
+password: testpass1
+
+You can check the app (please wait a bit for a free dyno to start) [here](https://expense-tracker16.herokuapp.com/).
+
+<br />
+
 ## Installation
 
    For installing the Django application clone the repository and run:
