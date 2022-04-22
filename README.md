@@ -73,9 +73,6 @@ Or if you want to use postgres set DB_NAME, DB_USER, DB_PASSWORD on your environ
 For installing Cypress run go to the e2e folder and run:
 
     npm install
-And then
-
-    npx cypress open
 
 ## Running tests
 
