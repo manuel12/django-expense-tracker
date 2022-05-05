@@ -1,9 +1,10 @@
 import json
+
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import JsonResponse, request
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.db.models import Sum
 
 from .forms import BudgetForm, ExpenseForm
 from .models import Budget, Expense
@@ -311,6 +312,10 @@ def delete_testuser_data(request):
     if user == 'testuser1' or user == 'testuser3':
         Expense.objects.delete_testuser_expenses(request)
         Expense.objects.delete_testuser_budget(request)
+
+        testusers_to_delete = User.objects.exclude(username='testuser1').exclude(username='testuser3')
+        testusers_to_delete.delete()
+
         return redirect('expenses:home')
     else:
         print('Not allowed to delete the expenses or budget of any user other than testuser1 and testuser3')
