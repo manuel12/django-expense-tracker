@@ -32,7 +32,7 @@ button {
   margin-bottom: 30px;
 }
 
-#add-expense-btn > a {
+#create-expense-btn > a {
   width: 100%;
   height: 100%;
 }
@@ -71,13 +71,13 @@ thead {
   margin: 20px;
 }
 
-#add-expense-btn {
+#create-expense-btn {
   color: white;
   background-color: rgb(255, 140, 0);
   margin-bottom: 10px;
 }
 
-#add-budget-btn {
+#create-budget-btn {
   margin-top: 10px;
   margin-bottom: 10px;
 }
