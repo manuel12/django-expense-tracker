@@ -69,17 +69,16 @@ Or if you want to use postgres set DB_NAME, DB_USER, DB_PASSWORD on your environ
    Create superuser:
 
     python manage.py createsuperuser
-     
+
+## Installation - Cypress
 For installing Cypress run go to the e2e folder and run:
 
     npm install
-And then
-
-    npx cypress open
 
 ## Running tests
 
 ### Unit tests
+For running the tests run:
 
     python manage.py test
 
