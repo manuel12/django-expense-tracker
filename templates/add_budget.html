@@ -5,13 +5,13 @@
 {% block content %}
 <div class="form-group">
 <form class="budget-form font-weight-bold" method="post"
-    data-test="add-budget-form">
+    data-test="create-budget-form">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn btn-primary" value="Save"
-        data-test="add-budget-save">
+        data-test="create-budget-save">
     <a href="{% url 'expenses:home' %}"
-        data-test="add-budget-cancel" />Cancel</a>
+        data-test="create-budget-cancel" />Cancel</a>
 </form>
 </div>
 {% endblock content %}
