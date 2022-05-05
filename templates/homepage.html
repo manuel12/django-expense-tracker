@@ -7,11 +7,11 @@
 <div class="row">
   <div class="col text-center">
     <a
-      id="add-expense-btn"
+      id="create-expense-btn"
       autofocus
       class="btn btn-lg font-weight-bold"
       href="{% url 'expenses:add' %}"
-      data-test="add-expense"
+      data-test="create-expense"
       >+Add Expense</a
     >
   </div>
@@ -21,10 +21,10 @@
 
   <div class="col text-center">
     <a
-      id="add-budget-btn"
+      id="create-budget-btn"
       class="btn btn-primary btn-lg font-weight-bold"
       href="{% url 'expenses:add_budget' %}"
-      data-test="add-budget"
+      data-test="create-budget"
       >+Add Monthly Budget</a
     >
   </div>
@@ -119,14 +119,12 @@
 
   <!-- Line chart code -->
   <div class="canvasContainer col-md-12">
-    <!-- <canvas id="totalExpensesLineChart"></canvas> -->
     <canvas id="total-expenses-line-chart"
     data-test="total-expenses-line-chart"></canvas>
   </div>
 
   <script>
-    // const page = location.search.split("?page=")[1];
-    // handleCreateLineChart(page);
+    document.getElementById("create-expense-btn").focus();
     createCharts("homepage");
   </script>
 
