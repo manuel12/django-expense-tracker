@@ -48,7 +48,7 @@
 
   <div id=user-greet class="font-weight-bold" data-test="user-greet">
     {% if user.is_authenticated %}
-      <p>Hi {{ user.username }}!   |    <a href="{% url 'accounts:logout' %}">Log Out</a></p>
+      <p>Hi {{ user.username }}!   |    <a href="{% url 'accounts:logout' %}" data-test="logout-link">Log Out</a></p>
     {% else %}
       <p>You are not logged in.</p>
       <a href="{% url 'accounts:signup' %}">Sign Up</a>   |    
@@ -81,17 +81,6 @@
         centerJustifyPaginationBar()
       }
     }
-
-    // window.addEventListener("orientationchange", function(e) {
-    //   setTimeout(function() {
-    //     console.log(`Is Portrait: ${isPortrait()}`)
-    //     if(isPortrait()) {
-    //       unsetCenterPaginationBar()
-    //     } else {
-    //       setCenterPaginationBar()
-    //     }
-    //   }, 500)
-    // });
   </script>
 </body>
 </html>
