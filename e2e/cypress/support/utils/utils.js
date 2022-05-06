@@ -78,7 +78,7 @@ const makeAPICall = (callName, data) => {
   getTokenAlias();
 
   cy.get("@csrfToken").then((token) => {
-    const [url, body] = getCallURLAndBody(callName, data, token);
+    const [url, body] = getCallUrlAndBody(callName, data, token);
 
     cy.request({
       method: "POST",
@@ -92,7 +92,7 @@ const makeAPICall = (callName, data) => {
   });
 };
 
-const getCallURLAndBody = (callName, data, token) => {
+const getCallUrlAndBody = (callName, data, token) => {
   let url, body;
 
   switch (callName) {
@@ -106,7 +106,7 @@ const getCallURLAndBody = (callName, data, token) => {
       };
       return [url, body];
 
-    case "addExpense":
+    case "createExpense":
       url = "add/";
       body = {
         amount: data.amount,
@@ -118,7 +118,7 @@ const getCallURLAndBody = (callName, data, token) => {
       };
       return [url, body];
 
-    case "addExpenses":
+    case "createExpenses":
       url = "add-testuser-data/";
       body = {
         expenses: data,
@@ -134,7 +134,7 @@ const getCallURLAndBody = (callName, data, token) => {
       };
       return [url, body];
 
-    case "addBudget":
+    case "createBudget":
       url = "add-budget/";
       body = {
         amount: data.amount,
