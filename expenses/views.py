@@ -75,8 +75,8 @@ def charts(request):
 
 
 @login_required
-def add_expense(request):
-    template = 'add_expense.html'
+def create_expense(request):
+    template = 'create_expense.html'
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
@@ -134,8 +134,8 @@ def delete_expense(request, pk):
 
 
 @login_required
-def add_budget(request):
-    template = 'add_budget.html'
+def create_budget(request):
+    template = 'create_budget.html'
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
