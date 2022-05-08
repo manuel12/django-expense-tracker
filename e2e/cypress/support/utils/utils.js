@@ -107,7 +107,7 @@ const getCallUrlAndBody = (callName, data, token) => {
       return [url, body];
 
     case "createExpense":
-      url = "add/";
+      url = "create/";
       body = {
         amount: data.amount,
         content: data.content,
@@ -135,7 +135,7 @@ const getCallUrlAndBody = (callName, data, token) => {
       return [url, body];
 
     case "createBudget":
-      url = "add-budget/";
+      url = "create-budget/";
       body = {
         amount: data.amount,
         csrfmiddlewaretoken: token,

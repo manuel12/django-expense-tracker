@@ -141,7 +141,7 @@ Cypress.Commands.add("createExpenseWithAPI", (data) => {
    * Creates an expense by using the API.
    */
 
-  cy.visit("add/");
+  cy.visit("create/");
   makeAPICall("createExpense", data);
 });
 
@@ -150,7 +150,7 @@ Cypress.Commands.add("createExpensesWithAPI", (data) => {
    * Creates a group of expenses by using the API.
    */
 
-  cy.visit("add/");
+  cy.visit("create/");
   makeAPICall("createExpenses", data);
 });
 
@@ -217,7 +217,7 @@ Cypress.Commands.add("createBudgetWithAPI", (data) => {
    * Creates a budget by using the API.
    */
 
-  cy.visit("/add-budget/");
+  cy.visit("/create-budget/");
   makeAPICall("createBudget", data);
 });
 
