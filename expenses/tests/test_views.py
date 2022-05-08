@@ -145,7 +145,7 @@ class HomePageTests(TestCase):
       )
 
 
-class AddExpenseTest(TestCase):
+class CreateExpenseTest(TestCase):
 
   def setUp(self):
       test_data = utils.get_data_from_json(test_data_file)
@@ -157,38 +157,38 @@ class AddExpenseTest(TestCase):
       self.user.save()
 
       self.client.force_login(self.user)
-      self.response = self.client.get(reverse('expenses:add'))
+      self.response = self.client.get(reverse('expenses:create'))
 
   def test_redirect_if_not_logged_in(self):
       c = Client()
-      response = c.get(reverse('expenses:add'))
+      response = c.get(reverse('expenses:create'))
       self.assertEqual(response.status_code, 302)
       self.assertRedirects(response, '/accounts/login/?next=/create/')
 
-  def test_addpage_status_code(self):
+  def test_createpage_status_code(self):
       self.assertEqual(self.response.status_code, 200)
 
-  def test_addpage_url_name(self):
-      url = reverse('expenses:add')
+  def test_createpage_url_name(self):
+      url = reverse('expenses:create')
       self.assertEqual(url, '/create/')
 
-  def test_addpage_template(self):
-      self.assertTemplateUsed(self.response, 'add_expense.html')
+  def test_createpage_template(self):
+      self.assertTemplateUsed(self.response, 'create_expense.html')
 
-  def test_addpage_url_resolves_homepage_view(self):
+  def test_createpage_url_resolves_homepage_view(self):
       view = resolve('/create/')
       self.assertEqual(
           view.func.__name__,
-          views.add_expense.__name__
+          views.create_expense.__name__
       )
 
-  def test_addpage_post_action(self):
+  def test_createpage_post_action(self):
       test_data = utils.get_data_from_json(test_data_file)
       expenses = test_data['expenses']
       test_expense = expenses[0]
       time_of_post = timezone.now()
       
-      response = self.client.post(reverse('expenses:add'), {
+      response = self.client.post(reverse('expenses:create'), {
         'amount': test_expense['amount'],
         'content': test_expense['content'],
         'category': test_expense['category'],
@@ -211,7 +211,7 @@ class AddExpenseTest(TestCase):
       test_expense = expenses[0]
       time_of_post = timezone.now()
       
-      response = self.client.post(reverse('expenses:add'), {
+      response = self.client.post(reverse('expenses:create'), {
         'amount': test_expense['amount'],
         'content': test_expense['content'],
         'category': test_expense['category'],
@@ -356,7 +356,7 @@ class DeleteExpenseTest(TestCase):
       self.assertEqual(response.url, '/')
 
 
-class AddBudgetTest(TestCase):
+class CreateBudgetTest(TestCase):
 
   def setUp(self):
       test_data = utils.get_data_from_json(test_data_file)
@@ -370,34 +370,34 @@ class AddBudgetTest(TestCase):
       self.budget = test_data['budgetData']
 
       self.client.force_login(self.user)
-      self.response = self.client.get(reverse('expenses:add_budget'))
+      self.response = self.client.get(reverse('expenses:create_budget'))
 
   def test_redirect_if_not_logged_in(self):
       c = Client()
-      response = c.get(reverse('expenses:add_budget'))
+      response = c.get(reverse('expenses:create_budget'))
       self.assertEqual(response.status_code, 302)
       self.assertRedirects(response, '/accounts/login/?next=/create-budget/')
 
-  def test_add_budgetpage_status_code(self):
+  def test_create_budgetpage_status_code(self):
       self.assertEqual(self.response.status_code, 200)
 
-  def test_add_budgetpage_url_name(self):
-      url = reverse('expenses:add_budget')
+  def test_create_budgetpage_url_name(self):
+      url = reverse('expenses:create_budget')
       self.assertEqual(url, '/create-budget/')
 
-  def test_add_budgetpage_template(self):
-      self.assertTemplateUsed(self.response, 'add_budget.html')
+  def test_create_budgetpage_template(self):
+      self.assertTemplateUsed(self.response, 'create_budget.html')
 
-  def test_add_budgetpage_url_resolves_add_budgetpage_view(self):
+  def test_create_budgetpage_url_resolves_create_budgetpage_view(self):
       view = resolve('/create-budget/')
       self.assertEqual(
           view.func.__name__,
-          views.add_budget.__name__
+          views.create_budget.__name__
       )
 
-  def test_add_budgetpage_post_action(self):
+  def test_create_budgetpage_post_action(self):
 
-    self.client.post(reverse('expenses:add_budget'), {
+    self.client.post(reverse('expenses:create_budget'), {
       'amount': self.budget['amount'],
       'owner': self.user
     })
@@ -405,7 +405,7 @@ class AddBudgetTest(TestCase):
     self.assertEqual(Budget.objects.count(), 1)
 
   def test_redirect_to_home_on_success(self):
-    response = self.client.post(reverse('expenses:add_budget'), {
+    response = self.client.post(reverse('expenses:create_budget'), {
       'amount': self.budget['amount'],
       'owner': self.user
     })

@@ -71,7 +71,7 @@ class HomePageTemplateTests(TestCase):
       self.assertContains(self.response, f'Hi {self.username}!')
 
 
-class AddExpenseTest(TestCase):
+class CreateExpenseTest(TestCase):
 
   def setUp(self):
       test_data = utils.get_data_from_json(test_data_file)
@@ -83,9 +83,9 @@ class AddExpenseTest(TestCase):
       user.save()
 
       self.client.force_login(user)
-      self.response = self.client.get(reverse('expenses:add'))
+      self.response = self.client.get(reverse('expenses:create'))
 
-  def test_addpage_contains_correct_html(self):
+  def test_createpage_contains_correct_html(self):
       self.assertContains(self.response,'Amount:')
       self.assertContains(self.response,'Content:')
       self.assertContains(self.response,'Category:')
@@ -162,7 +162,7 @@ class DeleteExpenseTest(TestCase):
       self.assertContains(self.response,'Cancel')
 
 
-class AddBudgetTest(TestCase):
+class CreateBudgetTest(TestCase):
 
   def setUp(self):
       test_data = utils.get_data_from_json(test_data_file)
@@ -174,9 +174,9 @@ class AddBudgetTest(TestCase):
       user.save()
 
       self.client.force_login(user)
-      self.response = self.client.get(reverse('expenses:add_budget'))
+      self.response = self.client.get(reverse('expenses:create_budget'))
 
-  def test_addpage_contains_correct_html(self):
+  def test_createpage_contains_correct_html(self):
       self.assertContains(self.response,'Amount:')
       self.assertContains(self.response,'Save')
       self.assertContains(self.response,'Cancel')
