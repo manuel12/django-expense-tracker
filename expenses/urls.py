@@ -8,11 +8,11 @@ urlpatterns = [
     path('', views.homepage, name='home'),
     path('charts/', views.charts, name='charts'),
 
-    path('add/', views.add_expense, name='add'),
+    path('create/', views.create_expense, name='create'),
     path('update/<int:pk>/', views.update_expense, name='update'),
     path('delete/<int:pk>/', views.delete_expense, name='delete'),
 
-    path('add-budget/', views.add_budget, name='add_budget'),
+    path('create-budget/', views.create_budget, name='create_budget'),
 
     path('update-budget/', views.update_budget, name='update_budget'),
     path('delete-budget/', views.delete_budget, name='delete_budget'),
