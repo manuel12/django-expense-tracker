@@ -3,7 +3,7 @@
 describe("Visual tests - Homepage", () => {
   before(() => {
     cy.loginAndCleanUp();
-    cy.addFixtureExpensesAndAlias();
+    cy.createFixtureExpenses();
     cy.createBudgetWithAPI({ amount: 600 });
     cy.get("body").should("be.visible").wait(1000);
   });
@@ -36,7 +36,7 @@ describe("Visual tests - Homepage", () => {
 describe("Visual tests - Charts & Statistics", () => {
   before(() => {
     cy.loginAndCleanUp();
-    cy.addFixtureExpensesAndAlias();
+    cy.createFixtureExpenses();
     cy.createBudgetWithAPI({ amount: 600 });
     cy.visit("/charts/");
     cy.get("body").should("be.visible").wait(1000);
