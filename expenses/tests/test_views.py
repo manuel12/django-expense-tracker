@@ -163,20 +163,20 @@ class AddExpenseTest(TestCase):
       c = Client()
       response = c.get(reverse('expenses:add'))
       self.assertEqual(response.status_code, 302)
-      self.assertRedirects(response, '/accounts/login/?next=/add/')
+      self.assertRedirects(response, '/accounts/login/?next=/create/')
 
   def test_addpage_status_code(self):
       self.assertEqual(self.response.status_code, 200)
 
   def test_addpage_url_name(self):
       url = reverse('expenses:add')
-      self.assertEqual(url, '/add/')
+      self.assertEqual(url, '/create/')
 
   def test_addpage_template(self):
       self.assertTemplateUsed(self.response, 'add_expense.html')
 
   def test_addpage_url_resolves_homepage_view(self):
-      view = resolve('/add/')
+      view = resolve('/create/')
       self.assertEqual(
           view.func.__name__,
           views.add_expense.__name__
@@ -376,20 +376,20 @@ class AddBudgetTest(TestCase):
       c = Client()
       response = c.get(reverse('expenses:add_budget'))
       self.assertEqual(response.status_code, 302)
-      self.assertRedirects(response, '/accounts/login/?next=/add-budget/')
+      self.assertRedirects(response, '/accounts/login/?next=/create-budget/')
 
   def test_add_budgetpage_status_code(self):
       self.assertEqual(self.response.status_code, 200)
 
   def test_add_budgetpage_url_name(self):
       url = reverse('expenses:add_budget')
-      self.assertEqual(url, '/add-budget/')
+      self.assertEqual(url, '/create-budget/')
 
   def test_add_budgetpage_template(self):
       self.assertTemplateUsed(self.response, 'add_budget.html')
 
   def test_add_budgetpage_url_resolves_add_budgetpage_view(self):
-      view = resolve('/add-budget/')
+      view = resolve('/create-budget/')
       self.assertEqual(
           view.func.__name__,
           views.add_budget.__name__
