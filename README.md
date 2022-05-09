@@ -1,4 +1,4 @@
-
+[![expense_tracker](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/72wyad&style=plastic&logo=cypress)](https://dashboard.cypress.io/projects/72wyad/runs)
 
 # Expense Tracker
 
