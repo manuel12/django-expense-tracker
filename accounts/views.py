@@ -14,25 +14,24 @@ def logout_view(request):
     Expense.objects.delete_testuser_budget(request)
 
     logout(request)
-    return redirect('expenses:home')
+    return redirect("expenses:home")
+
 
 def signup_view(request):
-    template = 'signup.html'
+    template = "signup.html"
 
-    if request.method != 'POST':
+    if request.method != "POST":
         form = UserCreationForm()
     else:
         form = UserCreationForm(data=request.POST)
-        username = form.data['username']
-        password = request.POST['password1']
+        username = form.data["username"]
+        password = request.POST["password1"]
 
         if form.is_valid():
             form.save()
-            authenticated_user = authenticate(
-                username=username,
-                password=password)
+            authenticated_user = authenticate(username=username, password=password)
             login(request, authenticated_user)
-            return redirect('expenses:home')
+            return redirect("expenses:home")
         else:
             # Form not valid, gather errors labels.
             error_labels = []
@@ -41,17 +40,18 @@ def signup_view(request):
                 User.objects.get(username=username)
                 # If so add error label.
                 error_labels.append(
-                  "The username you entered has already been taken! Please try another username.")
+                    "The username you entered has already been taken! Please try another username."
+                )
             except:
                 pass
 
             # Check if passwords are not the same.
             if not form.clean_password2():
-              # If they aren't add error label.
-              error_labels.append("The two password fields didn’t match!")
+                # If they aren't add error label.
+                error_labels.append("The two password fields didn’t match!")
 
-            context = {'form': form, 'errors': error_labels}
+            context = {"form": form, "errors": error_labels}
             return render(request, template, context)
 
-    context = {'form': form}
+    context = {"form": form}
     return render(request, template, context)

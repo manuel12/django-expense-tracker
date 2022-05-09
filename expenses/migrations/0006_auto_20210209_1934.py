@@ -7,17 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('expenses', '0005_auto_20210128_0049'),
+        ("expenses", "0005_auto_20210128_0049"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='expense',
-            options={'ordering': ['date']},
+            name="expense",
+            options={"ordering": ["date"]},
         ),
         migrations.AlterField(
-            model_name='expense',
-            name='date',
+            model_name="expense",
+            name="date",
             field=models.DateTimeField(default=django.utils.timezone.now),
         ),
     ]

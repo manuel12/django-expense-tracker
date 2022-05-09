@@ -7,16 +7,15 @@ from .models import Budget, Expense
 
 
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = [
-        'pk', 'owner', 'date', 'source', 'category', 'content', 'amount']
+    list_display = ["pk", "owner", "date", "source", "category", "content", "amount"]
 
 
 class BudgetAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'owner', 'amount']
+    list_display = ["pk", "owner", "amount"]
 
 
 class UserAdmin(admin.ModelAdmin):
-  list_display = ['pk', 'username', 'email',  'first_name', 'last_name']
+    list_display = ["pk", "username", "email", "first_name", "last_name"]
 
 
 admin.site.register(Expense, ExpenseAdmin)

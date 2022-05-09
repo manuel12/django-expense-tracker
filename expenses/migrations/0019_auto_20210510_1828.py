@@ -6,13 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('expenses', '0018_auto_20210415_1812'),
+        ("expenses", "0018_auto_20210415_1812"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='expense',
-            name='category',
-            field=models.CharField(choices=[('Bar tabs', 'Bar tabs'), ('Monthly bill', 'Monthly bill'), ('Online shopping', 'Online shopping'), ('Electronics', 'Electronics'), ('Groceries', 'Groceries'), ('Taxi fare', 'Taxi fare'), ('Miscellaneous', 'Miscellaneous')], max_length=20, null=True),
+            model_name="expense",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("Bar tabs", "Bar tabs"),
+                    ("Monthly bill", "Monthly bill"),
+                    ("Online shopping", "Online shopping"),
+                    ("Electronics", "Electronics"),
+                    ("Groceries", "Groceries"),
+                    ("Taxi fare", "Taxi fare"),
+                    ("Miscellaneous", "Miscellaneous"),
+                ],
+                max_length=20,
+                null=True,
+            ),
         ),
     ]

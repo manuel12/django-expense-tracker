@@ -6,7 +6,7 @@ import sys
 
 def main():
     try:
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expense_tracker.settings')
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "expense_tracker.settings")
 
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -18,5 +18,5 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

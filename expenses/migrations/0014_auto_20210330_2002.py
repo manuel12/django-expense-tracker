@@ -9,18 +9,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('expenses', '0013_auto_20210322_2032'),
+        ("expenses", "0013_auto_20210322_2032"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='budget',
-            name='amount',
-            field=models.DecimalField(decimal_places=2, default=10, max_digits=5, validators=[django.core.validators.MinValueValidator(Decimal('0.01'))]),
+            model_name="budget",
+            name="amount",
+            field=models.DecimalField(
+                decimal_places=2,
+                default=10,
+                max_digits=5,
+                validators=[django.core.validators.MinValueValidator(Decimal("0.01"))],
+            ),
         ),
         migrations.AlterField(
-            model_name='expense',
-            name='amount',
-            field=models.DecimalField(decimal_places=2, default=1, max_digits=10, validators=[django.core.validators.MinValueValidator(Decimal('0.01'))]),
+            model_name="expense",
+            name="amount",
+            field=models.DecimalField(
+                decimal_places=2,
+                default=1,
+                max_digits=10,
+                validators=[django.core.validators.MinValueValidator(Decimal("0.01"))],
+            ),
         ),
     ]

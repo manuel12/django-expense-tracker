@@ -6,16 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('expenses', '0008_auto_20210224_2043'),
+        ("expenses", "0008_auto_20210224_2043"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='Category',
+            name="Category",
         ),
         migrations.AddField(
-            model_name='expense',
-            name='category',
-            field=models.CharField(choices=[('GROCERIES', 'Groceries'), ('BARS', 'Bar tabs'), ('MISCELLANEOUS', 'Miscellaneous')], max_length=20, null=True),
+            model_name="expense",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("GROCERIES", "Groceries"),
+                    ("BARS", "Bar tabs"),
+                    ("MISCELLANEOUS", "Miscellaneous"),
+                ],
+                max_length=20,
+                null=True,
+            ),
         ),
     ]

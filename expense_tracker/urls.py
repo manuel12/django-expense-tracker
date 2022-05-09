@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-handler404 = 'expenses.views.view_404'
-handler500 = 'expenses.views.view_500'
+handler404 = "expenses.views.view_404"
+handler500 = "expenses.views.view_500"
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
-    path('', include('expenses.urls'))
+    path("admin/", admin.site.urls),
+    path("accounts/", include("accounts.urls")),
+    path("", include("expenses.urls")),
 ]
