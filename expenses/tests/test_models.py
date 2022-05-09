@@ -1,8 +1,8 @@
-from django.test import TestCase
 from django.contrib.auth.models import User
+from django.test import TestCase
 
-from expenses.models import Expense, Budget
 from expenses import utils
+from expenses.models import Budget, Expense
 
 test_data_file = 'expenses/tests/testData.json'
 

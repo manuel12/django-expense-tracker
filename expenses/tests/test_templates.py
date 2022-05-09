@@ -1,12 +1,11 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
-
 from django.conf import settings
-from expenses.models import Expense, Budget
+from django.contrib.auth.models import User
+from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
 from expenses import utils
+from expenses.models import Budget, Expense
 
 test_data_file = 'expenses/tests/testData.json'
 

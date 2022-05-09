@@ -1,10 +1,10 @@
-from django.test import TestCase
 from django.contrib.auth.models import User
+from django.test import TestCase
 from django.utils import timezone
 
-from expenses.models import Expense, Budget
-from expenses.forms import BudgetForm, ExpenseForm
 from expenses import utils
+from expenses.forms import BudgetForm, ExpenseForm
+from expenses.models import Budget, Expense
 
 test_data_file = 'expenses/tests/testData.json'
 
