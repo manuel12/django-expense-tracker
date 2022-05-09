@@ -17,6 +17,7 @@ coverage = "*"
 django-environ = "*"
 dj-static = "*"
 isort = "*"
+black = "*"
 
 [dev-packages]
 
