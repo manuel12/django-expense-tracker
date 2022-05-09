@@ -16,6 +16,7 @@ python-dateutil = "*"
 coverage = "*"
 django-environ = "*"
 dj-static = "*"
+isort = "*"
 
 [dev-packages]
 
