@@ -1,14 +1,15 @@
 import json
 
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
+from expenses import utils
+
 from .forms import BudgetForm, ExpenseForm
 from .models import Budget, Expense
-from expenses import utils 
 
 # Create your views here.
 
