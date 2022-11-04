@@ -82,6 +82,15 @@ Now you can start server...
 For installing Cypress run go to the e2e folder and run:
 
     npm install
+    
+    
+## Tests
+
+| Type | Location                                                               |
+| ---- | ---------------------------------------------------------------------- |
+| ui   | [e2e/cypress/integration/ui-tests](e2e/cypress/integration/ui-tests)   |
+| visual   | [e2e/cypress/integration/ui-tests](e2e/cypress/integration/visual-tests)   |
+| unit | [media_ratings/tests](media_ratings/tests)                             |
 
 ## Running tests
 
