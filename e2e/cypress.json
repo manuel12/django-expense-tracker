@@ -8,5 +8,8 @@
   "video": false,
   "projectId": "72wyad",
   "viewportWidth": 1000,
-  "viewportHeight": 600
+  "viewportHeight": 600,
+
+  "adminUser": "testuser1",
+  "adminPass": "testpass1"
 }
