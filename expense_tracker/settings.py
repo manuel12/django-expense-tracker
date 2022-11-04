@@ -14,10 +14,6 @@ import os
 
 import dj_database_url
 import django_heroku
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,11 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = "^xz#4uh%+(etb!bp+i&ag38i597sith8@67t08o5)+xry*6tx!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = env("DEBUG")
+DEBUG = False
 
 
 ALLOWED_HOSTS = [
@@ -91,29 +87,17 @@ WSGI_APPLICATION = "expense_tracker.wsgi.application"
 # Databases
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
+}
+DATABASE_URL = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+DATABASES["default"] = dj_database_url.config(
+    default=DATABASE_URL, conn_max_age=600
+)
 
-if env("DEVELOPMENT"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
-    DATABASE_URL = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
-    DATABASES["default"] = dj_database_url.config(
-        default=DATABASE_URL, conn_max_age=600
-    )
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": env("DB_NAME"),
-            "USER": env("DB_USER"),
-            "PASSWORD": env("DB_PASSWORD"),
-            "HOST": "localhost",
-            "PORT": 5432,
-        }
-    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
