@@ -75,8 +75,8 @@ Cypress.Commands.add("loginAdminWithUI", () => {
    */
 
   cy.visit("http://localhost:8000/admin");
-  cy.get("#id_username").type(Cypress.env("adminUser"));
-  cy.get("#id_password").type(Cypress.env("adminPass"));
+  cy.get("#id_username").type(Cypress.config("adminUser"));
+  cy.get("#id_password").type(Cypress.config("adminPass"));
   cy.get(".submit-row > input").click();
 });
 
