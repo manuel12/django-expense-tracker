@@ -6,15 +6,15 @@ describe("Error page Tests", () => {
   });
 
   it("should display 404 page", () => {
-    const url = "/non-existing-page";
+    const url = "/non-existing-page/";
     cy.request({
       url,
       failOnStatusCode: false,
-    })
-      .its("status")
-      .should("equal", 404);
+    });
 
     cy.visit(url, { failOnStatusCode: false });
-    cy.contains("span", "404");
+    cy.get("h2")
+      .should("be.visible")
+      .and("contain", "The item you requested is not available. (404)");
   });
 });
