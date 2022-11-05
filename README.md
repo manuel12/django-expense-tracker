@@ -79,7 +79,7 @@ Now you can start server...
 
 ## Installation - Cypress
 
-For installing Cypress run go to the e2e folder and run:
+For installing Cypress go to the e2e folder and run:
 
     npm install
     
