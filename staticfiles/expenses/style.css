@@ -2,8 +2,13 @@
 
 body {
   background: rgb(2, 0, 36);
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(45, 255, 210, 1) 100%, rgba(43, 43, 43, 1) 100%);
-  font-family: 'Raleway', sans-serif
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(45, 255, 210, 1) 100%,
+    rgba(43, 43, 43, 1) 100%
+  );
+  font-family: "Raleway", sans-serif;
 }
 
 h1,
@@ -32,7 +37,7 @@ button {
   margin-bottom: 30px;
 }
 
-#create-expense-btn > a {
+.create-expense-btn > a {
   width: 100%;
   height: 100%;
 }
@@ -42,8 +47,8 @@ button {
 }
 
 .navbar-row {
-  text-align: center; 
-  padding-left: 10px; 
+  text-align: center;
+  padding-left: 10px;
   padding-right: 10px;
 }
 
@@ -60,24 +65,28 @@ thead {
   background-color: rgb(255, 140, 0);
 }
 
-#navbar {
+.navbar {
   background: rgb(227, 30, 30);
-  background: linear-gradient(90deg, rgba(227, 30, 30, 1) 0%, rgba(255, 243, 100, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(227, 30, 30, 1) 0%,
+    rgba(255, 243, 100, 1) 100%
+  );
 }
 
-#user-greet {
+.user-greet {
   color: white;
   text-align: center;
   margin: 20px;
 }
 
-#create-expense-btn {
+.create-expense-btn {
   color: white;
   background-color: rgb(255, 140, 0);
   margin-bottom: 10px;
 }
 
-#create-budget-btn {
+.create-budget-btn {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -86,7 +95,7 @@ thead {
   margin: 10px;
 }
 
-#total-expenses-container {
+.total-expenses-container {
   background-color: rgb(255, 140, 0);
   border-radius: 10px;
   margin-top: 10px;
@@ -96,14 +105,13 @@ thead {
   font-size: large;
 }
 
-#budget-container {
+.budget-container {
   background-color: rgb(199, 255, 241);
   border-radius: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;
 }
-
 
 .canvasContainer {
   background-color: white;
@@ -118,31 +126,31 @@ thead {
   margin-bottom: 10px;
 }
 
-#monthly-expenses-bar-chart,
-#weekly-expenses-bar-chart,
-#total-expenses-pie-chart,
-#monthly-expenses-pie-chart {
+.monthly-expenses-bar-chart,
+.weekly-expenses-bar-chart,
+.total-expenses-pie-chart,
+.monthly-expenses-pie-chart {
   background-color: white;
   border-radius: 20px;
 }
 
-#expense-table {
+.expense-table {
   margin-top: 10px;
   margin-bottom: 10px;
-  overflow-x: auto
+  overflow-x: auto;
 }
 
 .table-bg {
   background-color: white;
 }
 
-#statistics-table {
+.statistics-table {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-#statistics-table tr td,
-#statistics-table tr th {
+.statistics-table tr td,
+.statistics-table tr th {
   padding: 15px;
 }
 
@@ -156,7 +164,7 @@ thead {
   width: 50%;
 }
 
-#pagination-container {
+.pagination-container {
   /* margin-left: 15%; 
   margin-right: 15%; */
 }
