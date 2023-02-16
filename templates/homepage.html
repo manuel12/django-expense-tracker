@@ -9,7 +9,7 @@
     <a
       id="create-expense-btn"
       autofocus
-      class="btn btn-lg font-weight-bold"
+      class="create-expense-btn btn btn-lg font-weight-bold"
       href="{% url 'expenses:create' %}"
       data-test="create-expense"
       >+Add Expense</a
@@ -22,7 +22,7 @@
   <div class="col text-center">
     <a
       id="create-budget-btn"
-      class="btn btn-primary btn-lg font-weight-bold"
+      class="create-budget-btn btn btn-primary btn-lg font-weight-bold"
       href="{% url 'expenses:create_budget' %}"
       data-test="create-budget"
       >+Add Monthly Budget</a
@@ -45,7 +45,7 @@
 {% if expenses %}
 
   <div class="col-md-6 mx-auto">
-    <div id="total-expenses-container">
+    <div id="total-expenses-container" class="total-expenses-container">
       <h2 class="text-center">Total expenses: €{{ total_expense_amount }}</h2>
     </div>
   </div>
@@ -57,6 +57,7 @@
 <div class="col-md-9 mx-auto">
       <div
         id="budget-container"
+        class="budget-container"
         data-test="budget-container"
         class="font-weight-bold"
       >
@@ -119,7 +120,7 @@
 
   <!-- Line chart code -->
   <div class="canvasContainer col-md-12">
-    <canvas id="total-expenses-line-chart"
+    <canvas id="total-expenses-line-chart" class="total-expenses-line-chart"
     data-test="total-expenses-line-chart"></canvas>
   </div>
 
@@ -132,7 +133,7 @@
 
 {% if expenses %}
 
-  <div id="expense-table" data-test="expense-table">
+  <div id="expense-table" class="expense-table" data-test="expense-table">
     <table class="table table-striped table-hover table-bg">
       <thead>
         <tr>
