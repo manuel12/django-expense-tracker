@@ -57,7 +57,18 @@ button {
 
 form {
   color: white;
+  width: 100%;
 }
+
+.form-group {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+}
+
+
 
 table {
   border-radius: 10px;
@@ -175,12 +186,6 @@ thead tr th:last-child {
 
 .statistics {
   text-align: right;
-}
-
-.form-group {
-  margin-left: 25%;
-  margin-right: 25%;
-  width: 50%;
 }
 
 .pagination {
