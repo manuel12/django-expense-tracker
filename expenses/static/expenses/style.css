@@ -143,6 +143,22 @@ thead {
   overflow-x: auto;
 }
 
+thead,
+thead tr,
+thead tr th:first-child {
+  border-top-left-radius: 10px;
+}
+
+thead,
+thead tr,
+thead tr th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.table th {
+  border: none;
+}
+
 .table-bg {
   background-color: white;
 }
@@ -165,9 +181,6 @@ thead {
   margin-left: 25%;
   margin-right: 25%;
   width: 50%;
-}
-
-.pagination-container {
 }
 
 .pagination {
