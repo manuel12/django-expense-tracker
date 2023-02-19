@@ -9,8 +9,8 @@
     data-test="create-expense-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" class="btn btn-primary" value="Save"
-        data-test="create-expense-save">
+    <button type="submit" class="btn btn-primary"
+        data-test="create-expense-save">Save</button>
     <a href="{% url 'expenses:home' %}"
         data-test="create-expense-cancel" />Cancel</a>
 </form>
