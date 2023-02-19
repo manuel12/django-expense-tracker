@@ -119,7 +119,10 @@ thead {
   font-size: 2.3rem;
   text-align: center;
   color: white
+}
 
+.total-expenses-container > span {
+  font-weight: bold;
 }
 
 .budget-container {
