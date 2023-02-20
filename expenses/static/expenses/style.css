@@ -90,9 +90,10 @@ thead {
 }
 
 .create-expense-btn {
-  color: white !important;
   background-color: rgb(255, 140, 0);
+  min-width: 200px;
   margin-bottom: 10px;
+  color: white !important;
 }
 
 .create-expense-btn:hover {
@@ -100,11 +101,11 @@ thead {
 }
 
 .create-expense-btn > a {
-  width: 100%;
   height: 100%;
 }
 
 .create-budget-btn {
+  min-width: 200px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -207,4 +208,13 @@ thead tr th:last-child {
   display: inline-block;
   color: black;
   padding: 8px 16px;
+}
+
+@media screen and (min-width: 600px) {
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin: auto;
+  }
 }
