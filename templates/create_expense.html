@@ -1,22 +1,29 @@
 {% extends 'base.html' %}
-
-{% block title %}Add Expense{% endblock %}
-
+{% block title %}Add Expense{% endblock %} 
 {% block content %}
 
 <div class="form-group">
-<form class="expense-form font-weight-bold" method="post"
-    data-test="create-expense-form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary"
-        data-test="create-expense-save">Save</button>
-    
-    <a class="btn btn-secondary cancel-btn" href="{% url 'expenses:home' %}" data-test="create-expense-cancel" />
+  <form
+    class="expense-form font-weight-bold"
+    method="post"
+    data-test="create-expense-form"
+  >
+    {% csrf_token %} {{ form.as_p }}
+    <button
+      type="submit"
+      class="btn btn-primary"
+      data-test="create-expense-save"
+    >
+      Save
+    </button>
+
+    <a
+      class="btn btn-secondary cancel-btn"
+      href="{% url 'expenses:home' %}"
+      data-test="create-expense-cancel"
+    >
       Cancel
     </a>
-
-
-</form>
+  </form>
 </div>
 {% endblock content %}
