@@ -10,7 +10,7 @@
     Are you sure you want to delete this item?
     <button name="submit" type="submit" class="btn btn-danger"
         data-test="delete-expense-yes">Yes</button>
-    <a href="{% url 'expenses:home' %}"
+    <a class="btn btn-secondary cancel-btn" href="{% url 'expenses:home' %}"
         data-test="delete-expense-no" />Cancel</a>
 </form>
 </div>
