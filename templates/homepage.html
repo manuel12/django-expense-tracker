@@ -4,8 +4,8 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="col text-center">
+<div class="buttons-container">
+  <div class="p-1 text-center">
     <a
       id="create-expense-btn"
       autofocus
@@ -15,11 +15,10 @@
       >+Add Expense</a
     >
   </div>
-</div>
 
-{% if not budget %}
+  {% if not budget %}
 
-  <div class="col text-center">
+  <div class="p-1 text-center">
     <a
       id="create-budget-btn"
       class="create-budget-btn btn btn-primary btn-lg font-weight-bold"
@@ -30,6 +29,9 @@
   </div>
 
 {% endif %} 
+</div>
+
+
 
 {% if not expenses %}
 
