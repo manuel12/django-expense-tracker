@@ -11,8 +11,12 @@
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary"
         data-test="create-expense-save">Save</button>
-    <a href="{% url 'expenses:home' %}"
-        data-test="create-expense-cancel" />Cancel</a>
+    
+    <a class="btn btn-secondary cancel-btn" href="{% url 'expenses:home' %}" data-test="create-expense-cancel" />
+      Cancel
+    </a>
+
+
 </form>
 </div>
 {% endblock content %}
