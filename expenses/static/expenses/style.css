@@ -56,12 +56,8 @@ button {
 }
 
 form {
+  margin: auto;
   color: white;
-  width: 100%;
-}
-
-.form-group {
-  width: 100%;
 }
 
 button {
@@ -121,6 +117,7 @@ thead {
   margin-bottom: 10px;
   padding: 10px;
   width: 100%;
+  min-width: 200px;
   font-size: 2.3rem;
   text-align: center;
   color: white;
@@ -211,10 +208,18 @@ thead tr th:last-child {
 }
 
 @media screen and (min-width: 600px) {
+  form {
+    max-width: 510px;
+  }
+
   .buttons-container {
     display: flex;
     justify-content: center;
     align-items: end;
     margin: auto;
+  }
+
+  .total-expenses-container {
+    max-width: 510px;
   }
 }
