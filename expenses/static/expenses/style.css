@@ -216,6 +216,20 @@ thead tr th:last-child {
     max-width: 510px;
   }
 
+  button,
+  .cancel-btn {
+    margin-bottom: 0;
+    width: 45%;
+  }
+
+  .cancel-btn {
+    float: right;
+  }
+
+  .navbar {
+    justify-content: start !important;
+  }
+
   .navbar-list {
     min-width: 300px;
   }
