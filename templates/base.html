@@ -84,25 +84,5 @@
     <div class="container" data-test="container">
       {% block content %} {% endblock content %}
     </div>
-    <script>
-      window.onload = function () {
-        maxContainerWidthOnPortrait();
-
-        if (isPortrait()) {
-          unsetJustifyPaginationBar();
-        } else {
-          centerJustifyPaginationBar();
-        }
-      };
-
-      window.onresize = function (e) {
-        console.log("Screen resized");
-        if (isPortrait()) {
-          unsetJustifyPaginationBar();
-        } else {
-          centerJustifyPaginationBar();
-        }
-      };
-    </script>
   </body>
 </html>
