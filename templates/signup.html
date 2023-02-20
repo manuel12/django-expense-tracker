@@ -1,45 +1,77 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block content %}
 
 <div class="form-group font-weight-bold">
-    <form method="post" action="{% url 'accounts:signup' %}">
-        {% csrf_token %}
-        <p>
-            Username:
-            <input type="text" name="username" class="form-control" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username" data-test="username" />
-            <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
-        </p>
+  <form method="post" action="{% url 'accounts:signup' %}">
+    {% csrf_token %}
+    <p>
+      Username:
+      <input
+        type="text"
+        name="username"
+        class="form-control"
+        maxlength="150"
+        autocapitalize="none"
+        autocomplete="username"
+        autofocus
+        required
+        id="id_username"
+        data-test="username"
+      />
+      <span class="helptext"
+        >Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+        only.</span
+      >
+    </p>
 
-        <p>
-            Password:
-            <input type="password" name="password1" class="form-control" autocomplete="new-password" required id="id_password1" data-test="password1" />
-            <span class="helptext">
-                <ul>
-                    <li>
-                        Your password can’t be too similar to your other personal information.
-                    </li>
-                    <li>Your password must contain at least 8 characters.</li>
-                    <li>Your password can’t be a commonly used password.</li>
-                    <li>Your password can’t be entirely numeric.</li>
-                    {% if errors %}
-                      {% for error in errors %}
-                        <li style="color: yellow;" data-test="error-labels">{{ error }}</li>
-                      {% endfor %}
-                    {% endif %}
-                </ul>
-            </span>
-        </p>
+    <p>
+      Password:
+      <input
+        type="password"
+        name="password1"
+        class="form-control"
+        autocomplete="new-password"
+        required
+        id="id_password1"
+        data-test="password1"
+      />
+      <span class="helptext">
+        <ul>
+          <li>
+            Your password can’t be too similar to your other personal
+            information.
+          </li>
+          <li>Your password must contain at least 8 characters.</li>
+          <li>Your password can’t be a commonly used password.</li>
+          <li>Your password can’t be entirely numeric.</li>
+          {% if errors %} {% for error in errors %}
+          <li style="color: yellow" data-test="error-labels">{{ error }}</li>
+          {% endfor %} {% endif %}
+        </ul>
+      </span>
+    </p>
 
-        <p>
-            Password confirmation:
-            <input type="password" name="password2" class="form-control" autocomplete="new-password" required id="id_password2" data-test="password2" />
-            <span class="helptext">Enter the same password as before, for verification.</span>
-        </p>
+    <p>
+      Password confirmation:
+      <input
+        type="password"
+        name="password2"
+        class="form-control"
+        autocomplete="new-password"
+        required
+        id="id_password2"
+        data-test="password2"
+      />
+      <span class="helptext"
+        >Enter the same password as before, for verification.</span
+      >
+    </p>
 
-        <button type="submit" class="btn btn-primary" data-test="signup">
-            Sign up
-        </button>
-        <input type="hidden" name="text" value="{% url 'expenses:home' %}" />
-    </form>
+    <button type="submit" class="btn btn-primary" data-test="signup">
+      Sign up
+    </button>
+    <input type="hidden" name="text" value="{% url 'expenses:home' %}" />
+  </form>
 </div>
+
 {% endblock content %}

@@ -1,15 +1,17 @@
-{% extends 'base.html' %} 
-
-{% block content %} 
-
+{% extends 'base.html' %}
+{% block content %}
 {% if form.errors %}
 
-  <p>Your username and password didn't match. Please try again.</p>
+<p>Your username and password didn't match. Please try again.</p>
 
 {% endif %}
 
 <div class="form-group font-weight-bold">
-  <form method="post" action="{% url 'accounts:login' %}" data-test="login-form">
+  <form
+    method="post"
+    action="{% url 'accounts:login' %}"
+    data-test="login-form"
+  >
     {% csrf_token %}
     <p>
       Username:

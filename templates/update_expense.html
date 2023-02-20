@@ -1,20 +1,31 @@
 {% extends 'base.html' %}
-
 {% block title %}Update Expense{% endblock title %}
-
 {% block content %}
+
 <div class="form-group">
-<h3>Update expense:</h3>
-<form action="{% url 'expenses:update' expense.pk %}"
-    class="expense-form font-weight-bold" method="post"
-    data-test="update-expense-form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit" type="submit" class="btn btn-primary"
-        data-test="update-expense-save">Save changes</button>
-    <a class="btn btn-secondary cancel-btn" href="{% url 'expenses:home' %}"
-        data-test="update-expense-cancel" />Cancel</a>
-</form>
+  <h3>Update expense:</h3>
+  <form
+    action="{% url 'expenses:update' expense.pk %}"
+    class="expense-form font-weight-bold"
+    method="post"
+    data-test="update-expense-form"
+  >
+    {% csrf_token %} {{ form.as_p }}
+    <button
+      name="submit"
+      type="submit"
+      class="btn btn-primary"
+      data-test="update-expense-save"
+    >
+      Save changes
+    </button>
+    <a
+      class="btn btn-secondary cancel-btn"
+      href="{% url 'expenses:home' %}"
+      data-test="update-expense-cancel"
+      >Cancel</a
+    >
+  </form>
 </div>
 
 {% endblock content %}
