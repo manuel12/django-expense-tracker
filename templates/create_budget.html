@@ -10,7 +10,8 @@
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary"
         data-test="create-budget-save">Save</button>
-    <a href="{% url 'expenses:home' %}"
+
+    <a class="btn btn-secondary cancel-btn" href="{% url 'expenses:home' %}"
         data-test="create-budget-cancel" />Cancel</a>
 </form>
 </div>
