@@ -4,6 +4,11 @@
 
 Expense Tracker will help you track, have charts on and statistics about your expenses.
 
+<div float="left">
+  <img src="https://user-images.githubusercontent.com/4129325/221216267-0067eb7d-3be7-4771-a621-92907c10105a.png" title="Expense Tracker Desktop" alt="Expense Tracker Desktop" width="650" height="357" style="display: inline"/>
+   <img src="https://user-images.githubusercontent.com/4129325/221216763-897b1481-2626-4b24-ab2c-ce424d24a51f.png" title="Expense Tracker Mobile" alt="Expense Tracker Mobile" width="165" height="357"/>
+</div>
+
 ## Usage
 
 ### Adding Expenses
