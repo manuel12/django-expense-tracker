@@ -2,7 +2,7 @@
 
 # Expense Tracker
 
-Expense Tracker will help you track, have charts on and statistics about your expenses.
+An Expense Tracker application that can help you track and list expenses, and analyze charts and statistics about them.
 
 <div float="left">
   <img src="https://user-images.githubusercontent.com/4129325/221216267-0067eb7d-3be7-4771-a621-92907c10105a.png" title="Expense Tracker Desktop" alt="Expense Tracker Desktop" width="650" height="357" style="display: inline"/>
