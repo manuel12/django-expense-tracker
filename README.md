@@ -2,8 +2,11 @@
 
 # Expense Tracker
 
-An Expense Tracker application that can help you track and list expenses, and analyze charts and statistics about them.
+Expense Tracker is application that can help you track and list expenses, and also analyze charts and statistics about them.
 
+The project uses authentication and CRUD operations to create, read, update and delete expenses assigned to a user.
+
+The project also performs operations on expenses in order deliver monthly and daily expense averages; current vs last month expense percentages; biggest and smallest expenses by category; and more.
 
 
  <h2>Desktop</h2>
