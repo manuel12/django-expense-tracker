@@ -166,7 +166,7 @@ const handleCreateMontlyExpensesPieChart = () => {
       createPieChart(
         response,
         "monthly-expenses-pie-chart",
-        "Montly expense amounts by category"
+        "Monthly expense amounts by category"
       );
     },
   });
@@ -237,7 +237,7 @@ const handleCreateExpensesByWeekBarChart = () => {
       createBarChart(
         response,
         "weekly-expenses-bar-chart",
-        "Expenses amounts by week (Monday - Sunday)"
+        "Expense amounts by week (Monday - Sunday)"
       );
     },
   });
