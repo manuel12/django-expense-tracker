@@ -237,7 +237,7 @@ const handleCreateExpensesByWeekBarChart = () => {
       createBarChart(
         response,
         "weekly-expenses-bar-chart",
-        "Expenses amounts by week (Monday - Sunday)"
+        "Expense amounts by week (Monday - Sunday)"
       );
     },
   });

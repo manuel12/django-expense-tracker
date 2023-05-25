@@ -166,7 +166,7 @@ const handleCreateMontlyExpensesPieChart = () => {
       createPieChart(
         response,
         "monthly-expenses-pie-chart",
-        "Montly expense amounts by category"
+        "Monthly expense amounts by category"
       );
     },
   });
