@@ -64,8 +64,9 @@ _Make sure you have 'DEVELOPMENT' set to True in your environment variables, in 
 Or if you want to use postgres set DB_NAME, DB_USER, DB_PASSWORD on your environment variables, otherwise psycopg2 will throw an error._
 
 Run migrations:
-python manage.py makemigrations
-python manage.py migrate
+
+    python manage.py makemigrations
+    python manage.py migrate
 
 Create superuser:
 
@@ -82,15 +83,14 @@ Now you can start server...
 For installing Cypress go to the e2e folder and run:
 
     npm install
-    
-    
+
 ## Tests
 
-| Type | Location                                                               |
-| ---- | ---------------------------------------------------------------------- |
-| ui   | [e2e/cypress/integration/ui-tests](e2e/cypress/integration/ui-tests)   |
-| visual   | [e2e/cypress/integration/visual-tests](e2e/cypress/integration/visual-tests)   |
-| unit | [expenses/tests](expenses/tests)                             |
+| Type   | Location                                                                     |
+| ------ | ---------------------------------------------------------------------------- |
+| ui     | [e2e/cypress/integration/ui-tests](e2e/cypress/integration/ui-tests)         |
+| visual | [e2e/cypress/integration/visual-tests](e2e/cypress/integration/visual-tests) |
+| unit   | [expenses/tests](expenses/tests)                                             |
 
 ## Running tests
 
