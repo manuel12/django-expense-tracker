@@ -74,7 +74,7 @@ Cypress.Commands.add("loginAdminWithUI", () => {
    * and using credentials found on cypress.env.json
    */
 
-  cy.visit("http://localhost:8000/admin");
+  cy.visit(`${Cypress.config("baseUrl")}admin`);
   cy.get("#id_username").type(Cypress.config("adminUser"));
   cy.get("#id_password").type(Cypress.config("adminPass"));
   cy.get(".submit-row > input").click();
@@ -95,7 +95,7 @@ Cypress.Commands.add("deleteTestuser", (username) => {
    */
 
   cy.loginAdminWithUI();
-  cy.visit("http://localhost:8000/admin/auth/user/");
+  cy.visit(`${Cypress.config("baseUrl")}admin/auth/user/`);
 
   cy.get("tbody > tr")
     .first()
