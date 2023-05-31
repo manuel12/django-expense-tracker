@@ -5,7 +5,8 @@ describe("Error page Tests", () => {
     cy.loginAndCleanUp();
   });
 
-  it("should display 404 page", () => {
+  // Only run this test when expense_tracker > settings.py > DEBUG = False.
+  it.skip("should display 404 page", () => {
     const url = "/non-existing-page/";
     cy.request({
       url,
