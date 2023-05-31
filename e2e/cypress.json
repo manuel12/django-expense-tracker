@@ -6,6 +6,7 @@
   },
   "integrationFolder": "cypress/integration/",
   "video": false,
+  "screenshotOnRunFailure": false,
   "projectId": "72wyad",
   "viewportWidth": 1000,
   "viewportHeight": 600,
