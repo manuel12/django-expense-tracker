@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  experimentalRunAllSpecs: true,
   retries: {
     openMode: 0,
     runMode: 1,
