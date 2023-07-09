@@ -1,6 +1,6 @@
 [![expense_tracker](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/72wyad&style=plastic&logo=cypress)](https://dashboard.cypress.io/projects/72wyad/runs)
 
-# Expense Tracker
+![Expense Tracker](hero.png)
 
 Expense Tracker is application that can help you track and list expenses, and also analyze charts and statistics about them.
 
@@ -8,15 +8,11 @@ The project uses authentication and CRUD operations to create, read, update and 
 
 The project also performs operations on expenses in order deliver monthly and daily expense averages; current vs last month expense percentages; biggest and smallest expenses by category; and more.
 
-
  <h2>Desktop</h2>
  <img src="https://user-images.githubusercontent.com/4129325/221216267-0067eb7d-3be7-4771-a621-92907c10105a.png" title="Expense Tracker Desktop" alt="Expense Tracker Desktop" width="650" height="357" style="display: inline"/>
-  
 
   <h2>Mobile</h2>
  <img src="https://user-images.githubusercontent.com/4129325/221216763-897b1481-2626-4b24-ab2c-ce424d24a51f.png" title="Expense Tracker Mobile" alt="Expense Tracker Mobile" width="165" height="357"/>
-   
-
 
 ## Usage
 
