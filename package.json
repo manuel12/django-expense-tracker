@@ -1,0 +1,16 @@
+{
+  "name": "django-expense-tracker",
+  "version": "1.0.0",
+  "description": "[![expense_tracker](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/72wyad&style=plastic&logo=cypress)](https://dashboard.cypress.io/projects/72wyad/runs)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.8.0",
+    "react-client": "^1.0.1"
+  }
+}
