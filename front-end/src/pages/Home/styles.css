@@ -1,0 +1,127 @@
+.create-expense-btn {
+  background-color: rgb(255, 140, 0);
+  min-width: 200px;
+  margin-bottom: 10px;
+  color: white !important;
+}
+
+.create-expense-btn:hover {
+  background-color: rgb(213, 117, 0);
+}
+
+.create-expense-btn > a {
+  height: 100%;
+}
+
+.create-budget-btn {
+  min-width: 200px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.instruction {
+  margin: 10px;
+}
+
+.total-expenses-container {
+  background-color: rgb(255, 140, 0);
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  min-width: 200px;
+  font-size: 2.3rem;
+  text-align: center;
+  color: white;
+}
+
+.total-expenses-container > span {
+  font-weight: bold;
+}
+
+.budget-container {
+  background-color: rgb(199, 255, 241);
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.canvasContainer {
+  background-color: white;
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inlineCanvasContainer {
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.monthly-expenses-bar-chart,
+.weekly-expenses-bar-chart,
+.total-expenses-pie-chart,
+.monthly-expenses-pie-chart {
+  background-color: white;
+  border-radius: 20px;
+}
+
+.expense-table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+
+.table th {
+  border: none;
+}
+
+.table-bg {
+  background-color: white;
+}
+
+.statistics-table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.statistics-table tr td,
+.statistics-table tr th {
+  padding: 15px;
+}
+
+.statistics {
+  text-align: right;
+}
+
+.pagination {
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.pagination a {
+  display: inline-block;
+  color: black;
+  padding: 8px 16px;
+}
+
+@media screen and (min-width: 600px) {
+  button {
+    margin-bottom: 0;
+    width: 45%;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin: auto;
+  }
+
+  .total-expenses-container {
+    max-width: 510px;
+  }
+}
