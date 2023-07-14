@@ -1,16 +1,25 @@
-import React from "react";
+import "./styles.css";
+
+import React, { useState } from "react";
 
 const Home = () => {
-  let total_expense_amount,
-    budget,
-    current_month_expenses,
-    amount_over_budget,
-    expenses_vs_budget_percentage_diff,
-    green,
-    left,
-    red,
-    right,
-    i = null;
+  const [expenses, setExpenses] = useState([1, 2, 3]);
+  const [budget, setBudget] = useState(40);
+  const [totalExpenseAmount, setTotalExpenseAmount] = useState(100);
+
+  const currentMonthExpenses = 50;
+  const amountOverBudget = currentMonthExpenses - budget;
+
+  const expenseVsBudgetPercentageDiff = (currentMonthExpenses / budget) * 100;
+  console.log(expenseVsBudgetPercentageDiff);
+
+  const lineChartData = {
+    "09' Jun": 48.99,
+    "18' Jun": 21.0,
+    "25' Jun": 20.0,
+    "02' Jul": 16.0,
+    "09' Jul": 369.49,
+  };
 
   return (
     <>
@@ -27,122 +36,120 @@ const Home = () => {
           </a>
         </div>
 
-        {/* {% if not budget %} */}
-
-        <div className='p-1 text-center'>
-          <a
-            id='create-budget-btn'
-            className='create-budget-btn btn btn-primary btn-lg font-weight-bold'
-            href="{% url 'expenses:create_budget' %}"
-            data-test='create-budget'
-          >
-            +Add Monthly Budget
-          </a>
-        </div>
-
-        {/* {% endif %} */}
+        {!budget && (
+          <div className='p-1 text-center'>
+            <a
+              id='create-budget-btn'
+              className='create-budget-btn btn btn-primary btn-lg font-weight-bold'
+              href="{% url 'expenses:create_budget' %}"
+              data-test='create-budget'
+            >
+              +Add Monthly Budget
+            </a>
+          </div>
+        )}
       </div>
 
-      {/* {% if not expenses %} */}
-
-      <h5 className='font-weight-bold text-center instruction'>
-        No expenses for this user.
-      </h5>
-      <h5 className='text-center instruction'>
-        Add some expenses to display your expense list.
-      </h5>
-
-      {/* {% endif %} {% if expenses %} */}
+      {!expenses && (
+        <>
+          <h5 className='font-weight-bold text-center instruction'>
+            No expenses for this user.
+          </h5>
+          <h5 className='text-center instruction'>
+            Add some expenses to display your expense list.
+          </h5>
+        </>
+      )}
 
       <div
         id='total-expenses-container'
         className='total-expenses-container m-auto'
       >
-        {/* Total expenses: <span>€{{ total_expense_amount }}</span> */}
+        Total expenses: <span>€{totalExpenseAmount}</span>
       </div>
 
-      {/* {% endif %} {% if budget %} */}
-
-      <div className='col-md-9 mx-auto'>
-        <div
-          id='budget-container'
-          className='budget-container font-weight-bold'
-          data-test='budget-container'
-        >
-          <div className='progress'>
-            <div
-              className='progress-bar {% if current_month_expenses > budget %} bg-danger {% else %} bg-success {% endif %}'
-              role='progressbar'
-              style={{ width: expenses_vs_budget_percentage_diff }}
-              aria-valuenow='50'
-              aria-valuemin='0'
-              aria-valuemax='100'
-              data-test='budget-progress-bar'
-            ></div>
-          </div>
+      {budget && (
+        <div className='col-md-9 mx-auto'>
           <div
-            style={{ color: green, float: left, width: "50%" }}
-            data-test='monthly-budget'
+            id='budget-container'
+            className='budget-container font-weight-bold'
+            data-test='budget-container'
           >
-            Monthly budget:
-            <div>
-              {/* € {{ budget }} */}
-              <a
-                href="{% url 'expenses:update_budget' %}"
-                className='font-weight-bold'
-                data-test='update-budget'
-              >
-                <span className='badge-pill badge-warning'>✎</span>
-              </a>
-              <a
-                href="{% url 'expenses:delete_budget' %}"
-                className='font-weight-bold'
-                data-test='delete-budget'
-              >
-                <span className='badge-pill badge-danger'>X</span>
-              </a>
+            <div className='progress'>
+              <div
+                className='progress-bar {% if currentMonthExpenses > budget %} bg-danger {% else %} bg-success {% endif %}'
+                role='progressbar'
+                style={{ width: `${expenseVsBudgetPercentageDiff}%` }}
+                aria-valuenow='50'
+                aria-valuemin='0'
+                aria-valuemax='100'
+                data-test='budget-progress-bar'
+              ></div>
             </div>
-          </div>
+            <div
+              style={{ color: "green", float: "left", width: "50%" }}
+              data-test='monthly-budget'
+            >
+              Monthly budget:
+              <div>
+                € {budget}
+                <a
+                  href="{% url 'expenses:update_budget' %}"
+                  className='font-weight-bold'
+                  data-test='update-budget'
+                >
+                  <span className='badge-pill badge-warning'>✎</span>
+                </a>
+                <a
+                  href="{% url 'expenses:delete_budget' %}"
+                  className='font-weight-bold'
+                  data-test='delete-budget'
+                >
+                  <span className='badge-pill badge-danger'>X</span>
+                </a>
+              </div>
+            </div>
 
-          <div style={{ color: green }}>
-            Current month expenses:
-            <div>
-              {/* € {{ current_month_expenses }} */}
-              {/* {% if current_month_expenses > budget %} */}
-              <p style={{ color: red, float: right }}>
-                {/* (€ {{ amount_over_budget }} over budget) */}
-              </p>
-              {/* {% endif %} */}
+            <div style={{ color: "green" }}>
+              Current month expenses:
+              <div>
+                € {currentMonthExpenses}
+                {currentMonthExpenses > budget && (
+                  <p style={{ color: "red", float: "right" }}>
+                    (€ {amountOverBudget} over budget)
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* {% endif %} {% if num_expenses < 2 %} */}
 
-      <h5 className='text-center instruction'>
+      {/* <h5 className='text-center instruction'>
         When you have 2 or more expenses your line chart will be displayed.
-      </h5>
+      </h5> */}
 
       {/* {% else %} */}
 
       {/* <!-- Line chart code --> */}
-      <div className='canvasContainer col-md-12'>
+      {/* <div className='canvasContainer col-md-12'>
         <canvas
           id='total-expenses-line-chart'
           className='total-expenses-line-chart'
           data-test='total-expenses-line-chart'
         ></canvas>
-      </div>
-
+      </div> */}
+      {/* 
       <script>
         document.getElementById("create-expense-btn").focus();
         createCharts("homepage");
-      </script>
+      </script> */}
 
       {/* {% endif %} {% if expenses %} */}
 
-      <div
+      {/*<div
         id='expense-table'
         className='expense-table'
         data-test='expense-table'
@@ -161,7 +168,7 @@ const Home = () => {
           </thead>
 
           <tbody data-test='expense-table-body'>
-            {/* {% for expense in expenses %}
+            {{% for expense in expenses %}
       <tr>
         <td>{{ expense.get_date_without_time }}</td>
         <td>{{ expense.source }}</td>
@@ -185,16 +192,16 @@ const Home = () => {
           </a>
         </td>
       </tr>
-      {% endfor %} */}
+      {% endfor %} }
           </tbody>
         </table>
-      </div>
+      </div> */}
 
       {/* {% endif %} {% if expenses.has_other_pages %} */}
-
+      {/* 
       <nav id='pagination-container'>
         <ul className='pagination' data-test='pagination'>
-          {/* {% if expenses.has_previous %} */}
+          {% if expenses.has_previous %}
 
           <li className='page-item' data-test='first-button'>
             <a className='page-link' href='?page=1'>
@@ -210,7 +217,7 @@ const Home = () => {
             </a>
           </li>
 
-          {/* {% else %} */}
+          {{% else %}}
 
           <li className='disabled page-item' data-test='first-button'>
             <a className='page-link' href=''>
@@ -223,20 +230,20 @@ const Home = () => {
             </a>
           </li>
 
-          {/* {% endif %} {% for i in expenses.paginator.page_range %} */}
+          {% endif %} {% for i in expenses.paginator.page_range %}
 
-          {/* <!-- show me pages that are no more than 5 pages below or above the current page. -->
+          <!-- show me pages that are no more than 5 pages below or above the current page. -->
     {% if i > pagination_range_down and i < pagination_range_up %} {% if
-    expenses.number == i %} */}
+    expenses.number == i %}
 
           <li
             className='active page-link page-item'
             data-test='page-link-{{i}}'
           >
-            {/* {{ i }} */}
+            {{ i }}
           </li>
 
-          {/* {% else %} */}
+          {% else %}
 
           <li className='page-item'>
             <a
@@ -244,11 +251,11 @@ const Home = () => {
               data-test='page-link-{{i}}'
               href='?page={{ i }}'
             >
-              {/* {{ i }} */}
+              {{ i }}
             </a>
           </li>
 
-          {/* {% endif %} {% endif %} {% endfor %} {% if expenses.has_next %} */}
+          {% endif %} {% endif %} {% endfor %} {% if expenses.has_next %}
 
           <li className='page-item' data-test='next-button'>
             <a
@@ -264,7 +271,7 @@ const Home = () => {
             </a>
           </li>
 
-          {/* {% else %} */}
+          {% else %}
 
           <li className='disabled page-item' data-test='next-button'>
             <a className='page-link' href=''>
@@ -277,9 +284,9 @@ const Home = () => {
             </a>
           </li>
 
-          {/* {% endif %} */}
+          {% endif %}
         </ul>
-      </nav>
+      </nav> */}
     </>
   );
 };
