@@ -25,12 +25,6 @@
   background-color: rgb(255, 140, 0);
 }
 
-.user-greet {
-  color: white;
-  text-align: center;
-  margin: 20px;
-}
-
 @media screen and (min-width: 600px) {
   .navbar {
     justify-content: start !important;
