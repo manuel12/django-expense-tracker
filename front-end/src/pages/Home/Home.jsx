@@ -2,16 +2,17 @@ import "./styles.css";
 
 import React, { useState } from "react";
 
+import AddExpenseButton from "../../components/AddExpenseButton/AddExpenseButton";
+import AddBudgetButton from "../../components/AddBudgetButton/AddBudgetButton";
+import TotalExpensesContainer from "../../components/TotalExpensesContainer/TotalExpensesContainer";
+
 const Home = () => {
   const [expenses, setExpenses] = useState([1, 2, 3]);
-  const [budget, setBudget] = useState(40);
-  const [totalExpenseAmount, setTotalExpenseAmount] = useState(100);
+  const [budget, setBudget] = useState(0);
 
   const currentMonthExpenses = 50;
   const amountOverBudget = currentMonthExpenses - budget;
-
   const expenseVsBudgetPercentageDiff = (currentMonthExpenses / budget) * 100;
-  console.log(expenseVsBudgetPercentageDiff);
 
   const lineChartData = {
     "09' Jun": 48.99,
@@ -24,30 +25,8 @@ const Home = () => {
   return (
     <>
       <div className='buttons-container'>
-        <div className='p-1 text-center'>
-          <a
-            id='create-expense-btn'
-            autoFocus
-            className='create-expense-btn btn btn-lg font-weight-bold'
-            href="{% url 'expenses:create' %}"
-            data-test='create-expense'
-          >
-            +Add Expense
-          </a>
-        </div>
-
-        {!budget && (
-          <div className='p-1 text-center'>
-            <a
-              id='create-budget-btn'
-              className='create-budget-btn btn btn-primary btn-lg font-weight-bold'
-              href="{% url 'expenses:create_budget' %}"
-              data-test='create-budget'
-            >
-              +Add Monthly Budget
-            </a>
-          </div>
-        )}
+        <AddExpenseButton />
+        {!budget && <AddBudgetButton />}
       </div>
 
       {!expenses && (
@@ -61,12 +40,7 @@ const Home = () => {
         </>
       )}
 
-      <div
-        id='total-expenses-container'
-        className='total-expenses-container m-auto'
-      >
-        Total expenses: <span>€{totalExpenseAmount}</span>
-      </div>
+      <TotalExpensesContainer />
 
       {budget && (
         <div className='col-md-9 mx-auto'>
