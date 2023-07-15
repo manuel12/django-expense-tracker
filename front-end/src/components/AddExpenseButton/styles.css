@@ -1,0 +1,14 @@
+.create-expense-btn {
+  background-color: rgb(255, 140, 0);
+  min-width: 200px;
+  margin-bottom: 10px;
+  color: white !important;
+}
+
+.create-expense-btn:hover {
+  background-color: rgb(213, 117, 0);
+}
+
+.create-expense-btn > a {
+  height: 100%;
+}
