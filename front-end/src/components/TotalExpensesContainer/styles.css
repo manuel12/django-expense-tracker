@@ -14,3 +14,9 @@
 .total-expenses-container > span {
   font-weight: bold;
 }
+
+@media screen and (min-width: 600px) {
+  .total-expenses-container {
+    max-width: 510px;
+  }
+}
