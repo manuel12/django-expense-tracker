@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Charts from "./pages/Charts/Charts";
 
-// import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import UserGreet from "./components/UserGreet/UserGreet";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     <Router>
       <div className='App'>
         {" "}
-        {/* <Navbar /> */}
+        <Navbar RouterLink={Link} />
         <UserGreet />
         {/* {% block content %} {% endblock content %} */}
         <div className='container' data-test='container'>
