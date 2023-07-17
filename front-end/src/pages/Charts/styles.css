@@ -1,0 +1,34 @@
+.canvasContainer {
+  background-color: white;
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inlineCanvasContainer {
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.monthly-expenses-bar-chart,
+.weekly-expenses-bar-chart,
+.total-expenses-pie-chart,
+.monthly-expenses-pie-chart {
+  background-color: white;
+  border-radius: 20px;
+}
+
+.statistics-table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.statistics-table tr td,
+.statistics-table tr th {
+  padding: 15px;
+}
+
+.statistics {
+  text-align: right;
+}
