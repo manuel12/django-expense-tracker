@@ -1,0 +1,10 @@
+.pagination {
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.pagination a {
+  display: inline-block;
+  color: black;
+  padding: 8px 16px;
+}
