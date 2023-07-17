@@ -1,7 +1,179 @@
-import React from "react";
+import "./styles.css";
+
+import React, { useState } from "react";
 
 const Charts = () => {
-  return <div>Charts</div>;
+  const [expenses, setExpenses] = useState([1, 2, 3]);
+
+  return (
+    <>
+      {!expenses ? (
+        <>
+          <h5 class='font-weight-bold text-center instruction'>
+            No expenses for this user.
+          </h5>
+          <h5 class='text-center instruction'>
+            Please add expenses in order for charts and statistics to appear.
+          </h5>
+        </>
+      ) : (
+        <>
+          <div class='row'>
+            <div class='col-md-6 inlineCanvasContainer'>
+              <canvas
+                id='monthly-expenses-bar-chart'
+                class='monthly-expenses-bar-chart'
+                data-test='monthly-expenses-bar-chart'
+              ></canvas>
+            </div>
+            <div class='col-md-6 inlineCanvasContainer'>
+              <canvas
+                id='weekly-expenses-bar-chart'
+                class='weekly-expenses-bar-chart'
+                data-test='weekly-expenses-bar-chart'
+              ></canvas>
+            </div>
+          </div>
+
+          <div class='row'>
+            <div class='col-md-6 inlineCanvasContainer'>
+              <canvas
+                id='total-expenses-pie-chart'
+                class='total-expenses-pie-chart'
+                data-test='total-expenses-pie-chart'
+              ></canvas>
+            </div>
+            <div class='col-md-6 inlineCanvasContainer'>
+              <canvas
+                id='monthly-expenses-pie-chart'
+                class='monthly-expenses-pie-chart'
+                data-test='monthly-expenses-pie-chart'
+              ></canvas>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* <script>createCharts("charts");</script> */}
+
+      {/* {% endif %}  */}
+
+      {/* {% if expenses %} */}
+      {/* <div id="statistics-table" class="statistics-table" data-test="statistics-table">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="w-100 table-striped table-hover table-bg">
+          <tbody>
+            <tr>
+              <td>Current month's total expenses:</td>
+              <td class="statistics" data-test="stats-current-month-expenses">
+                € {{ statistics.curr_month_expense_sum }} {% if budget %} / € {{ budget }}
+
+                {% if budget > statistics.curr_month_expense_sum %}
+                <span class="badge badge-pill badge-success"> under budget </span>
+                {% else %}
+                <span class="badge badge-pill badge-danger"> over budget </span>
+                {% endif %}
+                <a
+                  href="{% url 'expenses:update_budget' %}"
+                  class="font-weight-bold"
+                  data-test="update-budget"
+                >
+                  <span class="badge-pill badge-warning">✎</span>
+                </a>
+                <a
+                  href="{% url 'expenses:delete_budget' %}"
+                  class="font-weight-bold"
+                  data-test="delete-budget"
+                >
+                  <span class="badge-pill badge-danger">X</span>
+                </a>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>Last month's total expenses:</td>
+              <td class="statistics" data-test="stats-last-month-expenses">
+                € {{ statistics.one_month_ago_expense_sum }}
+              </td>
+            </tr>
+            <tr>
+              <td>Current Month vs Last Month's (%) comparison:</td>
+              <td
+                class="statistics"
+                data-test="stats-current-month-vs-last-month-comparison"
+              >
+                {% if statistics.monthly_percentage_diff == 0 %}
+                <span> 0% </span>
+                {% elif statistics.monthly_percentage_diff > 100 %}
+                <span class="badge badge-pill badge-danger">
+                  {{ statistics.monthly_percentage_diff }}%
+                </span>
+                {% else%}
+                <span class="badge badge-pill badge-success">
+                  {{ statistics.monthly_percentage_diff }}%
+                </span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>Monthly expense average:</td>
+              <td class="statistics" data-test="stats-monthly-expense-average">
+                € {{ statistics.monthly_expense_average }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>Daily expense average:</td>
+              <td class="statistics" data-test="stats-daily-expense-average">
+                € {{ statistics.daily_expense_average }}
+              </td>
+            </tr>
+            <tr>
+              <td>Biggest category expenditure:</td>
+              <td class="statistics" data-test="stats-biggest-category-expense">
+                {{ statistics.biggest_category_expenditure.category }}:
+                <p class="black-font">
+                  € {{ statistics.biggest_category_expenditure.amount }}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>Smallest category expenditure:</td>
+              <td class="statistics" data-test="stats-smallest-category-expense">
+                {{ statistics.smallest_category_expenditure.category }}:
+                <p class="black-font">
+                  € {{ statistics.smallest_category_expenditure.amount }}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>Biggest expense:</td>
+              <td class="statistics" data-test="stats-biggest-expense">
+                ({{ statistics.max_expense_content}})
+                <p class="black-font">€ {{ statistics.max_expense }}</p>
+              </td>
+            </tr>
+            <tr>
+              <td>Smallest expense:</td>
+              <td class="statistics" data-test="stats-smallest-expense">
+                ({{ statistics.min_expense_content}})
+                <p class="black-font">€ {{ statistics.min_expense }}</p>
+              </td>
+            </tr>
+            <tr class="font-weight-bold">
+              <td>Total expenses:</td>
+              <td class="statistics" data-test="stats-total-expenses">
+                € {{ statistics.sum_expense }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div> */}
+    </>
+  );
 };
 
 export default Charts;
