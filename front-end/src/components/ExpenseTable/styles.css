@@ -1,0 +1,13 @@
+.expense-table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+
+.table th {
+  border: none;
+}
+
+.table-bg {
+  background-color: white;
+}
