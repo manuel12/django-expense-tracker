@@ -1,0 +1,19 @@
+label {
+  float: left;
+}
+
+@media screen and (min-width: 600px) {
+  form {
+    max-width: 510px;
+  }
+
+  button,
+  .cancel-btn {
+    margin-bottom: 0;
+    width: 45%;
+  }
+
+  .cancel-btn {
+    float: right;
+  }
+}
