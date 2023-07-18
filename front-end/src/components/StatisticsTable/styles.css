@@ -1,0 +1,21 @@
+.black-font {
+  color: #212529;
+}
+
+.statistics-table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.statistics-table tr td,
+.statistics-table tr th {
+  padding: 15px;
+}
+
+.statistics-table tr td:first-child {
+  text-align: left;
+}
+
+.statistics {
+  text-align: right;
+}
