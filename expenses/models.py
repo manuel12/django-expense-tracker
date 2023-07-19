@@ -94,7 +94,8 @@ class ExpenseManager(models.Manager):
         weekly_expenses = self.get_user_expenses(owner).filter(
             date__week=current_week_num
         )
-        weekly_expenses = weekly_expenses.aggregate(amount=Sum("amount"))["amount"]
+        weekly_expenses = weekly_expenses.aggregate(
+            amount=Sum("amount"))["amount"]
         return utils.safely_round(weekly_expenses)
 
     def get_monthly_expense_sum(self, owner, month_timedelta_num=0):
@@ -111,7 +112,8 @@ class ExpenseManager(models.Manager):
         monthly_expenses = self.get_user_expenses(owner).filter(
             date__month=current_month_num
         )
-        monthly_expenses = monthly_expenses.aggregate(amount=Sum("amount"))["amount"]
+        monthly_expenses = monthly_expenses.aggregate(
+            amount=Sum("amount"))["amount"]
         return utils.safely_round(monthly_expenses)
 
     def get_monthly_expense_average(self, owner):
@@ -126,7 +128,8 @@ class ExpenseManager(models.Manager):
 
             if monthly_expenses:
                 monthly_expenses_sum = round(
-                    monthly_expenses.aggregate(amount=Sum("amount"))["amount"], 2
+                    monthly_expenses.aggregate(amount=Sum("amount"))[
+                        "amount"], 2
                 )
                 monthly_expenses_data.append(monthly_expenses_sum)
 
@@ -152,9 +155,11 @@ class ExpenseManager(models.Manager):
         Returns a dictionary with both the amount and the category
         of the user's highest expense.
         """
-        expense_amounts_by_category = self.get_expense_amounts_by_category(owner)
+        expense_amounts_by_category = self.get_expense_amounts_by_category(
+            owner)
         if expense_amounts_by_category:
-            biggest_category_expense = max(expense_amounts_by_category.values())
+            biggest_category_expense = max(
+                expense_amounts_by_category.values())
             biggest_category = [
                 cat
                 for (cat, amount) in expense_amounts_by_category.items()
@@ -172,9 +177,11 @@ class ExpenseManager(models.Manager):
         Returns a dictionary with both the amount and the category
         of the user's lowest expense.
         """
-        expense_amounts_by_category = self.get_expense_amounts_by_category(owner)
+        expense_amounts_by_category = self.get_expense_amounts_by_category(
+            owner)
         if expense_amounts_by_category:
-            smallest_category_expense = min(expense_amounts_by_category.values())
+            smallest_category_expense = min(
+                expense_amounts_by_category.values())
             smallest_category = [
                 cat
                 for (cat, amount) in expense_amounts_by_category.items()
@@ -211,7 +218,8 @@ class ExpenseManager(models.Manager):
 
         if date_and_amount_data:
             daily_expense_average = round(
-                sum(date_and_amount_data.values()) / len(date_and_amount_data.values()),
+                sum(date_and_amount_data.values()) /
+                len(date_and_amount_data.values()),
                 2,
             )
         else:
@@ -248,10 +256,12 @@ class ExpenseManager(models.Manager):
 
 class Expense(models.Model):
     amount = models.DecimalField(
+        blank=False,
         default=10,
         decimal_places=2,
         max_digits=10,
-        validators=[MinValueValidator(Decimal("0.01"))],
+        validators=[MinValueValidator(Decimal("0.01")), ]
+
     )
     content = models.CharField(max_length=100, blank=False)
 
@@ -264,9 +274,10 @@ class Expense(models.Model):
         ("Taxi fare", "Taxi fare"),
         ("Miscellaneous", "Miscellaneous"),
     )
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, null=True)
+    category = models.CharField(
+        max_length=20, choices=CATEGORY_CHOICES, null=True, blank=False)
     source = models.CharField(max_length=30, blank=False)
-    date = models.DateTimeField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now, blank=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     objects = ExpenseManager()
