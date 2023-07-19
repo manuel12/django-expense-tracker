@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==3.0.1"
+django = "==4.2.3"
 flake8 = "*"
 pylint = "*"
 gunicorn = "==19.9.0"
@@ -18,6 +18,8 @@ django-environ = "*"
 dj-static = "*"
 isort = "*"
 black = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
