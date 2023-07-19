@@ -15,12 +15,3 @@ canvas {
   background-color: white;
   border-radius: 20px;
 }
-
-.monthly-expenses-bar-chart,
-.weekly-expenses-bar-chart,
-.total-expenses-pie-chart,
-.monthly-expenses-pie-chart {
-  /* background-color: white;
-  border-radius: 20px; */
-}
-
