@@ -21,6 +21,9 @@ handler500 = "expenses.views.view_500"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/", include("api.urls")),
     path("accounts/", include("accounts.urls")),
     path("", include("expenses.urls")),
 ]
+
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg5NzUyOTI1LCJpYXQiOjE2ODk3NTI2MjUsImp0aSI6IjU3Y2NmMGFhOGIzNzQ4ZmM4MWY1ZTY0NDc1NjQzMmRkIiwidXNlcl9pZCI6MX0.9poYIBuD_AYDCG66lLemzM6NS-Z9Q2qtVRScqUAG_CI
