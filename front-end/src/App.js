@@ -101,6 +101,28 @@ function App() {
                 />
               }
             />
+
+            <Route
+              path='/login'
+              element={
+                <CustomForm
+                  title='Login:'
+                  formFields={["Username", "Password"]}
+                  submitBtnText={"Log In"}
+                />
+              }
+            />
+
+            <Route
+              path='/signup'
+              element={
+                <CustomForm
+                  title='Sign up:'
+                  formFields={["Username", "Password", "Password confirmation"]}
+                  submitBtnText={"Sign up"}
+                />
+              }
+            />
           </Routes>
         </div>
       </div>
