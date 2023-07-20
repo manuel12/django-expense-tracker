@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
@@ -21,7 +21,11 @@ const Login = ({ setAccessToken }) => {
       if (res.ok) {
         const data = await res.json();
         const { access, refresh } = data;
-        localStorage.setItem('accessToken', JSON.stringify(access))
+
+        localStorage.setItem("username", JSON.stringify(username));
+        localStorage.setItem("refreshToken", JSON.stringify(refresh));
+        localStorage.setItem("accessToken", JSON.stringify(access));
+
         setAccessToken(access);
       } else {
         throw new Error("Login failed");
