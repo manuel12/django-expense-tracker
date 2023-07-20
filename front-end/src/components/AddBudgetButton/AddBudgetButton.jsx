@@ -9,6 +9,7 @@ const AddBudgetButton = () => {
       id='create-budget-btn'
       text='+Add Monthly Budget'
       className='create-budget-btn btn-primary'
+      redirectTo='/create-budget'
       dataTestId='create-budget'
     />
   );
