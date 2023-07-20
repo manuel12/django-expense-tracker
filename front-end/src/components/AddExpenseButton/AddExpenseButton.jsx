@@ -10,6 +10,7 @@ const AddExpenseButton = () => {
       autoFocus={true}
       text='+Add Expense'
       className='create-expense-btn'
+      redirectTo='create/'
       dataTestId='create-expense'
     />
   );
