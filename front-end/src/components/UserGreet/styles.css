@@ -3,3 +3,7 @@
   text-align: center;
   margin: 20px;
 }
+
+.logout-text {
+  cursor: pointer;
+}
