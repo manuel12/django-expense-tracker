@@ -13,10 +13,10 @@ const CustomForm = ({
   cancelBtn = false,
   dataTestIdCancelBtn = "",
   onSubmit,
-  children
+  children,
 }) => {
   return (
-    <div className='form-group'>
+    <div className='form-container form-group'>
       <h3>{title}</h3>
       <form
         className='font-weight-bold'
@@ -43,7 +43,7 @@ const CustomForm = ({
         {cancelBtn && (
           <a
             className='btn btn-secondary cancel-btn'
-            href="{% url 'expenses:home' %}"
+            href='/'
             data-test={dataTestIdCancelBtn}
           >
             Cancel
