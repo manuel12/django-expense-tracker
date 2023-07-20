@@ -12,6 +12,8 @@ const CustomForm = ({
   dataTestIdSubmitBtn = "",
   cancelBtn = false,
   dataTestIdCancelBtn = "",
+  onSubmit,
+  children
 }) => {
   return (
     <div className='form-group'>
@@ -20,6 +22,7 @@ const CustomForm = ({
         className='font-weight-bold'
         method='post'
         data-test={dataTestIdForm}
+        onSubmit={onSubmit}
       >
         {/* {% csrf_token %} {{ form.as_p }} */}
         {formFields.map((field) => (
@@ -29,6 +32,7 @@ const CustomForm = ({
           </p>
         ))}
         {formText && <p>{formText}</p>}
+        {children}
         <button
           type='submit'
           className={`btn btn-${submitBtnColor}`}
