@@ -11,6 +11,11 @@ import Navbar from "./components/Navbar/Navbar";
 import UserGreet from "./components/UserGreet/UserGreet";
 import CustomForm from "./components/CustomForm/CustomForm";
 
+import AddExpenseForm from "./forms/AddExpenseForm/AddExpenseForm";
+import UpdateExpenseForm from "./forms/UpdateExpenseForm/UpdateExpenseForm";
+import AddBudgetForm from "./forms/AddBudgetForm/AddBudgetForm";
+import UpdateBudgetForm from "./forms/UpdateBudgetForm/UpdateBudgetForm";
+
 function App() {
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
@@ -31,35 +36,18 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        {" "}
         <Navbar RouterLink={Link} />
-        <UserGreet />
-        {/* {% block content %} {% endblock content %} */}
+        <UserGreet isAuthenticated={accessToken} />
         <div className='container' data-test='container'>
           <Routes>
-            <Route exact path='/' element={<Home />} />
+            <Route
+              exact
+              path='/'
+              element={<Home accessToken={accessToken} />}
+            />
             <Route path='/charts' element={<Charts />} />
-            <Route
-              path='/create'
-              element={
-                <CustomForm
-                  title={"Create Expense:"}
-                  formFields={createExpenseFormFields}
-                  cancelBtn={true}
-                />
-              }
-            />
-            <Route
-              path='/update'
-              element={
-                <CustomForm
-                  title={"Update Expense:"}
-                  formFields={createExpenseFormFields}
-                  submitBtnText={"Save changes"}
-                  cancelBtn={true}
-                />
-              }
-            />
+            <Route path='/create' element={<AddExpenseForm />} />
+            <Route path='/update' element={<UpdateExpenseForm />} />
 
             <Route
               path='/delete'
@@ -74,28 +62,8 @@ function App() {
               }
             />
 
-            <Route
-              path='/create-budget'
-              element={
-                <CustomForm
-                  title='Create Budget:'
-                  formFields={["amount"]}
-                  cancelBtn={true}
-                />
-              }
-            />
-
-            <Route
-              path='/update-budget'
-              element={
-                <CustomForm
-                  title='Update Budget:'
-                  formFields={["amount"]}
-                  submitBtnText={"Save changes"}
-                  cancelBtn={true}
-                />
-              }
-            />
+            <Route path='/create-budget' element={<AddBudgetForm />} />
+            <Route path='/update-budget' element={<UpdateBudgetForm />} />
 
             <Route
               path='/delete-budget'
