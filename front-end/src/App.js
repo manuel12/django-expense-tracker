@@ -2,6 +2,8 @@ import "./App.css";
 
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
+import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Charts from "./pages/Charts/Charts";
 
@@ -10,8 +12,9 @@ import UserGreet from "./components/UserGreet/UserGreet";
 import CustomForm from "./components/CustomForm/CustomForm";
 
 function App() {
-  const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState("");
+  const [accessToken, setAccessToken] = useState(
+    JSON.parse(localStorage.getItem("accessToken"))
+  );
 
   const createExpenseFormFields = [
     "amount",
@@ -20,6 +23,11 @@ function App() {
     "date",
     "source",
   ];
+
+  if (!accessToken) {
+    return <Login setAccessToken={setAccessToken} />;
+  }
+
   return (
     <Router>
       <div className='App'>
@@ -102,16 +110,7 @@ function App() {
               }
             />
 
-            <Route
-              path='/login'
-              element={
-                <CustomForm
-                  title='Login:'
-                  formFields={["Username", "Password"]}
-                  submitBtnText={"Log In"}
-                />
-              }
-            />
+            <Route path='/login' element={<Login />} />
 
             <Route
               path='/signup'
