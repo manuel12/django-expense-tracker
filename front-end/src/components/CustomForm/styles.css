@@ -3,7 +3,8 @@ label {
 }
 
 @media screen and (min-width: 600px) {
-  form {
+  .form-container {
+    margin: 50px auto 0;
     max-width: 510px;
   }
 
