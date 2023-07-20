@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import AddExpenseButton from "../../components/AddExpenseButton/AddExpenseButton";
 import AddBudgetButton from "../../components/AddBudgetButton/AddBudgetButton";
@@ -12,22 +12,28 @@ import Pagination from "../../components/Pagination/Pagination";
 
 import LineChart from "../../charts/LineChart/LineChart";
 
-const Home = () => {
+const Home = ({ accessToken }) => {
   const [expenses, setExpenses] = useState([1, 2, 3]);
   const [budget, setBudget] = useState();
+  const [lineChartData, setLineChartData] = useState([]);
 
-  const expensesByDay = {
-    "17' Jun": 25.0,
-    "19' Jun": 9.99,
-    "20' Jun": 6.0,
-    "21' Jun": 8.0,
-    "22' Jun": 6.0,
-    "23' Jun": 12.0,
-    "26' Jun": 13.0,
-    "28' Jun": 8.0,
-    "03' Jul": 20.0,
-    "10' Jul": 16.0,
-    "17' Jul": 65.99,
+  useEffect(() => {
+    fetchLineChartData();
+  }, []);
+
+  const fetchLineChartData = async () => {
+    const res = await fetch("http://localhost:8000/api/line-chart-data/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (res.ok) {
+      const expenseData = await res.json();
+      setLineChartData(expenseData);
+    }
   };
 
   return (
@@ -49,16 +55,16 @@ const Home = () => {
         </h5>
       ) : (
         <LineChart
-          chartData={expensesByDay}
+          chartData={lineChartData}
           title={"Total expenses by day"}
           xLabel={"Dates"}
           yLabel={"(€) Amounts"}
         />
       )}
 
-      <ExpenseTable />
+      <ExpenseTable expenses={expenses}/>
 
-      <Pagination />
+      <Pagination setExpenses={setExpenses}/>
     </>
   );
 };
