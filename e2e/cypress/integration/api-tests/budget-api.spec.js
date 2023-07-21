@@ -32,7 +32,6 @@ describe("Budget API Tests", () => {
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((res) => {
-      console.log(res);
       const budget = res.body;
 
       if (budget && budget.amount) {
@@ -44,7 +43,6 @@ describe("Budget API Tests", () => {
             Authorization: `Bearer ${accessToken}`,
           },
         }).then((res) => {
-          console.log(res);
           expect(res.status).to.eq(204);
         });
       }
@@ -60,7 +58,6 @@ describe("Budget API Tests", () => {
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((res) => {
-      console.log(res);
       expect(typeof res.body === "object").to.be.true;
       expect(res.status).to.eq(200);
     });
@@ -99,7 +96,6 @@ describe("Budget API Tests", () => {
       },
     }).then((res) => {
       const newBudget = res.body;
-      console.log(newBudget);
 
       cy.request({
         method: "PUT",
@@ -145,7 +141,6 @@ describe("Budget API Tests", () => {
           Authorization: `Bearer ${accessToken}`,
         },
       }).then((res) => {
-        console.log(res);
         expect(res.status).to.eq(204);
       });
     });
