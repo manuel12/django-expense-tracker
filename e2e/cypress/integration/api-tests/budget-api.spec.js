@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+const testuserData = require("../../fixtures/testuser.json");
 
 describe("Budget API Tests", () => {
   const apiUrl = "http://localhost:8000/api";
@@ -13,8 +14,8 @@ describe("Budget API Tests", () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: "testuser1",
-        password: "testpass1",
+        username: testuserData.username,
+        password: testuserData.password,
       }),
     }).then((res) => {
       accessToken = res.body.access;
@@ -50,7 +51,7 @@ describe("Budget API Tests", () => {
     });
   });
 
-  it("GET - /api/budget/ - should retrieve all existing expenses", () => {
+  it("GET - /api/budget/ - should retrieve existing budget", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/budget/`,
@@ -59,6 +60,7 @@ describe("Budget API Tests", () => {
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((res) => {
+      console.log(res);
       expect(typeof res.body === "object").to.be.true;
       expect(res.status).to.eq(200);
     });
