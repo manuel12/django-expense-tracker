@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+const testuserData = require("../../fixtures/testuser.json");
 
 describe("Expense API Tests", () => {
   const apiUrl = "http://localhost:8000/api";
@@ -13,8 +14,8 @@ describe("Expense API Tests", () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: "testuser1",
-        password: "testpass1",
+        username: testuserData.username,
+        password: testuserData.password,
       }),
     }).then((res) => {
       accessToken = res.body.access;
@@ -39,7 +40,7 @@ describe("Expense API Tests", () => {
   it("POST - /api/expenses/create/ - should create a new expense", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/expenses/create/`,
+      url: `${apiUrl}/register/`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
