@@ -31,7 +31,6 @@ describe("Expense API Tests", () => {
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((res) => {
-      console.log(res);
       expect(Array.isArray(res.body)).to.be.true;
       expect(res.status).to.eq(200);
     });
