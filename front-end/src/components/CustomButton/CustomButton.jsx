@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./styles.css";
+
 const CustomButton = ({
   id,
   text,
@@ -9,17 +11,17 @@ const CustomButton = ({
   dataTestId,
 }) => {
   return (
-    <div className='p-1 text-center'>
+    <button className={`${className} custom-btn btn btn-lg m-3 text-center`}>
       <a
         id={id}
         autoFocus={autoFocus}
-        className={`${className} btn btn-lg font-weight-bold`}
+        className={`font-weight-bold`}
         href={redirectTo}
         data-test={dataTestId}
       >
         {text}
       </a>
-    </div>
+    </button>
   );
 };
 
