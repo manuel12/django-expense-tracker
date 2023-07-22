@@ -43,7 +43,6 @@ const UpdateBudgetForm = () => {
     });
 
     if (res.status === 200) {
-      console.log("Updating budget successful!");
       setAmount(0);
       window.location = "/";
     } else {
