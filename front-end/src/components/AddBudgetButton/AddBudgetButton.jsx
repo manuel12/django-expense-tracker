@@ -3,7 +3,7 @@ import "./styles.css";
 import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 
-const AddBudgetButton = () => {
+const AddBudgetButton = ({budgetId}) => {
   return (
     <CustomButton
       id='create-budget-btn'
