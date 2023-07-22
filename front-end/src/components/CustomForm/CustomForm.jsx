@@ -24,7 +24,6 @@ const CustomForm = ({
         data-test={dataTestIdForm}
         onSubmit={onSubmit}
       >
-        {/* {% csrf_token %} {{ form.as_p }} */}
         {formFields.map((field) => (
           <p>
             <label>{field}:</label>
@@ -41,13 +40,13 @@ const CustomForm = ({
           {submitBtnText}
         </button>
         {cancelBtn && (
-          <a
+          <button
             className='btn btn-secondary cancel-btn'
-            href='/'
+            onClick={() => (window.location.href = "/")}
             data-test={dataTestIdCancelBtn}
           >
             Cancel
-          </a>
+          </button>
         )}
       </form>
     </div>
