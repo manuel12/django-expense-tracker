@@ -13,8 +13,11 @@ import CustomForm from "./components/CustomForm/CustomForm";
 
 import AddExpenseForm from "./forms/AddExpenseForm/AddExpenseForm";
 import UpdateExpenseForm from "./forms/UpdateExpenseForm/UpdateExpenseForm";
+import DeleteExpenseForm from "./forms/DeleteExpenseForm/DeleteExpenseForm";
+
 import AddBudgetForm from "./forms/AddBudgetForm/AddBudgetForm";
 import UpdateBudgetForm from "./forms/UpdateBudgetForm/UpdateBudgetForm";
+import DeleteBudgetForm from "./forms/DeleteBudgetForm/DeleteBudgetForm";
 
 function App() {
   const [accessToken, setAccessToken] = useState(
@@ -46,37 +49,14 @@ function App() {
               element={<Home accessToken={accessToken} />}
             />
             <Route path='/charts' element={<Charts />} />
-            <Route path='/create' element={<AddExpenseForm />} />
-            <Route path='/update' element={<UpdateExpenseForm />} />
 
-            <Route
-              path='/delete'
-              element={
-                <CustomForm
-                  title={"Delete Expense:"}
-                  formText='Are you sure you want to delete this item?'
-                  submitBtnText={"Yes"}
-                  submitBtnColor={"danger"}
-                  cancelBtn={true}
-                />
-              }
-            />
+            <Route path='/create' element={<AddExpenseForm />} />
+            <Route path='/update/:id' element={<UpdateExpenseForm />} />
+            <Route path='/delete/:id' element={<DeleteExpenseForm />} />
 
             <Route path='/create-budget' element={<AddBudgetForm />} />
-            <Route path='/update-budget' element={<UpdateBudgetForm />} />
-
-            <Route
-              path='/delete-budget'
-              element={
-                <CustomForm
-                  title={"Delete Budget:"}
-                  formText='Are you sure you want to delete this item?'
-                  submitBtnText={"Yes"}
-                  submitBtnColor={"danger"}
-                  cancelBtn={true}
-                />
-              }
-            />
+            <Route path='/update-budget/:id' element={<UpdateBudgetForm />} />
+            <Route path='/delete-budget/:id' element={<DeleteBudgetForm />} />
 
             <Route path='/login' element={<Login />} />
 
