@@ -1,14 +1,39 @@
 import "./styles.css";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const BudgetContainer = () => {
-  const [expenses, setExpenses] = useState();
+  const [accessToken, setAccessToken] = useState(
+    JSON.parse(localStorage.getItem("accessToken"))
+  );
+
+  const [expenses, setExpenses] = useState([]);
   const [budget, setBudget] = useState(0);
 
-  const currentMonthExpenses = 50;
+  const currentMonthExpenses = 29;
   const amountOverBudget = currentMonthExpenses - budget;
-  const expenseVsBudgetPercentageDiff = (currentMonthExpenses / budget) * 100;
+  const expenseVsBudgetPercentageDiff =
+    (currentMonthExpenses / budget.amount) * 100;
+
+  useEffect(() => {
+    fetchBudgetData();
+  }, []);
+
+  const fetchBudgetData = async () => {
+    const res = await fetch("http://localhost:8000/api/budget/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (res.ok) {
+      const budgetData = await res.json();
+      console.log(budgetData);
+      setBudget(budgetData);
+    }
+  };
 
   return (
     <div className='col-md-9 mx-auto'>
@@ -19,7 +44,9 @@ const BudgetContainer = () => {
       >
         <div className='progress'>
           <div
-            className='progress-bar {% if currentMonthExpenses > budget %} bg-danger {% else %} bg-success {% endif %}'
+            className={`progress-bar ${
+              currentMonthExpenses > budget.amount ? "bg-danger" : "bg-success"
+            }`}
             role='progressbar'
             style={{ width: `${expenseVsBudgetPercentageDiff}%` }}
             aria-valuenow='50'
@@ -34,16 +61,16 @@ const BudgetContainer = () => {
         >
           Monthly budget:
           <div>
-            € {budget}
+            € {budget.amount}
             <a
-              href="{% url 'expenses:update_budget' %}"
+              href={`/update-budget/${budget.id}`}
               className='font-weight-bold'
               data-test='update-budget'
             >
               <span className='badge-pill badge-warning'>✎</span>
             </a>
             <a
-              href="{% url 'expenses:delete_budget' %}"
+              href={`/delete-budget/${budget.id}`}
               className='font-weight-bold'
               data-test='delete-budget'
             >
