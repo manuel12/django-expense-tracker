@@ -23,6 +23,7 @@ const UserGreet = ({ isAuthenticated }) => {
         // Logout successful
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        window.location = "/";
       } else {
         // Logout failure
         console.error("Logout failed: ", res.status);
