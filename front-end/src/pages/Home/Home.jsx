@@ -13,13 +13,52 @@ import Pagination from "../../components/Pagination/Pagination";
 import LineChart from "../../charts/LineChart/LineChart";
 
 const Home = ({ accessToken }) => {
-  const [expenses, setExpenses] = useState([1, 2, 3]);
-  const [budget, setBudget] = useState();
+  const [expenses, setExpenses] = useState([]);
+  const [budget, setBudget] = useState(0);
   const [lineChartData, setLineChartData] = useState([]);
 
   useEffect(() => {
     fetchLineChartData();
+    fetchExpenses();
+    fetchBudgetData();
   }, []);
+
+  const fetchExpenses = async () => {
+    const res = await fetch(
+      // `http://localhost:8000/api/expenses/?page=${paginationSuffix}`,
+      `http://localhost:8000/api/expenses/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (res.ok) {
+      const expensesData = await res.json();
+      setExpenses(expensesData);
+    } else {
+      throw new Error("Fetching expenses failed");
+    }
+  };
+
+  const fetchBudgetData = async () => {
+    const res = await fetch("http://localhost:8000/api/budget/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (res.ok) {
+      const budgetData = await res.json();
+      console.log(budgetData);
+      setBudget(budgetData);
+    }
+  };
 
   const fetchLineChartData = async () => {
     const res = await fetch("http://localhost:8000/api/line-chart-data/", {
@@ -40,14 +79,14 @@ const Home = ({ accessToken }) => {
     <>
       <div className='buttons-container'>
         <AddExpenseButton />
-        {!budget && <AddBudgetButton />}
+        {!budget.amount && <AddBudgetButton />}
       </div>
 
       <TotalExpensesContainer />
 
       {!expenses && <Instructions />}
 
-      {budget && <BudgetContainer />}
+      {budget.amount && <BudgetContainer />}
 
       {expenses.length < 2 ? (
         <h5 className='text-center instruction'>
@@ -62,9 +101,9 @@ const Home = ({ accessToken }) => {
         />
       )}
 
-      <ExpenseTable expenses={expenses}/>
+      <ExpenseTable expenses={expenses} />
 
-      <Pagination setExpenses={setExpenses}/>
+      {/* <Pagination setExpenses={setExpenses}/> */}
     </>
   );
 };
