@@ -1,9 +1,4 @@
 @media screen and (min-width: 600px) {
-  button {
-    margin-bottom: 0;
-    width: 45%;
-  }
-
   .buttons-container {
     display: flex;
     justify-content: center;
