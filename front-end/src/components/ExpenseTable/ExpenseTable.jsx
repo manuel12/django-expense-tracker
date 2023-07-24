@@ -1,35 +1,8 @@
 import "./styles.css";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const ExpenseTable = ({expenses}) => {
-  const [accessToken, setAccessToken] = useState(
-    JSON.parse(localStorage.getItem("accessToken"))
-  );
-
-
-  useEffect(() => {
-    fetchExpenses();
-  }, []);
-
-  const fetchExpenses = async () => {
-    const res = await fetch("http://localhost:8000/api/expenses/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (res.ok) {
-      const paginatedExpenses = await res.json();
-      console.log(paginatedExpenses);
-      // setExpenses(paginatedExpenses.results);
-    } else {
-      throw new Error("Fetching expenses failed");
-    }
-  };
-
+const ExpenseTable = ({ expenses = [] }) => {
   return (
     <div id='expense-table' className='expense-table' data-test='expense-table'>
       <table className='table table-striped table-hover table-bg'>
@@ -57,7 +30,7 @@ const ExpenseTable = ({expenses}) => {
                   <td>€ {expense.amount}</td>
                   <td className='font-weight-bold'>
                     <a
-                      href='/update'
+                      href={`/update/${expense.id}`}
                       data-test='update-expense-{{ expense.pk }}'
                     >
                       <span className='badge-pill badge-warning'>✎</span>
@@ -65,7 +38,7 @@ const ExpenseTable = ({expenses}) => {
                   </td>
                   <td className='font-weight-bold'>
                     <a
-                      href='expenses/delete/'
+                      href={`/delete/${expense.id}`}
                       data-test='delete-expense-{{ expense.pk }}'
                     >
                       <span className='badge-pill badge-danger'>X</span>
