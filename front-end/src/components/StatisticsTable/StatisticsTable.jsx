@@ -1,36 +1,49 @@
 import "./styles.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const StatisticsTable = ({data}) => {
-  const [budget, setBudget] = useState(20);
+const StatisticsTable = ({ budgetData, statisticsData }) => {
 
-  const [currentMonthExpenseSum, setCurentMonthExpenseSum] = useState(101.99);
-  const [oneMonthAgoExpenseSum, setOneMonthAgoExpenseSum] = useState(87.99);
+  const [budget] = useState(budgetData.amount)
 
-  const [monthlyPercentageDiff, setMonthlyPercentageDiff] = useState(115.91);
-  const [monthlyExpenseAverage, setMonthlyExpenseAverage] = useState(84.4);
+  const [currentMonthExpenseSum] = useState(
+    statisticsData.curr_month_expense_sum
+  );
+  const [oneMonthAgoExpenseSum] = useState(
+    statisticsData.one_month_ago_expense_sum
+  );
 
-  const [dailyExpenseAverage, setDailyExpenseAverage] = useState(14.68);
+  const [monthlyPercentageDiff] = useState(
+    statisticsData.monthly_percentage_diff
+  );
+  const [monthlyExpenseAverage] = useState(
+    statisticsData.monthly_expense_average
+  );
 
-  const [biggestCategoryExpenseCategory, setBiggestCategoryExpenseCategory] =
-    useState("Monthly bill");
+  const [dailyExpenseAverage] = useState(statisticsData.daily_expense_average);
 
-  const [biggestCategoryExpenseAmount, setBiggestCategoryExpenseAmount] =
-    useState(139.96);
+  const [biggestCategoryExpenseCategory] = useState(
+    statisticsData.biggest_category_expenditure?.category
+  );
 
-  const [smallestCategoryExpenseCategory, setSmallestCategoryExpenseCategory] =
-    useState("Electronics");
-  const [smallestCategoryExpenseAmount, setSmallestCategoryExpenseAmount] =
-    useState(13.0);
+  const [biggestCategoryExpenseAmount] = useState(
+    statisticsData.biggest_category_expenditure?.amount
+  );
 
-  const [maxExpenseContent, setMaxExpenseContent] = useState("Gym memebership");
-  const [maxExpense, setMaxExpense] = useState(25.0);
+  const [smallestCategoryExpenseCategory] = useState(
+    statisticsData.smallest_category_expenditure?.category
+  );
+  const [smallestCategoryExpenseAmount] = useState(
+    statisticsData.smallest_category_expenditure?.amount
+  );
 
-  const [minExpenseContent, setMinExpenseContent] = useState("Ice Cream");
-  const [minExpense, setMinExpense] = useState(4.0);
+  const [maxExpenseContent] = useState(statisticsData.max_expense_content);
+  const [maxExpense] = useState(statisticsData.max_expense);
 
-  const [sumExpense, setSumExpense] = useState(337.62);
+  const [minExpenseContent] = useState(statisticsData.min_expense_content);
+  const [minExpense] = useState(statisticsData.min_expense);
+
+  const [sumExpense] = useState(statisticsData.sum_expense);
 
   return (
     <div
@@ -150,14 +163,14 @@ const StatisticsTable = ({data}) => {
               <tr>
                 <td>Biggest expense:</td>
                 <td className='statistics' data-test='stats-biggest-expense'>
-                  {(maxExpenseContent)}
+                  {maxExpenseContent}
                   <p className='black-font'>€ {maxExpense}</p>
                 </td>
               </tr>
               <tr>
                 <td>Smallest expense:</td>
                 <td className='statistics' data-test='stats-smallest-expense'>
-                {(minExpenseContent)}
+                  {minExpenseContent}
                   <p className='black-font'>€ {minExpense}</p>
                 </td>
               </tr>
