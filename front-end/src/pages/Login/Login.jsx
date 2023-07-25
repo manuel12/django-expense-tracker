@@ -1,64 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
 const Login = ({ setAccessToken }) => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [noCredentialsError, setNoCredendtialsError] = useState(false);
+  const [invalidCredentialsError, setInvalidCredentialsError] = useState(false);
+
+  useEffect(() => {
+    if (username !== "" || password !== "") setNoCredendtialsError(false);
+  }, [username, password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:8000/api/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
+    if (username === "" && password === "") {
+      setNoCredendtialsError(true);
+      setInvalidCredentialsError(false);
+    } else {
+      API.login({
+        navigate,
+        username,
+        password,
+        setAccessToken,
+        setInvalidCredentialsError,
       });
-
-      if (res.ok) {
-        const data = await res.json();
-        const { access, refresh } = data;
-
-        localStorage.setItem("username", JSON.stringify(username));
-        localStorage.setItem("refreshToken", JSON.stringify(refresh));
-        localStorage.setItem("accessToken", JSON.stringify(access));
-
-        setAccessToken(access);
-      } else {
-        throw new Error("Login failed");
-      }
-    } catch (err) {
-      console.error(err);
     }
   };
 
   return (
-    <CustomForm title='Login:' submitBtnText={"Log In"} onSubmit={handleSubmit}>
-      <p>
-        <label>Username:</label>
-        <input
-          type='text'
-          name='username'
-          className='form-control'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>
-      </p>
+    <>
+      {noCredentialsError && (
+        <p>You need to provide username and password credentials.</p>
+      )}
+      {invalidCredentialsError && (
+        <p>
+          Your username and password didn't match our records. Please try again.
+        </p>
+      )}
+      <CustomForm
+        title='Login:'
+        submitBtnText={"Log In"}
+        onSubmit={handleSubmit}
+        dataTestIdSubmitBtn='login'
+      >
+        <p>
+          <label>Username:</label>
+          <input
+            type='text'
+            name='username'
+            className='form-control'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            data-test='username'
+          ></input>
+        </p>
 
-      <p>
-        <label>Password:</label>
-        <input
-          type='password'
-          name='password'
-          className='form-control'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
-      </p>
-    </CustomForm>
+        <p>
+          <label>Password:</label>
+          <input
+            type='password'
+            name='password'
+            className='form-control'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            data-test='password'
+          ></input>
+        </p>
+      </CustomForm>
+    </>
   );
 };
 
