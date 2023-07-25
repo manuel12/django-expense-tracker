@@ -1,6 +1,8 @@
 import "./styles.css";
 
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API } from "../../api-service";
 
 import AddExpenseButton from "../../components/AddExpenseButton/AddExpenseButton";
 import AddBudgetButton from "../../components/AddBudgetButton/AddBudgetButton";
@@ -13,67 +15,19 @@ import Pagination from "../../components/Pagination/Pagination";
 import LineChart from "../../charts/LineChart/LineChart";
 
 const Home = ({ accessToken }) => {
+  const navigate = useNavigate();
+  if (!accessToken) navigate("/accounts/login");
+
   const [expenses, setExpenses] = useState([]);
   const [budget, setBudget] = useState(0);
   const [lineChartData, setLineChartData] = useState([]);
 
   useEffect(() => {
-    fetchLineChartData();
-    fetchExpenses();
-    fetchBudgetData();
+    lineChartData.length === 0 &&
+      API.fetchLineChartData(accessToken, setLineChartData);
+    expenses.length === 0 && API.fetchExpenses(accessToken, setExpenses);
+    !budget && API.fetchBudget(accessToken, setBudget);
   }, []);
-
-  const fetchExpenses = async () => {
-    const res = await fetch(
-      // `http://localhost:8000/api/expenses/?page=${paginationSuffix}`,
-      `http://localhost:8000/api/expenses/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    if (res.ok) {
-      const expensesData = await res.json();
-      setExpenses(expensesData);
-    } else {
-      throw new Error("Fetching expenses failed");
-    }
-  };
-
-  const fetchBudgetData = async () => {
-    const res = await fetch("http://localhost:8000/api/budget/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (res.ok) {
-      const budgetData = await res.json();
-      console.log(budgetData);
-      setBudget(budgetData);
-    }
-  };
-
-  const fetchLineChartData = async () => {
-    const res = await fetch("http://localhost:8000/api/line-chart-data/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (res.ok) {
-      const expenseData = await res.json();
-      setLineChartData(expenseData);
-    }
-  };
 
   return (
     <>
