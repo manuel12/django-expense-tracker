@@ -30,7 +30,6 @@ const Pagination = ({setExpenses}) => {
 
     if (res.ok) {
       const paginatedExpenses = await res.json();
-      console.log(paginatedExpenses);
 
       setExpenses(paginatedExpenses.results)
       setPaginatedExpenses(paginatedExpenses.results);
@@ -92,6 +91,7 @@ expenses.number == i %} */}
           {[...Array(numPages)].map((page, i) => {
             return (
               <li
+                key={i}
                 className='active page-link page-item pagination-link'
                 data-test={`page-link-${i + 1}`}
                 onClick={() => handlePaginationClick(i + 1)}
