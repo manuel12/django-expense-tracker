@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
@@ -8,61 +9,54 @@ const UpdateBudgetForm = () => {
     JSON.parse(localStorage.getItem("accessToken"))
   );
   const { id } = useParams();
-  const [amount, setAmount] = useState(0);
+  const [budget, setBudget] = useState({ amount: 0 });
+  const [budgetTooHighError, setBudgetTooHighError] = useState(false);
 
   useEffect(() => {
-    fetchBudgetData();
+    API.fetchBudget(accessToken, setBudget);
   }, []);
-
-  const fetchBudgetData = async () => {
-    const res = await fetch("http://localhost:8000/api/budget/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (res.ok) {
-      const budgetData = await res.json();
-      console.log(budgetData);
-      setAmount(budgetData.amount);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`http://localhost:8000/api/budget/update/${id}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ amount }),
-    });
-
-    if (res.status === 200) {
-      setAmount(0);
-      window.location = "/";
+    if (budget.amount > 999999) {
+      setBudgetTooHighError(true);
     } else {
-      throw new Error("Updating budget failed");
+      API.updateBudget(
+        accessToken,
+        id,
+        JSON.stringify({ amount: budget.amount }),
+        setBudget
+      );
     }
   };
 
   return (
-    <CustomForm title='Update Budget:' cancelBtn={true} onSubmit={handleSubmit}>
-      <p>
-        <label>Amount:</label>
-        <input
-          type='text'
-          name='amount'
-          className='form-control'
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        ></input>
-      </p>
-    </CustomForm>
+    <>
+      {budgetTooHighError && (
+        <p>Ensure that budget is not higher than 999999.</p>
+      )}
+      <CustomForm
+        title='Update Budget:'
+        dataTestIdForm='update-budget-form'
+        dataTestIdSubmitBtn='update-budget-save'
+        cancelBtn={true}
+        dataTestIdCancelBtn='update-budget-cancel'
+        onSubmit={handleSubmit}
+      >
+        <p>
+          <label>Amount:</label>
+          <input
+            type='text'
+            name='amount'
+            className='form-control'
+            value={budget.amount}
+            onChange={(e) => setBudget({ amount: e.target.value })}
+            data-test='budget-input-amount'
+          ></input>
+        </p>
+      </CustomForm>
+    </>
   );
 };
 
