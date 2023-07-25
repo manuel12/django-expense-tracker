@@ -1,37 +1,23 @@
 import "./styles.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API } from "../../api-service";
 
 const UserGreet = ({ isAuthenticated }) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState(
     JSON.parse(localStorage.getItem("username"))
   );
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setUsername(JSON.parse(localStorage.getItem("username")));
+    setUserLoggedIn(isAuthenticated);
+  }, [isAuthenticated]);
 
   const handleLogout = async () => {
-    const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
-
-    try {
-      const res = await fetch("http://localhost:8000/api/logout/", {
-        method: "POST",
-        header: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${refreshToken}`,
-        },
-      });
-
-      if (res.status === 205) {
-        // Logout successful
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        window.location = "/";
-      } else {
-        // Logout failure
-        console.error("Logout failed: ", res.status);
-      }
-    } catch (e) {
-      // Handle any network or other errors
-      console.error("Logout failed: ", e);
-    }
+      API.logout({ navigate, setUserLoggedIn });
   };
 
   return (
@@ -40,20 +26,22 @@ const UserGreet = ({ isAuthenticated }) => {
       className='user-greet font-weight-bold'
       data-test='user-greet'
     >
-      {isAuthenticated ? (
+      {userLoggedIn ? (
         <p>
           Hi{` ${username}`}! |{" "}
-          <span className='logout-text' onClick={handleLogout}>
+          <span
+            className='logout-text'
+            onClick={handleLogout}
+            data-test='logout-link'
+          >
             Log Out
           </span>
         </p>
       ) : (
         <>
           <p>You are not logged in.</p>
-          <a href="{% url 'accounts:signup' %}">Sign Up</a> |
-          <a href="{% url 'accounts:login' %}" data-test='logout'>
-            Log In
-          </a>
+          <a onClick={() => navigate("/accounts/signup")}>Sign Up</a> |
+          <a onClick={() => navigate("/accounts/login")}>Log In</a>
         </>
       )}
     </div>
