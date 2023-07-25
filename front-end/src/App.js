@@ -1,9 +1,11 @@
 import "./App.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 import Login from "./pages/Login/Login";
+import Signup from "./pages/Signup/Signup";
+
 import Home from "./pages/Home/Home";
 import Charts from "./pages/Charts/Charts";
 
@@ -24,17 +26,7 @@ function App() {
     JSON.parse(localStorage.getItem("accessToken"))
   );
 
-  const createExpenseFormFields = [
-    "amount",
-    "content",
-    "category",
-    "date",
-    "source",
-  ];
-
-  if (!accessToken) {
-    return <Login setAccessToken={setAccessToken} />;
-  }
+  useEffect(() => {}, [accessToken]);
 
   return (
     <Router>
@@ -42,35 +34,42 @@ function App() {
         <Navbar RouterLink={Link} />
         <UserGreet isAuthenticated={accessToken} />
         <div className='container' data-test='container'>
-          <Routes>
-            <Route
-              exact
-              path='/'
-              element={<Home accessToken={accessToken} />}
-            />
-            <Route path='/charts' element={<Charts />} />
+          {!accessToken ? (
+            <Routes>
+              <Route
+                path='/accounts/login'
+                element={<Login setAccessToken={setAccessToken} />}
+              />
+              <Route path='/accounts/signup' element={<Signup />} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route
+                exact
+                path='/'
+                element={<Home accessToken={accessToken} />}
+              />
+              <Route
+                path='/charts'
+                element={<Charts accessToken={accessToken} />}
+              />
 
-            <Route path='/create' element={<AddExpenseForm />} />
-            <Route path='/update/:id' element={<UpdateExpenseForm />} />
-            <Route path='/delete/:id' element={<DeleteExpenseForm />} />
+              <Route path='/create' element={<AddExpenseForm />} />
+              <Route path='/update/:id' element={<UpdateExpenseForm />} />
+              <Route path='/delete/:id' element={<DeleteExpenseForm />} />
 
-            <Route path='/create-budget' element={<AddBudgetForm />} />
-            <Route path='/update-budget/:id' element={<UpdateBudgetForm />} />
-            <Route path='/delete-budget/:id' element={<DeleteBudgetForm />} />
+              <Route path='/create-budget' element={<AddBudgetForm />} />
+              <Route path='/update-budget/:id' element={<UpdateBudgetForm />} />
+              <Route path='/delete-budget/:id' element={<DeleteBudgetForm />} />
 
-            <Route path='/login' element={<Login />} />
+              <Route
+                path='/accounts/login'
+                element={<Login setAccessToken={setAccessToken} />}
+              />
 
-            <Route
-              path='/signup'
-              element={
-                <CustomForm
-                  title='Sign up:'
-                  formFields={["Username", "Password", "Password confirmation"]}
-                  submitBtnText={"Sign up"}
-                />
-              }
-            />
-          </Routes>
+              <Route path='/accounts/signup' element={<Signup />} />
+            </Routes>
+          )}
         </div>
       </div>
     </Router>
