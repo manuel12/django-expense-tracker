@@ -1,6 +1,7 @@
 import "./styles.css";
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const CustomForm = ({
   title,
@@ -15,6 +16,7 @@ const CustomForm = ({
   onSubmit,
   children,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className='form-container form-group'>
       <h3>{title}</h3>
@@ -41,8 +43,9 @@ const CustomForm = ({
         </button>
         {cancelBtn && (
           <button
+            type='button'
             className='btn btn-secondary cancel-btn'
-            onClick={() => (window.location.href = "/")}
+            onClick={() => navigate("/")}
             data-test={dataTestIdCancelBtn}
           >
             Cancel
