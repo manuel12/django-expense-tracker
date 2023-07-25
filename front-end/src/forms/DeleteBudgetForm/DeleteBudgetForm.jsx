@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
 const DeleteBudgetForm = (props) => {
+
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
@@ -12,23 +14,7 @@ const DeleteBudgetForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(
-      `http://localhost:8000/api/budget/delete/${id}/`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    if (res.status === 204) {
-      console.log("Deleting budget successful!");
-      window.location = "/";
-    } else {
-      throw new Error("Deleting budget failed");
-    }
+    API.deleteBudget(accessToken, id);
   };
 
   return (
@@ -37,7 +23,9 @@ const DeleteBudgetForm = (props) => {
       formText='Are you sure you want to delete this item?'
       submitBtnText={"Yes"}
       submitBtnColor={"danger"}
+      dataTestIdSubmitBtn="delete-budget-yes"
       cancelBtn={true}
+      dataTestIdCancelBtn="delete-budget-cancel"
       onSubmit={handleSubmit}
     />
   );
