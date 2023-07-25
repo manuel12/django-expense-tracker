@@ -1,0 +1,12 @@
+.password-requirements {
+  text-align: left !important;
+}
+
+.error-label {
+  color: yellow;
+  text-align: left;
+}
+
+.success-message {
+  font-weight: bold;
+}
