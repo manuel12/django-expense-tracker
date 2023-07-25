@@ -1,50 +1,48 @@
 import "./styles.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { API } from "../../api-service";
 
 import BarChart from "../../charts/BarChart/BarChart";
 import PieChart from "../../charts/PieChart/PieChart";
 import StatisticsTable from "../../components/StatisticsTable/StatisticsTable";
 
-const Charts = () => {
-  const [expenses, setExpenses] = useState([1, 2, 3]);
+const Charts = ({ accessToken }) => {
+  const [budget, setBudget] = useState(0);
 
-  const expensesByMonth = {
-    "April '23": "72.65",
-    "May '23": "74.99",
-    "June '23": "87.99",
-    "July '23": "101.99",
+  const [expensesByMonth, setExpensesByMonth] = useState([]);
+  const [expensesByWeek, setExpensesByWeek] = useState([]);
+
+  const [totalExpensesPieChart, setTotalExpensesPieChart] = useState([]);
+  const [monthlyExpensesByCategory, setMonthlyExpensesByCategory] = useState(
+    []
+  );
+  const [statisticsData, setStatisticsData] = useState({});
+
+  const isObjectEmpty = (obj) => {
+    return JSON.stringify(obj) === "{}";
   };
 
-  const expensesByWeek = {
-    "3 weeks ago": "21.00",
-    "2 weeks ago": "20.00",
-    "last week": "16.00",
-    "current week": "65.99",
-  };
+  useEffect(() => {
+    expensesByMonth.length === 0 &&
+      API.fetchExpensesByMonthData(accessToken, setExpensesByMonth);
+    expensesByWeek.length === 0 &&
+      API.fetchExpensesByWeekData(accessToken, setExpensesByWeek);
 
-  const totalExpensesPieChart = {
-    "Monthly bill": 139.96,
-    Groceries: 97.66,
-    "Taxi fare": 21.0,
-    "Online shopping": 18.0,
-    "Bar tabs": 28.0,
-    Miscellaneous: 20.0,
-    Electronics: 13.0,
-  };
+    totalExpensesPieChart.length === 0 &&
+      API.fetchTotalExpensesData(accessToken, setTotalExpensesPieChart);
 
-  const monthlyExpensesByCategory = {
-    "Monthly bill": 34.99,
-    Groceries: 18.0,
-    "Taxi fare": 7.0,
-    "Online shopping": 6.0,
-    "Bar tabs": 16.0,
-    Miscellaneous: 20.0,
-  };
+    monthlyExpensesByCategory.length === 0 &&
+      API.fetchMonthlyExpensesData(accessToken, setMonthlyExpensesByCategory);
+
+    !budget && API.fetchBudget(accessToken, setBudget);
+    isObjectEmpty(statisticsData) &&
+      API.fetchStatisticsData(accessToken, setStatisticsData);
+  }, []);
 
   return (
     <>
-      {!expenses ? (
+      {isObjectEmpty(statisticsData) ? (
         <>
           <h5 className='font-weight-bold text-center instruction'>
             No expenses for this user.
@@ -89,7 +87,9 @@ const Charts = () => {
         </>
       )}
 
-      {expenses && <StatisticsTable />}
+      {!isObjectEmpty(statisticsData) && (
+        <StatisticsTable budgetData={budget} statisticsData={statisticsData} />
+      )}
     </>
   );
 };
