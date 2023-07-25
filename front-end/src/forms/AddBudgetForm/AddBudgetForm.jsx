@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
@@ -7,41 +8,42 @@ const AddBudgetForm = () => {
     JSON.parse(localStorage.getItem("accessToken"))
   );
   const [amount, setAmount] = useState(0);
-
+  const [budgetTooHighError, setBudgetTooHighError] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const res = await fetch("http://localhost:8000/api/budget/create/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ amount }),
-    });
 
-    if (res.status === 201) {
-      console.log("Creating budget successful!");
-      setAmount(0);
-      window.location = "/";
+    if (amount > 999999) {
+      setBudgetTooHighError(true);
     } else {
-      throw new Error("Creating budget failed");
+      API.createBudget(accessToken, JSON.stringify({ amount }), setAmount);
     }
   };
 
   return (
-    <CustomForm title='Create Budget:' cancelBtn={true} onSubmit={handleSubmit}>
-      <p>
-        <label>Amount:</label>
-        <input
-          type='text'
-          name='amount'
-          className='form-control'
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        ></input>
-      </p>
-    </CustomForm>
+    <>
+      {budgetTooHighError && (
+        <p>Ensure that budget is not higher than 999999.</p>
+      )}
+      <CustomForm
+        title='Create Budget:'
+        cancelBtn={true}
+        onSubmit={handleSubmit}
+        dataTestIdForm='create-budget-form'
+        dataTestIdSubmitBtn='create-budget-save'
+      >
+        <p>
+          <label>Amount:</label>
+          <input
+            type='text'
+            name='amount'
+            className='form-control'
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            data-test='budget-input-amount'
+          ></input>
+        </p>
+      </CustomForm>
+    </>
   );
 };
 
