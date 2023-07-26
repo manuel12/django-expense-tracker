@@ -4,7 +4,7 @@ const testuserData = require("../../fixtures/testuser.json");
 
 describe("Login Tests", () => {
   beforeEach(() => {
-    cy.visit("/");
+    cy.visit("/accounts/login");
   });
 
   beforeEach(() => {
@@ -25,10 +25,8 @@ describe("Login Tests", () => {
       .and("contain", "Log Out");
   });
 
-  it("should NOT login with an invalid username and valid password", () => {
-    cy.loginWithUI("fake@username.123", testuserData.password);
-
-    cy.url().should("contain", "/accounts/login/");
+  it("should NOT login without submitting username or password", () => {
+    cy.get("[data-test=login]").click();
 
     cy.get("[data-test=user-greet]")
       .should("be.visible")
@@ -38,15 +36,28 @@ describe("Login Tests", () => {
 
     cy.get("[data-test=container]").should(
       "contain",
-      "Your username and password didn't match. Please try again."
+      "You need to provide username and password credentials."
+    );
+  });
+
+  it("should NOT login with an invalid username and valid password", () => {
+    cy.loginWithUI("fake@username.123", testuserData.password);
+
+    cy.get("[data-test=user-greet]")
+      .should("be.visible")
+      .and("contain", "You are not logged in")
+      .and("contain", "Sign Up")
+      .and("contain", "Log In");
+
+    cy.get("[data-test=container]").should(
+      "contain",
+      "Your username and password didn't match our records. Please try again."
     );
   });
 
   it("should NOT login with valid username and invalid password", () => {
     cy.loginWithUI(testuserData.username, "Fakepassword54321");
 
-    cy.url().should("contain", "/accounts/login/");
-
     cy.get("[data-test=user-greet]")
       .should("be.visible")
       .and("contain", "You are not logged in")
@@ -55,7 +66,7 @@ describe("Login Tests", () => {
 
     cy.get("[data-test=container]").should(
       "contain",
-      "Your username and password didn't match. Please try again."
+      "Your username and password didn't match our records. Please try again."
     );
   });
 });
