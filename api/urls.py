@@ -5,7 +5,8 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('logout/', views.logout_view, name='logout'),
-    path('delete-user/', views.delete_user, name='logout'),
+    path('delete-user/<str:username>/',
+         views.delete_user, name='delete_testuser'),
 
 
     path('expenses/', views.get_expenses, name='get_expenses'),
@@ -21,6 +22,16 @@ urlpatterns = [
     path("line-chart-data/", views.line_chart_data, name="line_chart_data"),
 
     path(
+        "expenses-by-month-bar-chart-data/",
+        views.expenses_by_month_bar_chart_data,
+        name="expenses_by_month_bar_chart_data",
+    ),
+    path(
+        "expenses-by-week-bar-chart-data/",
+        views.expenses_by_week_bar_chart_data,
+        name="expenses_by_week_bar_chart_data",
+    ),
+    path(
         "total-expenses-pie-chart-data/",
         views.total_expenses_pie_chart_data,
         name="total_expenses_pie_chart_data",
@@ -31,14 +42,12 @@ urlpatterns = [
         name="monthly_expenses_pie_chart_data",
     ),
     path(
-        "expenses-by-month-bar-chart-data/",
-        views.expenses_by_month_bar_chart_data,
-        name="expenses_by_month_bar_chart_data",
+        "statistics-table-data/",
+        views.statistics_table_data,
+        name="statistics_table_data",
     ),
-    path(
-        "expenses-by-week-bar-chart-data/",
-        views.expenses_by_week_bar_chart_data,
-        name="expenses_by_week_bar_chart_data",
-    ),
+
+    path('delete-testuser-data/', views.delete_testuser_data, name='delete_testuser_data'),
+
 
 ]
