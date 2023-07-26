@@ -21,11 +21,16 @@ from api.serializers import ExpenseSerializer, BudgetSerializer
 @api_view(['POST'])
 @authentication_classes([])
 @permission_classes([])
-def login_view(request):    
+def login_view(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
+    if not username or not password:
+        return Response({'error': 'You need to provide username and password credentials'},
+                        status=status.HTTP_400_BAD_REQUEST)
+
     user = authenticate(request, username=username, password=password)
+
     if user:
         login(request, user)
         refresh = RefreshToken.for_user(user)
@@ -69,12 +74,19 @@ def logout_view(request):
 
 
 @api_view(['DELETE'])
-def delete_user(request): 
-    username = request.data.get('username')
-    user = User.objects.filter(username=username)
-    user.delete()
-    return Response({'detail': 'User deleted successfully'},
-                    status=status.HTTP_204_NO_CONTENT)
+@authentication_classes([])
+@permission_classes([])
+def delete_user(request, username):
+    user_exists = User.objects.filter(username=username).exists()
+    if user_exists:
+        user = User.objects.filter(username=username).first()
+        user.delete()
+
+        return Response({'detail': 'User deleted successfully'},
+                        status=status.HTTP_204_NO_CONTENT)
+    else:
+        return Response({'detail': 'User not found'},
+                        status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
@@ -205,6 +217,41 @@ def line_chart_data(request):
 
 
 @api_view(['GET'])
+def expenses_by_month_bar_chart_data(request):
+    user_expenses = Expense.objects.filter(owner=request.user)
+    current_year = utils.get_year_num()
+    last_year = current_year - 1
+
+    last_year_month_expenses = utils.get_yearly_month_expense_data(
+        last_year, user_expenses
+    )
+    current_year_month_expenses = utils.get_yearly_month_expense_data(
+        current_year, user_expenses
+    )
+    chart_data = {**last_year_month_expenses, **current_year_month_expenses}
+    return Response(chart_data)
+
+
+@api_view(['GET'])
+def expenses_by_week_bar_chart_data(request):
+    weeks = ["current week", "last week", "2 weeks ago", "3 weeks ago"]
+    weeks.reverse()
+
+    expenses = [
+        Expense.objects.get_weekly_expense_sum(request.user),
+        Expense.objects.get_weekly_expense_sum(request.user, -1),
+        Expense.objects.get_weekly_expense_sum(request.user, -2),
+        Expense.objects.get_weekly_expense_sum(request.user, -3),
+    ]
+    expenses.reverse()
+
+    chart_data = {}
+    for i, week in enumerate(weeks):
+        chart_data[week] = expenses[i]
+    return Response(chart_data)
+
+
+@api_view(['GET'])
 def total_expenses_pie_chart_data(request):
     user_expenses = Expense.objects.filter(owner=request.user)
 
@@ -240,35 +287,30 @@ def monthly_expenses_pie_chart_data(request):
 
 
 @api_view(['GET'])
-def expenses_by_month_bar_chart_data(request):
-    user_expenses = Expense.objects.filter(owner=request.user)
-    current_year = utils.get_year_num()
-    last_year = current_year - 1
+def statistics_table_data(request):
+    statistics = Expense.objects.get_statistics(request.user)
+    stats = {
+        "sum_expense": float(statistics['sum_expense']),
+        'max_expense': float(statistics['max_expense'].amount),
+        "max_expense_content": statistics['max_expense_content'],
+        "min_expense": float(statistics['min_expense'].amount),
+        "min_expense_content": statistics['min_expense_content'],
+        "biggest_category_expenditure": statistics['biggest_category_expenditure'],
+        "smallest_category_expenditure": statistics['smallest_category_expenditure'],
+        "monthly_percentage_diff": float(statistics['monthly_percentage_diff']),
+        "monthly_expense_average": float(statistics['monthly_expense_average']),
+        "daily_expense_average": float(statistics['daily_expense_average']),
+        "curr_month_expense_sum": float(statistics['curr_month_expense_sum']),
+        "one_month_ago_expense_sum": float(statistics['one_month_ago_expense_sum']),
+    }
+    return Response(stats)
 
-    last_year_month_expenses = utils.get_yearly_month_expense_data(
-        last_year, user_expenses
-    )
-    current_year_month_expenses = utils.get_yearly_month_expense_data(
-        current_year, user_expenses
-    )
-    chart_data = {**last_year_month_expenses, **current_year_month_expenses}
-    return Response(chart_data)
 
+@api_view(['DELETE'])
+def delete_testuser_data(request):
+    """Function to remove all data from testusers that can be access via url by tests."""
+    Expense.objects.delete_testuser_expenses(request)
+    Expense.objects.delete_testuser_budget(request)
 
-@api_view(['GET'])
-def expenses_by_week_bar_chart_data(request):
-    weeks = ["current week", "last week", "2 weeks ago", "3 weeks ago"]
-    weeks.reverse()
-
-    expenses = [
-        Expense.objects.get_weekly_expense_sum(request.user),
-        Expense.objects.get_weekly_expense_sum(request.user, -1),
-        Expense.objects.get_weekly_expense_sum(request.user, -2),
-        Expense.objects.get_weekly_expense_sum(request.user, -3),
-    ]
-    expenses.reverse()
-
-    chart_data = {}
-    for i, week in enumerate(weeks):
-        chart_data[week] = expenses[i]
-    return Response(chart_data)
+    return Response({'detail': 'Testuser data deleted successfully'},
+                    status=status.HTTP_204_NO_CONTENT)
