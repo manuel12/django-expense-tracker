@@ -8,16 +8,17 @@ const newBudgetData = require("../../fixtures/new-budget.json");
 describe("Update budget Tests", () => {
   const ctx = {};
 
-  before(() => {
-    cy.loginAndCleanUp();
-  });
+  const setTokens = (tokens) => {
+    ctx.access = tokens.access;
+    ctx.refresh = tokens.refresh;
+  };
 
   beforeEach(() => {
     // Delete budget to start clean.
-    cy.deleteElementIfExists("budget");
+    cy.loginAndCleanUp(setTokens);
 
     const budget = new Budget(budgetData);
-    cy.createBudgetWithAPI(budget);
+    cy.createBudgetWithAPI(budget, ctx);
     ctx.budget = budget;
 
     const newBudget = new Budget(newBudgetData);
@@ -25,8 +26,8 @@ describe("Update budget Tests", () => {
 
     cy.get("[data-test=update-budget]").click();
     cy.url().then((url) => {
-        ctx.updateBudgetPageUrl = url;
-    })
+      ctx.updateBudgetPageUrl = url;
+    });
 
     Cypress.Cookies.preserveOnce("sessionid");
   });
@@ -53,13 +54,13 @@ describe("Update budget Tests", () => {
   });
 
   it("should NOT allow to update a budget with more than 5 digits in 'amount' number", () => {
-    ctx.newBudget.amount = 999999;
+    ctx.newBudget.amount = 1000000;
     cy.updateBudgetField(ctx.newBudget.amount);
 
     cy.url().should("eq", ctx.updateBudgetPageUrl);
-    cy.get("[data-test=update-budget-form]")
+    cy.get("[data-test=container]")
       .should("be.visible")
-      .and("contain", "Ensure that there are no more than 5 digits in total.");
+      .and("contain", "Ensure that budget is not higher than 999999.");
   });
 
   it("should display the old budget amount when user clicks the cancel button on the form", () => {
