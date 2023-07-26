@@ -14,20 +14,23 @@ const expensesData = require("../fixtures/expenses.json");
 const biggestExpenseData = require("../fixtures/biggest-expense.json");
 const smallestExpenseData = require("../fixtures/smallest-expense.json");
 
-Cypress.Commands.add("loginAndCleanUp", () => {
+const apiUrl = "http://localhost:8000/api";
+
+Cypress.Commands.add("loginAndCleanUp", (setTokens) => {
   /**
    * Clear session cookies, login and delete previous
    * test data.
    */
 
-  cy.clearCookie("sessionid");
-  cy.loginWithAPI();
-  cy.request({
-    method: "GET",
-    url: "delete-testuser-data/",
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-  });
+  // cy.clearCookie("sessionid");
+  cy.loginWithAPI(setTokens);
+
+  // cy.request({
+  //   method: "GET",
+  //   url: "delete-testuser-data/",
+  // }).then((response) => {
+  //   expect(response.status).to.eq(200);
+  // });
 });
 
 Cypress.Commands.add("loginWithUI", (user, password) => {
@@ -35,25 +38,46 @@ Cypress.Commands.add("loginWithUI", (user, password) => {
    * Login the a normal user by interacting with the UI.
    */
 
-  cy.visit("/");
-  cy.get("#id_username")
+  cy.visit("/accounts/login");
+  cy.get("[data-test=username]")
     .type(user)
-    .get("#id_password")
+    .get("[data-test=password]")
     .type(password)
     .get("[data-test=login]")
     .click();
 });
 
-Cypress.Commands.add("loginWithAPI", () => {
+Cypress.Commands.add("loginWithAPI", (setTokens) => {
   /**
    * Login programatically using the API.
    */
 
   cy.visit("/");
-  makeAPICall("login", {
-    username: testuserData.username,
-    password: testuserData.password,
+
+  cy.request({
+    method: "POST",
+    url: `${apiUrl}/login/`,
+    body: {
+      username: testuserData.username,
+      password: testuserData.password,
+    },
+  }).then((res) => {
+    const { access, refresh } = res.body;
+    setTokens(res.body);
+
+    cy.visit("/", {
+      onBeforeLoad(win) {
+        win.localStorage.setItem("accessToken", JSON.stringify(access));
+      },
+    });
+
+    cy.deleteTestuserData(access);
   });
+
+  // makeAPICall("login", {
+  //   username: testuserData.username,
+  //   password: testuserData.password,
+  // });
 });
 
 Cypress.Commands.add("logout", () => {
@@ -88,26 +112,35 @@ Cypress.Commands.add("logoutWithAdmin", () => {
   cy.visit("/admin/logout/");
 });
 
-Cypress.Commands.add("deleteTestuser", (username) => {
+Cypress.Commands.add("deleteTestuser", (username, accessToken) => {
   /**
    * Delete a specific testuser by interacting with
    * the admin panel UI.
    */
 
-  cy.loginAdminWithUI();
-  cy.visit(`${Cypress.config("baseUrl")}admin/auth/user/`);
+  cy.request({
+    method: "DELETE",
+    url: `${apiUrl}/delete-user/${username}/`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    failOnStatusCode: false,
+  });
+  // cy.loginAdminWithUI();
+  // cy.visit(`${Cypress.config("baseUrl")}admin/auth/user/`);
 
-  cy.get("tbody > tr")
-    .first()
-    .then(($el) => {
-      const textContent = $el[0].textContent;
-      if (textContent.includes(username)) {
-        cy.get(":nth-child(1) > .action-checkbox > .action-select").click();
-        cy.get("select").select("Delete selected users");
-        cy.get(".button").click();
-        cy.get("[type='submit']").click();
-      }
-    });
+  // cy.get("tbody > tr")
+  //   .first()
+  //   .then(($el) => {
+  //     const textContent = $el[0].textContent;
+  //     if (textContent.includes(username)) {
+  //       cy.get(":nth-child(1) > .action-checkbox > .action-select").click();
+  //       cy.get("select").select("Delete selected users");
+  //       cy.get(".button").click();
+  //       cy.get("[type='submit']").click();
+  //     }
+  //   });
 });
 
 Cypress.Commands.add("createExpenseWithUI", (data, submit = true) => {
@@ -207,18 +240,33 @@ Cypress.Commands.add("createBudgetWithUI", (data, submit = true) => {
 
   cy.visit("/");
   cy.get("[data-test=create-budget]").click();
-  cy.get("#id_amount").clear().type(data.amount);
+  cy.get("[data-test=budget-input-amount]").clear().type(data.amount);
 
   if (submit) cy.get("[data-test=create-budget-save]").click();
 });
 
-Cypress.Commands.add("createBudgetWithAPI", (data) => {
+Cypress.Commands.add("createBudgetWithAPI", (data, accessToken) => {
   /**
    * Creates a budget by using the API.
    */
 
-  cy.visit("/create-budget/");
-  makeAPICall("createBudget", data);
+  accessToken = accessToken.access;
+  console.log(accessToken);
+
+  cy.request({
+    method: "POST",
+    url: `${apiUrl}/budget/create/`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: data,
+  }).then((res) => {
+    expect(res.status).to.eq(201);
+  });
+
+  // cy.visit("/create-budget/");
+  // makeAPICall("createBudget", data);
 });
 
 Cypress.Commands.add("updateBudgetField", (value, submit = true) => {
@@ -228,7 +276,7 @@ Cypress.Commands.add("updateBudgetField", (value, submit = true) => {
    * In case submit is set to false the submit button won't be clicked.
    */
 
-  cy.get(`#id_amount`).clear().type(value);
+  cy.get("[data-test=budget-input-amount]").clear().type(value);
   if (submit) cy.get("[data-test=update-budget-save]").click();
 });
 
@@ -239,6 +287,7 @@ Cypress.Commands.add("deleteBudgetWithUI", () => {
 
   cy.get("[data-test=delete-budget]").click();
   cy.get("[data-test=delete-budget-yes]").click();
+  cy.visit("/");
 });
 
 Cypress.Commands.add("deleteBudgetWithAPI", () => {
@@ -246,8 +295,10 @@ Cypress.Commands.add("deleteBudgetWithAPI", () => {
    * Deletes a budget by using the API.
    */
 
-  cy.visit("/delete-budget/");
-  makeAPICall("deleteBudget");
+  console.log("On deleteBudgetWithAPI!");
+
+  // cy.visit("/delete-budget/");
+  // makeAPICall("deleteBudget");
 });
 
 Cypress.Commands.add("deleteElementIfExists", (elementType) => {
@@ -259,16 +310,18 @@ Cypress.Commands.add("deleteElementIfExists", (elementType) => {
    * If elementType equals 'expense' all of the testuser expenses
    * will be deleted.
    */
-
+  console.log("On deleteElementIfExists");
   const elementToDeleteDataAttr =
     elementType == "expense"
       ? "[data-test^=delete-expense-]"
       : "[data-test=delete-budget]";
 
+  console.log(`elementToDeleteDataAttr: ${elementToDeleteDataAttr}`);
+
   cy.visit("/");
   cy.get("body").then((body) => {
     if (body.find(elementToDeleteDataAttr).length > 0) {
-      cy.log(
+      console.log(
         `element has [${body.find(elementToDeleteDataAttr).length}] ocurrences`
       );
 
@@ -280,6 +333,24 @@ Cypress.Commands.add("deleteElementIfExists", (elementType) => {
             : cy.deleteBudgetWithAPI();
           cy.deleteElementIfExists(elementType);
         });
+    } else {
+      console.log(`No element with [${elementToDeleteDataAttr}] found`);
     }
   });
+});
+
+Cypress.Commands.add("deleteTestuserData", (accessToken) => {
+  cy.request({
+    method: "DELETE",
+    url: `${apiUrl}/delete-testuser-data/`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: {
+      username: testuserData.username,
+      password: testuserData.password,
+    },
+  });
+  cy.visit("/");
 });
