@@ -6,26 +6,29 @@ const budgetData = require("../../fixtures/budget.json");
 
 describe("Delete budget Tests", () => {
   const ctx = {};
-  
-  before(() => {
-    cy.loginAndCleanUp();
-  });
+
+  const setTokens = (tokens) => {
+    ctx.access = tokens.access;
+    ctx.refresh = tokens.refresh;
+  };
 
   beforeEach(() => {
     // Delete budget to start clean.
-    cy.deleteElementIfExists("budget");
+    cy.loginAndCleanUp(setTokens);
 
     const budget = new Budget(budgetData);
-    cy.createBudgetWithAPI(budget);
+    cy.createBudgetWithAPI(budget, ctx);
     ctx.budget = budget;
+    cy.visit("/");
 
-    Cypress.Cookies.preserveOnce("sessionid");
+    // Cypress.Cookies.preserveOnce("sessionid");
   });
 
   it("should delete a budget", () => {
     cy.deleteBudgetWithUI();
 
     cy.url().should("eq", Cypress.config().baseUrl);
+
     cy.get("[data-test=budget-container]").should("not.exist");
     cy.get("[data-test=budget-progress-bar]").should("not.exist");
     cy.get("[data-test=update-budget]").should("not.exist");
@@ -37,6 +40,7 @@ describe("Delete budget Tests", () => {
     cy.get("[data-test=delete-budget-cancel]").click();
 
     cy.url().should("eq", Cypress.config().baseUrl);
+
     cy.get("[data-test=monthly-budget]")
       .should("contain", `Monthly budget:`)
       .and("contain", `€ ${ctx.budget.getDecimalAmount()}`);
