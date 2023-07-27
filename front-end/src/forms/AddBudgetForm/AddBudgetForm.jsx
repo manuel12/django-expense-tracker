@@ -22,7 +22,7 @@ const AddBudgetForm = () => {
   return (
     <>
       {budgetTooHighError && (
-        <p>Ensure that budget is not higher than 999999.</p>
+        <p>Ensure that budget amount is not higher than 999,999.</p>
       )}
       <CustomForm
         title='Create Budget:'
