@@ -36,9 +36,9 @@ const Home = ({ accessToken }) => {
         {!budget.amount && <AddBudgetButton />}
       </div>
 
-      <TotalExpensesContainer />
+      {expenses.length > 0 && <TotalExpensesContainer />}
 
-      {!expenses && <Instructions />}
+      {expenses.length === 0 && <Instructions />}
 
       {budget.amount && <BudgetContainer />}
 
@@ -55,7 +55,7 @@ const Home = ({ accessToken }) => {
         />
       )}
 
-      <ExpenseTable expenses={expenses} />
+      {expenses.length > 0 && <ExpenseTable expenses={expenses} />}
 
       {/* <Pagination setExpenses={setExpenses}/> */}
     </>
