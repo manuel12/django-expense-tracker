@@ -1,3 +1,5 @@
+import { json } from "react-router-dom";
+
 const apiUrl = "http://127.0.0.1:8000/api";
 
 export class API {
@@ -147,14 +149,97 @@ export class API {
     }
   }
 
+  static async fetchExpense(token, id, setExpense) {
+    const res = await API._fetch(`${apiUrl}/expenses/`, token);
+  }
+
   static async fetchExpenses(token, setExpenseFunc) {
     const res = await API._fetch(`${apiUrl}/expenses/`, token);
 
     if (res.ok) {
       const jsonRes = await res.json();
+      console.log(jsonRes);
       setExpenseFunc(jsonRes);
     } else {
       throw new Error("Fetching expenses failed");
+    }
+  }
+
+  static async createExpense(
+    token,
+    body,
+    setAmount,
+    setCategory,
+    setContent,
+    setDate,
+    setSource
+  ) {
+    try {
+      const res = await API._post(`${apiUrl}/expenses/create/`, token, body);
+
+      if (res.status === 201) {
+        console.log("Creating expense successful!");
+        setAmount(0);
+        setCategory("");
+        setContent("");
+        setDate("");
+        setSource("");
+        window.location = "/";
+      } else {
+        throw new Error("Creating expense failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  static async updateExpense(
+    token,
+    id,
+    body,
+    setAmount,
+    setCategory,
+    setContent,
+    setDate,
+    setSource
+  ) {
+    try {
+      const res = await API._update(
+        `${apiUrl}/expenses/update/${id}/`,
+        token,
+        body
+      );
+
+      console.log(body);
+
+      if (res.status === 204) {
+        console.log("Updating expense successful!");
+        setAmount(0);
+        setCategory(0);
+        setContent(0);
+        setDate(0);
+        setSource(0);
+        window.location = "/";
+      } else {
+        throw new Error("Updating expense failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  static async deleteExpense(token, id) {
+    try {
+      const res = await API._delete(`${apiUrl}/expenses/delete/${id}/`, token);
+
+      if (res.status === 204) {
+        console.log("Deleting expense successful!");
+        window.location = "/";
+      } else {
+        throw new Error("Deleting expense failed");
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
