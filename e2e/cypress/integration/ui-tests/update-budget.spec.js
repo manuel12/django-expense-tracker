@@ -28,8 +28,6 @@ describe("Update budget Tests", () => {
     cy.url().then((url) => {
       ctx.updateBudgetPageUrl = url;
     });
-
-    Cypress.Cookies.preserveOnce("sessionid");
   });
 
   it("should update a budget's amount", () => {
@@ -53,14 +51,14 @@ describe("Update budget Tests", () => {
     cy.get("[data-test=update-budget-form]").should("be.visible");
   });
 
-  it("should NOT allow to update a budget with more than 5 digits in 'amount' number", () => {
+  it("should NOT allow to update a budget with amount bigger than 999,999", () => {
     ctx.newBudget.amount = 1000000;
     cy.updateBudgetField(ctx.newBudget.amount);
 
     cy.url().should("eq", ctx.updateBudgetPageUrl);
     cy.get("[data-test=container]")
       .should("be.visible")
-      .and("contain", "Ensure that budget is not higher than 999999.");
+      .and("contain", "Ensure that budget amount is not higher than 999,999.");
   });
 
   it("should display the old budget amount when user clicks the cancel button on the form", () => {
