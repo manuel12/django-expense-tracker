@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
-const DeleteBudgetForm = (props) => {
+const DeleteBudgetForm = () => {
 
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
