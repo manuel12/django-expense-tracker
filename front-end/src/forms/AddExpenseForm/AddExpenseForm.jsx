@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
@@ -8,92 +9,123 @@ const AddExpenseForm = () => {
   );
 
   const [amount, setAmount] = useState(0);
-  const [category, setCategory] = useState(0);
-  const [content, setContent] = useState(0);
-  const [date, setDate] = useState(0);
-  const [source, setSource] = useState(0);
+  const [category, setCategory] = useState("");
+  const [content, setContent] = useState("");
+  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [source, setSource] = useState("");
+
+  const [amountZeroError, setAmountZeroError] = useState(false);
+  const [amountTooHighError, setAmountTooHighError] = useState(false);
+  const [dateNotValid, setDateNotValid] = useState(false);
+
+  const isValidDateFormat = (dateString) => {
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    return datePattern.test(dateString);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:8000/api/expenses/create/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ amount, category, content, date, source }),
-    });
-
-    if (res.status === 201) {
-      console.log("Creating expense successful!");
-      setAmount(0);
-      setCategory(0);
-      setContent(0);
-      setDate(0);
-      setSource(0);
-      window.location = "/";
+    if (amount == 0) {
+      setAmountZeroError(true);
+    } else if (amount > 9999999999) {
+      setAmountTooHighError(true);
+    } else if (!isValidDateFormat(date)) {
+      setDateNotValid(true);
     } else {
-      throw new Error("Creating expense failed");
+      API.createExpense(
+        accessToken,
+        JSON.stringify({ amount, category, content, date, source }),
+        setAmount,
+        setCategory,
+        setContent,
+        setDate,
+        setSource
+      );
     }
   };
   return (
-    <CustomForm
-      title={"Create Expense:"}
-      cancelBtn={true}
-      onSubmit={handleSubmit}
-    >
-      <p>
-        <label>Amount:</label>
-        <input
-          type='text'
-          name='amount'
-          className='form-control'
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        ></input>
-      </p>
-      <p>
-        <label>Category:</label>
-        <input
-          type='text'
-          name='category'
-          className='form-control'
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        ></input>
-      </p>
-      <p>
-        <label>Content:</label>
-        <input
-          type='text'
-          name='content'
-          className='form-control'
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        ></input>
-      </p>
-      <p>
-        <label>Source:</label>
-        <input
-          type='text'
-          name='source'
-          className='form-control'
-          value={source}
-          onChange={(e) => setSource(e.target.value)}
-        ></input>
-      </p>
-      <p>
-        <label>Date:</label>
-        <input
-          type='text'
-          name='date'
-          className='form-control'
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        ></input>
-      </p>
-    </CustomForm>
+    <>
+      {amountZeroError && (
+        <p>Ensure this value is greater than or equal to 0.01.</p>
+      )}
+      {amountTooHighError && (
+        <p>Ensure that expense amount is not bigger than 9,999,999,999</p>
+      )}
+      {dateNotValid && <p>Enter a valid date/time.</p>}
+      <CustomForm
+        title={"Create Expense:"}
+        dataTestIdForm='create-expense-form'
+        cancelBtn={true}
+        dataTestIdSubmitBtn='create-expense-save'
+        onSubmit={handleSubmit}
+      >
+        <p>
+          <label>Amount:</label>
+          <input
+            type='text'
+            name='amount'
+            className='form-control'
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            data-test='expense-input-amount'
+          ></input>
+        </p>
+        <p>
+          <label>Category:</label>
+          <select
+            name='category'
+            className='form-control'
+            onChange={(e) => setCategory(e.target.value)}
+            data-test='expense-input-category'
+          >
+            <option value='' selected>
+              ---------
+            </option>
+            <option value='Bar tabs'>Bar tabs</option>
+            <option value='Monthly bill'>Monthly bill</option>
+            <option value='Online shopping'>Online shopping</option>
+            <option value='Electronics'>Electronics</option>
+            <option value='Groceries'>Groceries</option>
+            <option value='Taxi fare'>Taxi fare</option>
+            <option value='Miscellaneous'>Miscellaneous</option>
+          </select>
+        </p>
+        <p>
+          <label>Content:</label>
+          <input
+            type='text'
+            name='content'
+            className='form-control'
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            data-test='expense-input-content'
+          ></input>
+        </p>
+        <p>
+          <label>Source:</label>
+          <input
+            type='text'
+            name='source'
+            className='form-control'
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+            data-test='expense-input-source'
+          ></input>
+        </p>
+        <p>
+          <label>Date:</label>
+          <input
+            type='text'
+            name='date'
+            className='form-control'
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            data-test='expense-input-date'
+          ></input>
+        </p>
+      </CustomForm>
+    </>
   );
 };
 
