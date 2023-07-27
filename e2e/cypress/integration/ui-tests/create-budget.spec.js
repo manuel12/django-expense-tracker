@@ -22,8 +22,6 @@ describe("Create budget Tests", () => {
     cy.url().then((url) => {
       ctx.createBudgetPageUrl = url;
     });
-
-    // Cypress.Cookies.preserveOnce("sessionid");
   });
 
   it("should create a budget", () => {
@@ -59,14 +57,14 @@ describe("Create budget Tests", () => {
     cy.get("[data-test=create-budget-form]").should("be.visible");
   });
 
-  it("should NOT allow to create a budget higher than 999999", () => {
+  it("should NOT allow to create a budget higher than 999,999", () => {
     ctx.budget.amount = 1000000;
     cy.createBudgetWithUI(ctx.budget);
 
     cy.url().should("eq", ctx.createBudgetPageUrl);
     cy.get("[data-test=container]")
       .should("be.visible")
-      .and("contain", "Ensure that budget is not higher than 999999.");
+      .and("contain", "Ensure that budget amount is not higher than 999,999.");
   });
 
   it("should remove 'Create Budget' button once the user has added a budget", () => {
