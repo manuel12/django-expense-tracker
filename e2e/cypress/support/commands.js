@@ -155,30 +155,46 @@ Cypress.Commands.add("createExpenseWithUI", (data, submit = true) => {
   cy.visit("/");
 
   cy.get("[data-test=create-expense]").click();
-  cy.get("#id_amount")
+  cy.get("[data-test=expense-input-amount]")
     .clear()
     .type(data.amount)
-    .get("#id_content")
+    .get("[data-test=expense-input-content]")
     .type(data.content)
-    .get("#id_category")
+    .get("[data-test=expense-input-category]")
     .select(data.category)
-    .get("#id_source")
+    .get("[data-test=expense-input-source]")
     .type(data.source);
 
-  if (data.date) cy.get("#id_date").clear().type(data.date);
+  if (data.date)
+    cy.get("[data-test=expense-input-date]").clear().type(data.date);
   if (submit) cy.get("[data-test=create-expense-save]").click();
 });
 
-Cypress.Commands.add("createExpenseWithAPI", (data) => {
+Cypress.Commands.add("createExpenseWithAPI", (data, ctx) => {
   /**
    * Creates an expense by using the API.
    */
 
-  cy.visit("create/");
-  makeAPICall("createExpense", data);
+  let accessToken = ctx.access;
+  console.log(accessToken);
+
+  cy.request({
+    method: "POST",
+    url: `${apiUrl}/expenses/create/`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: data,
+  }).then((res) => {
+    expect(res.status).to.eq(201);
+  });
+
+  // cy.visit("create/");
+  // makeAPICall("createExpense", data);
 });
 
-Cypress.Commands.add("createExpensesWithAPI", (data) => {
+Cypress.Commands.add("createExpensesWithAPI", (data, ctx) => {
   /**
    * Creates a group of expenses by using the API.
    */
@@ -194,8 +210,9 @@ Cypress.Commands.add("updateExpenseField", (field, value, submit = true) => {
    * In case submit is set to false the submit button won't be clicked.
    */
 
-  if (field == "category") cy.get(`#id_${field}`).select(value);
-  else cy.get(`#id_${field}`).clear().type(value);
+  if (field == "category")
+    cy.get(`[data-test=expense-input-${field}]`).select(value);
+  else cy.get(`[data-test=expense-input-${field}]`).clear().type(value);
 
   if (submit) cy.get("[data-test=update-expense-save]").click();
 });
@@ -245,12 +262,12 @@ Cypress.Commands.add("createBudgetWithUI", (data, submit = true) => {
   if (submit) cy.get("[data-test=create-budget-save]").click();
 });
 
-Cypress.Commands.add("createBudgetWithAPI", (data, accessToken) => {
+Cypress.Commands.add("createBudgetWithAPI", (data, ctx) => {
   /**
    * Creates a budget by using the API.
    */
 
-  accessToken = accessToken.access;
+  accessToken = ctx.access;
   console.log(accessToken);
 
   cy.request({
