@@ -2,8 +2,7 @@ import "./styles.css";
 
 import React, { useState } from "react";
 
-const TotalExpensesContainer = () => {
-  const [totalExpenseAmount, setTotalExpenseAmount] = useState(100);
+const TotalExpensesContainer = ({totalExpenseAmount}) => {
 
   return (
     <div
