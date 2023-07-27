@@ -20,8 +20,6 @@ describe("Delete budget Tests", () => {
     cy.createBudgetWithAPI(budget, ctx);
     ctx.budget = budget;
     cy.visit("/");
-
-    // Cypress.Cookies.preserveOnce("sessionid");
   });
 
   it("should delete a budget", () => {
