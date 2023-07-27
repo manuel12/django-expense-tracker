@@ -6,22 +6,23 @@ const fieldsToEmpty = ["amount", "content", "category", "source", "date"];
 const expenseData = require("../../fixtures/expense.json");
 
 describe("Create expense Tests", () => {
-const ctx = {}
-  before(() => {
-    cy.loginAndCleanUp();
-  });
+  const ctx = {};
+
+  const setTokens = (tokens) => {
+    ctx.access = tokens.access;
+    ctx.refresh = tokens.refresh;
+  };
 
   beforeEach(() => {
+    cy.loginAndCleanUp(setTokens);
     const expense = new Expense(expenseData);
     ctx.expense = expense;
 
     cy.visit("/");
     cy.get("[data-test=create-expense]").click();
     cy.url().then((url) => {
-        ctx.createExpensePageUrl = url;
-    })
-
-    Cypress.Cookies.preserveOnce("sessionid");
+      ctx.createExpensePageUrl = url;
+    });
   });
 
   it("should create an expense", function () {
@@ -42,7 +43,7 @@ const ctx = {}
     cy.createExpenseWithUI(ctx.expense);
 
     cy.url().should("eq", ctx.createExpensePageUrl);
-    cy.get("[data-test=create-expense-form]")
+    cy.get("[data-test=container]")
       .should("be.visible")
       .and("contain", "Ensure this value is greater than or equal to 0.01.");
   });
@@ -52,8 +53,8 @@ const ctx = {}
       cy.createExpenseWithUI(ctx.expense, false);
 
       if (fieldToEmpty == "category")
-        cy.get(`#id_${fieldToEmpty}`).select("---------");
-      else cy.get(`#id_${fieldToEmpty}`).clear();
+        cy.get(`[data-test=expense-input-${fieldToEmpty}]`).select("---------");
+      else cy.get(`[data-test=expense-input-${fieldToEmpty}]`).clear();
       cy.get("[data-test=create-expense-save]").click();
 
       cy.url().should("eq", ctx.createExpensePageUrl);
@@ -61,14 +62,17 @@ const ctx = {}
     });
   });
 
-  it("should NOT allow to create an expense with a huge 'amount' number", function () {
-    ctx.expense.amount = 99999999999;
+  it("should NOT allow to create an expense with amount bigger than 9,999,999,999", function () {
+    ctx.expense.amount = 10_000_000_000;
     cy.createExpenseWithUI(ctx.expense);
 
     cy.url().should("eq", ctx.createExpensePageUrl);
-    cy.get("[data-test=create-expense-form]")
+    cy.get("[data-test=container]")
       .should("be.visible")
-      .and("contain", "Ensure that there are no more than 10 digits in total.");
+      .and(
+        "contain",
+        "Ensure that expense amount is not bigger than 9,999,999,999."
+      );
   });
 
   it("should NOT allow to create an expense with an incorrect format date", function () {
@@ -76,7 +80,7 @@ const ctx = {}
     cy.createExpenseWithUI(ctx.expense);
 
     cy.url().should("eq", ctx.createExpensePageUrl);
-    cy.get("[data-test=create-expense-form]")
+    cy.get("[data-test=container]")
       .should("be.visible")
       .and("contain", "Enter a valid date/time.");
   });
