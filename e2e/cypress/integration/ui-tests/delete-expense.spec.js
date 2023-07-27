@@ -7,16 +7,17 @@ const expenseData = require("../../fixtures/expense.json");
 describe("Delete expense Tests", () => {
   const ctx = {};
 
-  before(() => {
-    cy.loginAndCleanUp();
-  });
+  const setTokens = (tokens) => {
+    ctx.access = tokens.access;
+    ctx.refresh = tokens.refresh;
+  };
 
   beforeEach(() => {
-    const expense = new Expense(expenseData);
-    cy.createExpenseWithAPI(expense);
-    ctx.expense = expense;
+    cy.loginAndCleanUp(setTokens);
 
-    Cypress.Cookies.preserveOnce("sessionid");
+    const expense = new Expense(expenseData);
+    cy.createExpenseWithAPI(expense, ctx);
+    ctx.expense = expense;
   });
 
   it("should delete an expense", () => {
