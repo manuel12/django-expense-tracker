@@ -47,7 +47,9 @@ urlpatterns = [
         name="statistics_table_data",
     ),
 
-    path('delete-testuser-data/', views.delete_testuser_data, name='delete_testuser_data'),
+    path('add-testuser-data/', views.add_testuser_data, name='add_testuser_data'),
+    path('delete-testuser-data/', views.delete_testuser_data,
+         name='delete_testuser_data'),
 
 
 ]
