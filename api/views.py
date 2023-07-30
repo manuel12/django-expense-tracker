@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -112,7 +114,11 @@ def get_expenses(request):
 @api_view(['POST'])
 def create_expense(request):
     expense_data = request.data
+    print(expense_data)
+
     expense_data['owner'] = request.user.pk
+    print(expense_data)
+
     serializer = ExpenseSerializer(data=expense_data)
 
     if serializer.is_valid():
@@ -136,7 +142,7 @@ def update_expense(request, pk):
 
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -304,6 +310,23 @@ def statistics_table_data(request):
         "one_month_ago_expense_sum": float(statistics['one_month_ago_expense_sum']),
     }
     return Response(stats)
+
+
+@api_view(['POST'])
+def add_testuser_data(request):
+    user = str(request.user)
+
+    if user == "testuser1" or user == "testuser3":
+        req_post_dict = dict(request.POST)
+        expenses_str_dict = req_post_dict["expenses"][0]
+        expenses = json.loads(expenses_str_dict)
+
+        Expense.objects.create_test_expenses(request.user, expenses)
+        return Response({"message": f"{len(expenses)} expenses created"},
+                        status=status.HTTP_201_CREATED)
+
+    return Response({'detail': 'Testuser expenses created successfully'},
+                    status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['DELETE'])
