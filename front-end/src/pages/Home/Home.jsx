@@ -40,7 +40,7 @@ const Home = ({ accessToken }) => {
 
       {expenses.length === 0 && <Instructions />}
 
-      {budget.amount && <BudgetContainer />}
+      {budget.amount > 0 && <BudgetContainer />}
 
       {expenses.length < 2 ? (
         <h5 className='text-center instruction'>
