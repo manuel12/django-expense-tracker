@@ -73,7 +73,7 @@ const UpdateExpenseForm = () => {
         <p>Ensure this value is greater than or equal to 0.01.</p>
       )}
       {amountTooHighError && (
-        <p>Ensure that expense amount is not bigger than 9,999,999,999</p>
+        <p>Ensure that expense amount is not bigger than 9,999,999,999.</p>
       )}
       {dateNotValid && <p>Enter a valid date/time.</p>}
       <CustomForm
