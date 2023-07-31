@@ -1,6 +1,8 @@
 import "./styles.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+
+
 
 const StatisticsTable = ({ budgetData, statisticsData }) => {
 
@@ -144,7 +146,7 @@ const StatisticsTable = ({ budgetData, statisticsData }) => {
                   className='statistics'
                   data-test='stats-biggest-category-expense'
                 >
-                  {biggestCategoryExpenseCategory}
+                  {biggestCategoryExpenseCategory}:
                   <p className='black-font'>€ {biggestCategoryExpenseAmount}</p>
                 </td>
               </tr>
@@ -154,7 +156,7 @@ const StatisticsTable = ({ budgetData, statisticsData }) => {
                   className='statistics'
                   data-test='stats-smallest-category-expense'
                 >
-                  {smallestCategoryExpenseCategory}
+                  {smallestCategoryExpenseCategory}:
                   <p className='black-font'>
                     € {smallestCategoryExpenseAmount}
                   </p>
