@@ -7,12 +7,43 @@ const expensesData = require("../../fixtures/expenses.json");
 const biggestExpenseData = require("../../fixtures/biggest-expense.json");
 const smallestExpenseData = require("../../fixtures/smallest-expense.json");
 
+function formatNumberWithoutDecimals(number) {
+  number = Number(number);
+  // Check if the number has decimals
+  if (Number.isInteger(number)) {
+    return number.toString(); // Convert to string without decimals
+  } else {
+    return number.toFixed(2); // Keep 2 decimal places
+  }
+}
+
 describe("Statistics Tests", () => {
   const ctx = {};
 
+  const setTokens = (tokens) => {
+    ctx.access = tokens.access;
+    ctx.refresh = tokens.refresh;
+  };
+
   before(() => {
-    cy.loginAndCleanUp(true);
-    cy.createFixtureExpenses();
+    // cy.loginAndCleanUp(setTokens);
+    // cy.createFixtureExpenses(ctx);
+    // const currentMonth = utils.getCurrentMonthNumber();
+    // const currentYear = utils.getCurrentYear();
+    // const yearAndMonthPrefix = `${currentYear}-${currentMonth}`;
+    // ctx.yearAndMonthPrefix = yearAndMonthPrefix;
+    // const lastMonth = utils.getLastMonthNumber();
+    // const lastMonthYear = lastMonth === "12" ? currentYear - 1 : currentYear;
+    // const yearAndLastMonthPrefix = `${lastMonthYear}-${lastMonth}`;
+    // ctx.yearAndLastMonthPrefix = yearAndLastMonthPrefix;
+  });
+
+  beforeEach(() => {
+    cy.loginAndCleanUp(setTokens);
+
+    console.log(ctx);
+
+    cy.createFixtureExpenses(ctx);
 
     const currentMonth = utils.getCurrentMonthNumber();
     const currentYear = utils.getCurrentYear();
@@ -24,10 +55,6 @@ describe("Statistics Tests", () => {
     const yearAndLastMonthPrefix = `${lastMonthYear}-${lastMonth}`;
     ctx.yearAndLastMonthPrefix = yearAndLastMonthPrefix;
 
-    cy.visit("/charts/");
-  });
-
-  beforeEach(() => {
     const eg = new ExpenseGenerator(expensesData);
     const expenses = eg.generateExpenses();
     ctx.expenses = expenses;
@@ -40,7 +67,7 @@ describe("Statistics Tests", () => {
     ctx.expenses.push(smallestCategoryExpense);
     ctx.smallestCategoryExpense = smallestExpenseData;
 
-    Cypress.Cookies.preserveOnce("sessionid");
+    cy.visit("/charts/");
   });
 
   it("should display correct current month total expenses", () => {
@@ -75,7 +102,7 @@ describe("Statistics Tests", () => {
       .and("contain", `€ ${lastMonthExpenses}`);
   });
 
-  it("should display correct current vs last month expense percentage difference", () => {
+  it.only("should display correct current vs last month expense percentage difference", () => {
     const datesAndAmounts = utils.getDatesAndAmounts(ctx.expenses);
     let currentMonthExpenses = 0;
     let lastMonthExpenses = 0;
@@ -98,7 +125,7 @@ describe("Statistics Tests", () => {
     cy.visit("/charts/");
     cy.get("[data-test=stats-current-month-vs-last-month-comparison]")
       .should("be.visible")
-      .and("contain", percentageDifference);
+      .and("contain", formatNumberWithoutDecimals(percentageDifference));
   });
 
   it("should display correct monthly expenses average", () => {
