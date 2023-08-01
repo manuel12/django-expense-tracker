@@ -63,7 +63,7 @@ describe("Create expense Tests", () => {
   });
 
   it("should NOT allow to create an expense with amount bigger than 9,999,999,999", function () {
-    ctx.expense.amount = 10_000_000_000;
+    ctx.expense.amount = 10000000000;
     cy.createExpenseWithUI(ctx.expense);
 
     cy.url().should("eq", ctx.createExpensePageUrl);
