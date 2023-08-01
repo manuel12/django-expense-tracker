@@ -39,7 +39,7 @@ describe("Expense API Tests", () => {
   it("POST - /api/expenses/create/ - should create a new expense", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/register/`,
+      url: `${apiUrl}/expenses/create/`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -96,7 +96,7 @@ describe("Expense API Tests", () => {
           date: new Date(),
         },
       }).then((res) => {
-        expect(res.status).to.eq(200);
+        expect(res.status).to.eq(204);
 
         const newExpense = res.body;
         expect(newExpense).to.have.property(
