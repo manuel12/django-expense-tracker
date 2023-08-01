@@ -24,6 +24,7 @@ describe("Update budget Tests", () => {
     const newBudget = new Budget(newBudgetData);
     ctx.newBudget = newBudget;
 
+    cy.visit("/");
     cy.get("[data-test=update-budget]").click();
     cy.url().then((url) => {
       ctx.updateBudgetPageUrl = url;
