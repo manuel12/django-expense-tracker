@@ -16,7 +16,7 @@ const smallestExpenseData = require("../fixtures/smallest-expense.json");
 
 const apiUrl = "http://localhost:8000/api";
 
-Cypress.Commands.add("loginAndCleanUp", (setTokens) => {
+Cypress.Commands.add("loginAndCleanUp", (setTokens, cb) => {
   /**
    * Clear session cookies, login and delete previous
    * test data.
@@ -25,12 +25,14 @@ Cypress.Commands.add("loginAndCleanUp", (setTokens) => {
   // cy.clearCookie("sessionid");
   cy.loginWithAPI(setTokens);
 
-  // cy.request({
-  //   method: "GET",
-  //   url: "delete-testuser-data/",
-  // }).then((response) => {
-  //   expect(response.status).to.eq(200);
-  // });
+  cy.request({
+    method: "GET",
+    url: "delete-testuser-data/",
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
+
+  cb && cb();
 });
 
 Cypress.Commands.add("loginWithUI", (user, password) => {
@@ -175,7 +177,7 @@ Cypress.Commands.add("createExpenseWithAPI", (data, ctx) => {
    * Creates an expense by using the API.
    */
 
-  let accessToken = ctx.access;
+  const accessToken = ctx.access;
   console.log(accessToken);
 
   cy.request({
@@ -194,13 +196,13 @@ Cypress.Commands.add("createExpenseWithAPI", (data, ctx) => {
   // makeAPICall("createExpense", data);
 });
 
-Cypress.Commands.add("createExpensesWithAPI", (data, ctx) => {
+Cypress.Commands.add("createExpensesWithAPI", (data, token) => {
   /**
    * Creates a group of expenses by using the API.
    */
 
   cy.visit("create/");
-  makeAPICall("createExpenses", data);
+  makeAPICall("createExpenses", data, token);
 });
 
 Cypress.Commands.add("updateExpenseField", (field, value, submit = true) => {
@@ -217,24 +219,29 @@ Cypress.Commands.add("updateExpenseField", (field, value, submit = true) => {
   if (submit) cy.get("[data-test=update-expense-save]").click();
 });
 
-Cypress.Commands.add("createFixtureExpenses", () => {
+Cypress.Commands.add("createFixtureExpenses", (ctx) => {
   /**
    * Creates expenses from the fixtures: expenses, biggestExpense
    * and smallestExpense -in order to use as test data in statistics.spec.js.
    */
+
+  console.log(ctx);
+
+  const accessToken = ctx.access;
+  console.log(accessToken);
 
   const eg = new ExpenseGenerator(expensesData);
   const expenses = eg.generateExpenses();
   const serializedExpenses = eg.generateSerializedExpenses();
 
   let stringifyedExpenses = JSON.stringify(serializedExpenses);
-  cy.createExpensesWithAPI(stringifyedExpenses);
+  cy.createExpensesWithAPI(stringifyedExpenses, accessToken);
 
   const biggestCategoryExpense = new Expense(biggestExpenseData);
-  cy.createExpenseWithAPI(biggestCategoryExpense);
+  cy.createExpenseWithAPI(biggestCategoryExpense, ctx);
 
   const smallestCategoryExpense = new Expense(smallestExpenseData);
-  cy.createExpenseWithAPI(smallestCategoryExpense);
+  cy.createExpenseWithAPI(smallestCategoryExpense, ctx);
 });
 
 Cypress.Commands.add("deleteExpensesWithAPI", (href) => {
@@ -267,7 +274,7 @@ Cypress.Commands.add("createBudgetWithAPI", (data, ctx) => {
    * Creates a budget by using the API.
    */
 
-  accessToken = ctx.access;
+  const accessToken = ctx.access;
   console.log(accessToken);
 
   cy.request({
