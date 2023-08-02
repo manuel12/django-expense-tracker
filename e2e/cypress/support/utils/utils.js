@@ -74,22 +74,26 @@ const getTokenAlias = () => {
   cy.get("[name=csrfmiddlewaretoken]").invoke("attr", "value").as("csrfToken");
 };
 
-const makeAPICall = (callName, data) => {
-  getTokenAlias();
+const makeAPICall = (callName, data, token) => {
+  //getTokenAlias();
 
-  cy.get("@csrfToken").then((token) => {
-    const [url, body] = getCallUrlAndBody(callName, data, token);
+  //cy.get("@csrfToken").then((token) => {
+  const [url, body] = getCallUrlAndBody(callName, data, token);
+  console.log([url, body]);
 
-    cy.request({
-      method: "POST",
-      url: url,
-      encoding: "utf8",
-      form: true,
-      body: body,
-    });
-
-    cy.visit("/");
+  cy.request({
+    method: "POST",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    form: true,
+    body: body,
   });
+
+  cy.visit("/");
+  //});
 };
 
 const getCallUrlAndBody = (callName, data, token) => {
@@ -119,10 +123,10 @@ const getCallUrlAndBody = (callName, data, token) => {
       return [url, body];
 
     case "createExpenses":
-      url = "add-testuser-data/";
+      url = "http://localhost:8000/api/add-testuser-data/";
       body = {
         expenses: data,
-        csrfmiddlewaretoken: token,
+        //csrfmiddlewaretoken: token,
       };
       return [url, body];
 
