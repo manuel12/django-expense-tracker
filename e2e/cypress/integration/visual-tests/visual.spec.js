@@ -8,10 +8,6 @@ describe("Visual tests - Homepage", () => {
     cy.get("body").should("be.visible").wait(1000);
   });
 
-  beforeEach(() => {
-    Cypress.Cookies.preserveOnce("sessionid");
-  });
-
   it("should match Total Expenses container screenshot", () => {
     cy.get("#total-expenses-container")
       .should("be.visible")
@@ -40,10 +36,6 @@ describe("Visual tests - Charts & Statistics", () => {
     cy.createBudgetWithAPI({ amount: 600 });
     cy.visit("/charts/");
     cy.get("body").should("be.visible").wait(1000);
-  });
-
-  beforeEach(() => {
-    Cypress.Cookies.preserveOnce("sessionid");
   });
 
   it("should match Expense Amounts by Month Bar Chart screenshot", () => {
