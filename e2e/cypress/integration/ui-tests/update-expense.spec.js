@@ -25,6 +25,7 @@ describe("Update expense Tests", () => {
     const newExpense = new Expense(newExpenseData);
     ctx.newExpense = newExpense;
 
+    cy.visit("/");
     cy.get("[data-test^=update-expense]").first().click();
     cy.url().then((url) => {
       ctx.updateExpensePageUrl = url;
