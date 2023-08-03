@@ -20,26 +20,8 @@ function formatNumberWithoutDecimals(number) {
 describe("Statistics Tests", () => {
   const ctx = {};
 
-  const setTokens = (tokens) => {
-    ctx.access = tokens.access;
-    ctx.refresh = tokens.refresh;
-  };
-
-  before(() => {
-    // cy.loginAndCleanUp(setTokens);
-    // cy.createFixtureExpenses(ctx);
-    // const currentMonth = utils.getCurrentMonthNumber();
-    // const currentYear = utils.getCurrentYear();
-    // const yearAndMonthPrefix = `${currentYear}-${currentMonth}`;
-    // ctx.yearAndMonthPrefix = yearAndMonthPrefix;
-    // const lastMonth = utils.getLastMonthNumber();
-    // const lastMonthYear = lastMonth === "12" ? currentYear - 1 : currentYear;
-    // const yearAndLastMonthPrefix = `${lastMonthYear}-${lastMonth}`;
-    // ctx.yearAndLastMonthPrefix = yearAndLastMonthPrefix;
-  });
-
   beforeEach(() => {
-    cy.loginAndCleanUp(setTokens);
+    cy.loginAndCleanUp(ctx);
 
     console.log(ctx);
 
