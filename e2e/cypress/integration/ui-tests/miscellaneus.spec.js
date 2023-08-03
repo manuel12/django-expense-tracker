@@ -7,13 +7,8 @@ const expenseData = require("../../fixtures/expense.json");
 describe("Miscellaneus Tests", () => {
   const ctx = {};
 
-  const setTokens = (tokens) => {
-    ctx.access = tokens.access;
-    ctx.refresh = tokens.refresh;
-  };
-
   before(() => {
-    cy.loginAndCleanUp(setTokens);
+    cy.loginAndCleanUp(ctx);
 
     const expense = new Expense(expenseData);
     const paginationLimit = 15;
