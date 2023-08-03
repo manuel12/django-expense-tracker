@@ -8,14 +8,9 @@ const newBudgetData = require("../../fixtures/new-budget.json");
 describe("Update budget Tests", () => {
   const ctx = {};
 
-  const setTokens = (tokens) => {
-    ctx.access = tokens.access;
-    ctx.refresh = tokens.refresh;
-  };
-
   beforeEach(() => {
     // Delete budget to start clean.
-    cy.loginAndCleanUp(setTokens);
+    cy.loginAndCleanUp(ctx);
 
     const budget = new Budget(budgetData);
     cy.createBudgetWithAPI(budget, ctx);
