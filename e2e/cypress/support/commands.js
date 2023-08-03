@@ -49,7 +49,7 @@ Cypress.Commands.add("loginWithUI", (user, password) => {
     .click();
 });
 
-Cypress.Commands.add("loginWithAPI", (setTokens) => {
+Cypress.Commands.add("loginWithAPI", (ctx) => {
   /**
    * Login programatically using the API.
    */
@@ -65,7 +65,9 @@ Cypress.Commands.add("loginWithAPI", (setTokens) => {
     },
   }).then((res) => {
     const { access, refresh } = res.body;
-    setTokens(res.body);
+
+    ctx.access = access;
+    ctx.refresh = refresh;
 
     cy.visit("/", {
       onBeforeLoad(win) {
