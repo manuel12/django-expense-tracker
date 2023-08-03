@@ -8,13 +8,8 @@ const expenseData = require("../../fixtures/expense.json");
 describe("Create expense Tests", () => {
   const ctx = {};
 
-  const setTokens = (tokens) => {
-    ctx.access = tokens.access;
-    ctx.refresh = tokens.refresh;
-  };
-
   beforeEach(() => {
-    cy.loginAndCleanUp(setTokens);
+    cy.loginAndCleanUp(ctx);
     const expense = new Expense(expenseData);
     ctx.expense = expense;
 
