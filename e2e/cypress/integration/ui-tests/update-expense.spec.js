@@ -9,14 +9,9 @@ const newExpenseData = require("../../fixtures/new-expense.json");
 describe("Update expense Tests", () => {
   const ctx = {};
 
-  const setTokens = (tokens) => {
-    ctx.access = tokens.access;
-    ctx.refresh = tokens.refresh;
-  };
-
   beforeEach(() => {
     // Delete expense to start clean.
-    cy.loginAndCleanUp(setTokens);
+    cy.loginAndCleanUp(ctx);
 
     const expense = new Expense(expenseData);
     cy.createExpenseWithAPI(expense, ctx);
