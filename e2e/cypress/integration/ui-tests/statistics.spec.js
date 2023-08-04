@@ -7,15 +7,15 @@ const expensesData = require("../../fixtures/expenses.json");
 const biggestExpenseData = require("../../fixtures/biggest-expense.json");
 const smallestExpenseData = require("../../fixtures/smallest-expense.json");
 
-function formatNumberWithoutDecimals(number) {
+const formatNumberWithoutDecimals = (number) => {
   number = Number(number);
-  // Check if the number has decimals
+
   if (Number.isInteger(number)) {
-    return number.toString(); // Convert to string without decimals
+    return number.toString();
   } else {
-    return number.toFixed(2); // Keep 2 decimal places
+    return number.toFixed(2);
   }
-}
+};
 
 describe("Statistics Tests", () => {
   const ctx = {};
