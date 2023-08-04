@@ -7,7 +7,7 @@ addMatchImageSnapshotCommand({
   failureThresholdType: "pixel",
 });
 
-const { Expense, ExpenseGenerator, makeAPICall } = require("../support/utils");
+const { Expense, ExpenseGenerator } = require("../support/utils");
 
 const testuserData = require("../fixtures/testuser.json");
 const expensesData = require("../fixtures/expenses.json");
@@ -15,6 +15,80 @@ const biggestExpenseData = require("../fixtures/biggest-expense.json");
 const smallestExpenseData = require("../fixtures/smallest-expense.json");
 
 const apiUrl = "http://localhost:8000/api";
+
+const makeAPICall = (callName, data, token) => {
+  const [url, body] = getCallUrlAndBody(callName, data, token);
+  console.log([url, body]);
+
+  cy.request({
+    method: "POST",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    form: true,
+    body: body,
+  });
+
+  cy.visit("/");
+};
+
+const getCallUrlAndBody = (callName, data) => {
+  let url, body;
+
+  switch (callName) {
+    case "login":
+      url = "accounts/login/";
+      body = {
+        username: data.username,
+        password: data.password,
+        next: "/",
+      };
+      return [url, body];
+
+    case "createExpense":
+      url = "create/";
+      body = {
+        amount: data.amount,
+        content: data.content,
+        category: data.category,
+        source: data.source,
+        date: data.date,
+      };
+      return [url, body];
+
+    case "createExpenses":
+      url = "http://localhost:8000/api/add-testuser-data/";
+      body = {
+        expenses: data,
+      };
+      return [url, body];
+
+    case "deleteExpenses":
+      url = "delete-testuser-data/";
+      body = {
+        submit: "",
+      };
+      return [url, body];
+
+    case "createBudget":
+      url = "create-budget/";
+      body = {
+        amount: data.amount,
+      };
+      return [url, body];
+
+    case "deleteBudget":
+      url = "delete-budget/";
+      body = {
+        submit: "",
+      };
+      return [url, body];
+    default:
+      throw "callName param does match any of API call names available!";
+  }
+};
 
 Cypress.Commands.add("loginAndCleanUp", (setTokens, cb) => {
   /**
