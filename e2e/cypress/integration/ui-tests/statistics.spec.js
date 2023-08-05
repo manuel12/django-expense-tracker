@@ -23,8 +23,6 @@ describe("Statistics Tests", () => {
   beforeEach(() => {
     cy.loginAndCleanUp(ctx);
 
-    console.log(ctx);
-
     cy.createFixtureExpenses(ctx);
 
     const currentMonth = utils.getCurrentMonthNumber();
