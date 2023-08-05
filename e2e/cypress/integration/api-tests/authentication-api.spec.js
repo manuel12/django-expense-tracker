@@ -45,7 +45,6 @@ describe("Authentication API Tests", () => {
           Authorization: `Bearer ${accessToken}`,
         },
       }).then((res) => {
-        console.log(res);
         expect(Array.isArray(res.body)).to.be.true;
         expect(res.status).to.eq(200);
       });
@@ -95,7 +94,6 @@ describe("Authentication API Tests", () => {
         password: "testpass1",
       },
     }).then((res) => {
-      console.log(res);
       expect(res.body.error).to.eq("Username already exists");
     });
   });
@@ -127,7 +125,6 @@ describe("Authentication API Tests", () => {
           Authorization: `Bearer ${accessToken}`,
         },
       }).then((res) => {
-        console.log(res);
         expect(Array.isArray(res.body)).to.be.true;
         expect(res.status).to.eq(200);
       });
