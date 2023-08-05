@@ -17,11 +17,10 @@ const smallestExpenseData = require("../fixtures/smallest-expense.json");
 const apiUrl = "http://localhost:8000/api";
 
 const makeAPICall = (callName, data, token) => {
-  const [url, body] = getCallUrlAndBody(callName, data, token);
-  console.log([url, body]);
+  const [method, url, body] = getMethodUrlAndBody(callName, data, token);
 
   cy.request({
-    method: "POST",
+    method: method,
     url: url,
     headers: {
       "Content-Type": "application/json",
@@ -29,13 +28,15 @@ const makeAPICall = (callName, data, token) => {
     },
     form: true,
     body: body,
+  }).then((res) => {
+    if (method == "POST") expect(res.status).to.eq(201);
   });
 
   cy.visit("/");
 };
 
-const getCallUrlAndBody = (callName, data) => {
-  let url, body;
+const getMethodUrlAndBody = (callName, data) => {
+  let method, url, body;
 
   switch (callName) {
     case "login":
@@ -48,7 +49,8 @@ const getCallUrlAndBody = (callName, data) => {
       return [url, body];
 
     case "createExpense":
-      url = "create/";
+      method = "POST";
+      url = `${apiUrl}/expenses/create/`;
       body = {
         amount: data.amount,
         content: data.content,
@@ -56,14 +58,15 @@ const getCallUrlAndBody = (callName, data) => {
         source: data.source,
         date: data.date,
       };
-      return [url, body];
+      return [method, url, body];
 
     case "createExpenses":
-      url = "http://localhost:8000/api/add-testuser-data/";
+      method = "POST";
+      url = `${apiUrl}/add-testuser-data/`;
       body = {
         expenses: data,
       };
-      return [url, body];
+      return [method, url, body];
 
     case "deleteExpenses":
       url = "delete-testuser-data/";
@@ -254,22 +257,8 @@ Cypress.Commands.add("createExpenseWithAPI", (data, ctx) => {
    */
 
   const accessToken = ctx.access;
-  console.log(accessToken);
 
-  cy.request({
-    method: "POST",
-    url: `${apiUrl}/expenses/create/`,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: data,
-  }).then((res) => {
-    expect(res.status).to.eq(201);
-  });
-
-  // cy.visit("create/");
-  // makeAPICall("createExpense", data);
+  makeAPICall("createExpense", data, accessToken);
 });
 
 Cypress.Commands.add("createExpensesWithAPI", (data, token) => {
@@ -301,10 +290,7 @@ Cypress.Commands.add("createFixtureExpenses", (ctx) => {
    * and smallestExpense -in order to use as test data in statistics.spec.js.
    */
 
-  console.log(ctx);
-
   const accessToken = ctx.access;
-  console.log(accessToken);
 
   const eg = new ExpenseGenerator(expensesData);
   const expenses = eg.generateExpenses();
@@ -351,7 +337,6 @@ Cypress.Commands.add("createBudgetWithAPI", (data, ctx) => {
    */
 
   const accessToken = ctx.access;
-  console.log(accessToken);
 
   cy.request({
     method: "POST",
@@ -410,13 +395,11 @@ Cypress.Commands.add("deleteElementIfExists", (elementType) => {
    * If elementType equals 'expense' all of the testuser expenses
    * will be deleted.
    */
-  console.log("On deleteElementIfExists");
+
   const elementToDeleteDataAttr =
     elementType == "expense"
       ? "[data-test^=delete-expense-]"
       : "[data-test=delete-budget]";
-
-  console.log(`elementToDeleteDataAttr: ${elementToDeleteDataAttr}`);
 
   cy.visit("/");
   cy.get("body").then((body) => {
