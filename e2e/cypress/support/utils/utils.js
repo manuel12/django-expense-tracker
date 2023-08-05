@@ -81,5 +81,4 @@ module.exports = {
   getMonthDateSections,
   getCurrentMonthName,
   getLastMonthName,
-  makeAPICall,
 };
