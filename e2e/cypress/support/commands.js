@@ -16,7 +16,7 @@ const smallestExpenseData = require("../fixtures/smallest-expense.json");
 
 const apiUrl = "http://localhost:8000/api";
 
-const makeAPICall = (callName, data, token) => {
+const makeAPICall = (callName, data, token, cb = cb) => {
   const [method, url, body] = getMethodUrlAndBody(callName, data, token);
 
   cy.request({
@@ -29,6 +29,7 @@ const makeAPICall = (callName, data, token) => {
     form: true,
     body: body,
   }).then((res) => {
+    cb && cb(res);
     if (method == "POST") expect(res.status).to.eq(201);
   });
 
@@ -40,13 +41,13 @@ const getMethodUrlAndBody = (callName, data) => {
 
   switch (callName) {
     case "login":
-      url = "accounts/login/";
+      method = "POST";
+      url = `${apiUrl}/login/`;
       body = {
         username: data.username,
         password: data.password,
-        next: "/",
       };
-      return [url, body];
+      return [method, url, body];
 
     case "createExpense":
       method = "POST";
@@ -89,18 +90,18 @@ const getMethodUrlAndBody = (callName, data) => {
       };
       return [url, body];
     default:
+      loginWithAPI;
       throw "callName param does match any of API call names available!";
   }
 };
 
-Cypress.Commands.add("loginAndCleanUp", (setTokens, cb) => {
+Cypress.Commands.add("loginAndCleanUp", (ctx) => {
   /**
    * Clear session cookies, login and delete previous
    * test data.
    */
 
-  // cy.clearCookie("sessionid");
-  cy.loginWithAPI(setTokens);
+  cy.loginWithAPI(ctx);
 
   cy.request({
     method: "GET",
@@ -108,8 +109,6 @@ Cypress.Commands.add("loginAndCleanUp", (setTokens, cb) => {
   }).then((response) => {
     expect(response.status).to.eq(200);
   });
-
-  cb && cb();
 });
 
 Cypress.Commands.add("loginWithUI", (user, password) => {
@@ -133,32 +132,28 @@ Cypress.Commands.add("loginWithAPI", (ctx) => {
 
   cy.visit("/");
 
-  cy.request({
-    method: "POST",
-    url: `${apiUrl}/login/`,
-    body: {
+  makeAPICall(
+    "login",
+    {
       username: testuserData.username,
       password: testuserData.password,
     },
-  }).then((res) => {
-    const { access, refresh } = res.body;
+    null,
+    (res) => {
+      const { access, refresh } = res.body;
 
-    ctx.access = access;
-    ctx.refresh = refresh;
+      ctx.access = access;
+      ctx.refresh = refresh;
 
-    cy.visit("/", {
-      onBeforeLoad(win) {
-        win.localStorage.setItem("accessToken", JSON.stringify(access));
-      },
-    });
+      cy.visit("/", {
+        onBeforeLoad(win) {
+          win.localStorage.setItem("accessToken", JSON.stringify(access));
+        },
+      });
 
-    cy.deleteTestuserData(access);
-  });
-
-  // makeAPICall("login", {
-  //   username: testuserData.username,
-  //   password: testuserData.password,
-  // });
+      cy.deleteTestuserData(access);
+    }
+  );
 });
 
 Cypress.Commands.add("logout", () => {
