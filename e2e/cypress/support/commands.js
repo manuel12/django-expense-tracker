@@ -16,7 +16,7 @@ const smallestExpenseData = require("../fixtures/smallest-expense.json");
 
 const apiUrl = "http://localhost:8000/api";
 
-const makeAPICall = (callName, data, token, cb = cb) => {
+const makeAPICall = (callName, data, token, cb) => {
   const [method, url, body] = getMethodUrlAndBody(callName, data, token);
 
   cy.request({
@@ -77,11 +77,12 @@ const getMethodUrlAndBody = (callName, data) => {
       return [url, body];
 
     case "createBudget":
-      url = "create-budget/";
+      method = "POST";
+      url = `${apiUrl}/budget/create/`;
       body = {
         amount: data.amount,
       };
-      return [url, body];
+      return [method, url, body];
 
     case "deleteBudget":
       url = "delete-budget/";
@@ -203,20 +204,6 @@ Cypress.Commands.add("deleteTestuser", (username, accessToken) => {
     },
     failOnStatusCode: false,
   });
-  // cy.loginAdminWithUI();
-  // cy.visit(`${Cypress.config("baseUrl")}admin/auth/user/`);
-
-  // cy.get("tbody > tr")
-  //   .first()
-  //   .then(($el) => {
-  //     const textContent = $el[0].textContent;
-  //     if (textContent.includes(username)) {
-  //       cy.get(":nth-child(1) > .action-checkbox > .action-select").click();
-  //       cy.get("select").select("Delete selected users");
-  //       cy.get(".button").click();
-  //       cy.get("[type='submit']").click();
-  //     }
-  //   });
 });
 
 Cypress.Commands.add("createExpenseWithUI", (data, submit = true) => {
@@ -333,20 +320,19 @@ Cypress.Commands.add("createBudgetWithAPI", (data, ctx) => {
 
   const accessToken = ctx.access;
 
-  cy.request({
-    method: "POST",
-    url: `${apiUrl}/budget/create/`,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: data,
-  }).then((res) => {
-    expect(res.status).to.eq(201);
-  });
+  // cy.request({
+  //   method: "POST",
+  //   url: `${apiUrl}/budget/create/`,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `Bearer ${accessToken}`,
+  //   },
+  //   body: data,
+  // }).then((res) => {
+  //   expect(res.status).to.eq(201);
+  // });
 
-  // cy.visit("/create-budget/");
-  // makeAPICall("createBudget", data);
+  makeAPICall("createBudget", data, accessToken);
 });
 
 Cypress.Commands.add("updateBudgetField", (value, submit = true) => {
