@@ -2,11 +2,8 @@ import "./styles.css";
 
 import React, { useState } from "react";
 
-
-
 const StatisticsTable = ({ budgetData, statisticsData }) => {
-
-  const [budget] = useState(budgetData.amount)
+  const [budget] = useState(budgetData);
 
   const [currentMonthExpenseSum] = useState(
     statisticsData.curr_month_expense_sum
@@ -63,34 +60,38 @@ const StatisticsTable = ({ budgetData, statisticsData }) => {
                   className='statistics'
                   data-test='stats-current-month-expenses'
                 >
-                  {`€ ${currentMonthExpenseSum} / € ${budget} `}
+                  {`€ ${currentMonthExpenseSum}`}
 
-                  {budget > currentMonthExpenseSum ? (
-                    <span className='badge badge-pill badge-success'>
-                      {" "}
-                      under budget{" "}
-                    </span>
-                  ) : (
-                    <span className='badge badge-pill badge-danger'>
-                      {" "}
-                      over budget{" "}
-                    </span>
+                  {budget && (
+                    <>
+                      {`/ € ${budget.amount} `}
+                      {budget.amount > currentMonthExpenseSum ? (
+                        <span className='badge badge-pill badge-success'>
+                          {" "}
+                          under budget{" "}
+                        </span>
+                      ) : (
+                        <span className='badge badge-pill badge-danger'>
+                          {" "}
+                          over budget{" "}
+                        </span>
+                      )}
+                      <a
+                        href={`/update-budget/${budget.id}/`}
+                        className='font-weight-bold'
+                        data-test='update-budget'
+                      >
+                        <span className='badge-pill badge-warning'>✎</span>
+                      </a>
+                      <a
+                        href={`/delete-budget/${budget.id}/`}
+                        className='font-weight-bold'
+                        data-test='delete-budget'
+                      >
+                        <span className='badge-pill badge-danger'>X</span>
+                      </a>
+                    </>
                   )}
-
-                  <a
-                    href="{% url 'expenses:update_budget' %}"
-                    className='font-weight-bold'
-                    data-test='update-budget'
-                  >
-                    <span className='badge-pill badge-warning'>✎</span>
-                  </a>
-                  <a
-                    href="{% url 'expenses:delete_budget' %}"
-                    className='font-weight-bold'
-                    data-test='delete-budget'
-                  >
-                    <span className='badge-pill badge-danger'>X</span>
-                  </a>
                 </td>
               </tr>
               <tr>
