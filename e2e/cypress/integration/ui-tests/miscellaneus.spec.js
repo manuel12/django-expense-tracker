@@ -23,23 +23,26 @@ describe("Miscellaneus Tests", () => {
     cy.get("tbody > tr").its("length").should("eq", 15);
   });
 
-  it.skip("should display pagination buttons when more than 10 expenses are added", () => {
+  it("should display pagination buttons when more than 10 expenses are added", () => {
     cy.get("[data-test=pagination]").should("be.visible");
     cy.get("[data-test=previous-button]")
       .should("be.visible")
       .and("have.class", "disabled");
+
     cy.get("[data-test=page-link-1]")
       .should("be.visible")
       .and("have.class", "active");
+
     cy.get("[data-test=page-link-2]")
       .should("be.visible")
       .and("not.have.class", "active");
+
     cy.get("[data-test=next-button]")
       .should("be.visible")
       .and("not.have.class", "disabled");
   });
 
-  it.skip("should display second page of pagination", () => {
+  it("should display second page of pagination", () => {
     cy.get("[data-test=page-link-2]").click();
     cy.get("[data-test=previous-button]")
       .should("be.visible")
