@@ -2,6 +2,23 @@ import "./styles.css";
 
 import React from "react";
 
+const formatDateToYYYYMMDD = (dateString) => {
+  // Input date string
+  const inputDateString = dateString;
+
+  // Parse the input date string into a Date object
+  const inputDate = new Date(inputDateString);
+
+  // Get the components of the date (year, month, day)
+  const year = inputDate.getFullYear();
+  const month = String(inputDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so add 1
+  const day = String(inputDate.getDate()).padStart(2, "0");
+
+  // Create the formatted date string
+  const formattedDateString = `${year}-${month}-${day}`;
+  return formattedDateString;
+};
+
 const ExpenseTable = ({ expenses = [] }) => {
   return (
     <div id='expense-table' className='expense-table' data-test='expense-table'>
@@ -23,7 +40,7 @@ const ExpenseTable = ({ expenses = [] }) => {
             expenses.map((expense, i) => {
               return (
                 <tr key={i}>
-                  <td>{expense.date}</td>
+                  <td>{formatDateToYYYYMMDD(expense.date)}</td>
                   <td>{expense.source}</td>
                   <td>{expense.category}</td>
                   <td>{expense.content}</td>
