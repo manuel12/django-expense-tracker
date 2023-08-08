@@ -36,7 +36,8 @@ def login_view(request):
     if user:
         login(request, user)
         refresh = RefreshToken.for_user(user)
-        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
+        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)},
+                        status=status.HTTP_201_CREATED)
     else:
         return Response({'error': 'Invalid credentials'},
                         status=status.HTTP_400_BAD_REQUEST)
@@ -93,31 +94,44 @@ def delete_user(request, username):
 
 @api_view(['GET'])
 def get_expenses(request):
+    # Expense.objects.add_testuser_expenses(request)
     expenses = Expense.objects.filter(
         owner=request.user).order_by("-date")
     serializer = ExpenseSerializer(expenses, many=True)
     return Response(serializer.data)
 
-    # # Initialize the pagination
-    # paginator = PageNumberPagination()
-    # paginator.page_size = 10
 
-    # # Paginate the queryset
-    # paginated_queryset = paginator.paginate_queryset(expenses, request)
+@api_view(['GET'])
+def get_paginated_expenses(request):
+    Expense.objects.add_testuser_expenses(request)
 
-    # # Serialize the paginated result
-    # serializer = ExpenseSerializer(paginated_queryset, many=True)
+    expenses = Expense.objects.filter(
+        owner=request.user).order_by("-date")
 
-    # return paginator.get_paginated_response(serializer.data)
+    # Initialize the pagination
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+
+    # Paginate the queryset
+    paginated_queryset = paginator.paginate_queryset(expenses, request)
+
+    # Serialize the paginated result
+    serializer = ExpenseSerializer(paginated_queryset, many=True)
+
+    return paginator.get_paginated_response(serializer.data)
 
 
 @api_view(['POST'])
 def create_expense(request):
-    expense_data = request.data
-    print(expense_data)
 
-    expense_data['owner'] = request.user.pk
-    print(expense_data)
+    expense_data = {
+        'owner': request.user.pk,
+        'amount': request.data['amount'],
+        'category': request.data['category'],
+        'content': request.data['content'],
+        'date': request.data['date'],
+        'source': request.data['source']
+    }
 
     serializer = ExpenseSerializer(data=expense_data)
 
@@ -166,8 +180,12 @@ def get_budget(request):
 
 @api_view(['POST'])
 def create_budget(request):
-    budget_data = request.data
-    budget_data['owner'] = request.user.pk
+    budget_data = {
+        'amount': request.data['amount'],
+        'owner': request.user.pk
+    }
+    # budget_data = request.data
+    # budget_data['owner'] = request.user.pk
 
     serializer = BudgetSerializer(data=budget_data)
     if serializer.is_valid():
