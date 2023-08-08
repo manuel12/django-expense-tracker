@@ -26,7 +26,7 @@ const UserGreet = ({ isAuthenticated }) => {
       className='user-greet font-weight-bold'
       data-test='user-greet'
     >
-      {userLoggedIn ? (
+      {userLoggedIn && username ? (
         <p>
           Hi{` ${username}`}! |{" "}
           <span
