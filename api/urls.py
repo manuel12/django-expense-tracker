@@ -10,6 +10,7 @@ urlpatterns = [
 
 
     path('expenses/', views.get_expenses, name='get_expenses'),
+    path('paginated-expenses/', views.get_paginated_expenses, name="get_paginated_expenses"),
     path('expenses/create/', views.create_expense, name='create_expense'),
     path('expenses/update/<int:pk>/', views.update_expense, name='update_expense'),
     path('expenses/delete/<int:pk>/', views.delete_expense, name='delete_expense'),
