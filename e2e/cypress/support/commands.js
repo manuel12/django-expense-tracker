@@ -149,6 +149,11 @@ Cypress.Commands.add("loginWithAPI", (ctx) => {
       cy.visit("/", {
         onBeforeLoad(win) {
           win.localStorage.setItem("accessToken", JSON.stringify(access));
+          win.localStorage.setItem("refreshToken", JSON.stringify(refresh));
+          win.localStorage.setItem(
+            "username",
+            JSON.stringify(testuserData.username)
+          );
         },
       });
 
