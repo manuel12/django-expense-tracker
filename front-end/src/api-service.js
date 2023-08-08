@@ -165,6 +165,37 @@ export class API {
     }
   }
 
+  static async fetchPaginatedExpenses({
+    token,
+    paginationSuffix,
+    setExpenses,
+    setPreviousPageAvailable,
+    setNextPageAvailable,
+    numPages,
+    setNumPages,
+  }) {
+    const url = `${apiUrl}/paginated-expenses/?page=${paginationSuffix}`;
+    const res = await API._fetch(url, token);
+
+    if (res.ok) {
+      const paginatedExpenses = await res.json();
+
+      setExpenses(paginatedExpenses.results);
+
+      setPreviousPageAvailable &&
+        setPreviousPageAvailable(paginatedExpenses?.previous);
+      setNextPageAvailable && setNextPageAvailable(paginatedExpenses?.next);
+
+      !numPages &&
+        setNumPages &&
+        setNumPages(
+          Math.ceil(paginatedExpenses.count / paginatedExpenses.results.length)
+        );
+    } else {
+      throw new Error("Fetching expenses failed");
+    }
+  }
+
   static async createExpense(
     token,
     body,
@@ -367,13 +398,17 @@ export class API {
   }
 
   static async fetchStatisticsData(token, setStatisticsData) {
-    const res = await API._fetch(`${apiUrl}/statistics-table-data/`, token);
-    if (res.ok) {
-      const statisticsData = await res.json();
-      console.log(statisticsData);
-      setStatisticsData(statisticsData);
-    } else {
-      throw new Error("Fetching statistics data failed");
+    try {
+      const res = await API._fetch(`${apiUrl}/statistics-table-data/`, token);
+      if (res.ok) {
+        const statisticsData = await res.json();
+        console.log(statisticsData);
+        setStatisticsData(statisticsData);
+      } else {
+        throw new Error("Fetching statistics data failed");
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 }
