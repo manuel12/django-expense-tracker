@@ -82,7 +82,7 @@ describe("Statistics Tests", () => {
       .and("contain", `€ ${lastMonthExpenses}`);
   });
 
-  it.only("should display correct current vs last month expense percentage difference", () => {
+  it("should display correct current vs last month expense percentage difference", () => {
     const datesAndAmounts = utils.getDatesAndAmounts(ctx.expenses);
     let currentMonthExpenses = 0;
     let lastMonthExpenses = 0;
