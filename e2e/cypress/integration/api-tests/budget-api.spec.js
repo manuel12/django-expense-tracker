@@ -5,7 +5,7 @@ describe("Budget API Tests", () => {
   const apiUrl = "http://localhost:8000/api";
   let accessToken = null;
 
-  // Login and store the access token for further requests
+  // Log in and store the access token for further requests
   before(() => {
     cy.request({
       method: "POST",
@@ -13,10 +13,10 @@ describe("Budget API Tests", () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         username: testuserData.username,
         password: testuserData.password,
-      }),
+      },
     }).then((res) => {
       accessToken = res.body.access;
     });
@@ -31,10 +31,11 @@ describe("Budget API Tests", () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
+      failOnStatusCode: false,
     }).then((res) => {
       const budget = res.body;
 
-      if (budget && budget.amount) {
+      if (budget?.amount) {
         cy.request({
           method: "DELETE",
           url: `${apiUrl}/budget/delete/${budget.id}/`,
@@ -50,6 +51,22 @@ describe("Budget API Tests", () => {
   });
 
   it("GET - /api/budget/ - should retrieve existing budget", () => {
+    // Create new budget
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/budget/create/`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: {
+        amount: 30,
+      },
+    }).then((res) => {
+      expect(res.status).to.eq(201);
+    });
+
+    // Retreive budget
     cy.request({
       method: "GET",
       url: `${apiUrl}/budget/`,
@@ -83,7 +100,7 @@ describe("Budget API Tests", () => {
   });
 
   it("PUT - /api/budget/update/ - should update an existing budget", () => {
-    // First create a budget, store  it's id and then use that id to update the correct expense
+    // First create a budget, store it's id and then use that id to update the correct expense
     cy.request({
       method: "POST",
       url: `${apiUrl}/budget/create/`,
@@ -118,8 +135,9 @@ describe("Budget API Tests", () => {
       });
     });
   });
+
   it("DELETE - /api/budget/delete/ - should delete an existing budget", () => {
-    // First create a budget, store  it's id and then use that id to update the correct expense
+    // First create a budget, store it's id and then use that id to update the correct expense
     cy.request({
       method: "POST",
       url: `${apiUrl}/budget/create/`,

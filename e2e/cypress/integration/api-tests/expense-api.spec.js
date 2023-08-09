@@ -5,7 +5,7 @@ describe("Expense API Tests", () => {
   const apiUrl = "http://localhost:8000/api";
   let accessToken = null;
 
-  // Login and store the access token for further requests
+  // Log in and store the access token for further requests
   before(() => {
     cy.request({
       method: "POST",
@@ -13,10 +13,10 @@ describe("Expense API Tests", () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: {
         username: testuserData.username,
         password: testuserData.password,
-      }),
+      },
     }).then((res) => {
       accessToken = res.body.access;
     });
