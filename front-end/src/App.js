@@ -1,6 +1,6 @@
 import "./App.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 import Login from "./pages/Login/Login";
@@ -11,7 +11,6 @@ import Charts from "./pages/Charts/Charts";
 
 import Navbar from "./components/Navbar/Navbar";
 import UserGreet from "./components/UserGreet/UserGreet";
-import CustomForm from "./components/CustomForm/CustomForm";
 
 import AddExpenseForm from "./forms/AddExpenseForm/AddExpenseForm";
 import UpdateExpenseForm from "./forms/UpdateExpenseForm/UpdateExpenseForm";
@@ -25,8 +24,6 @@ function App() {
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
-
-  useEffect(() => {}, [accessToken]);
 
   return (
     <Router>
@@ -54,9 +51,15 @@ function App() {
                 element={<Charts accessToken={accessToken} />}
               />
 
-              <Route path='/create' element={<AddExpenseForm />} />
-              <Route path='/update/:id' element={<UpdateExpenseForm />} />
-              <Route path='/delete/:id' element={<DeleteExpenseForm />} />
+              <Route path='/create-expense/' element={<AddExpenseForm />} />
+              <Route
+                path='/update-expense/:id'
+                element={<UpdateExpenseForm />}
+              />
+              <Route
+                path='/delete-expense/:id'
+                element={<DeleteExpenseForm />}
+              />
 
               <Route path='/create-budget' element={<AddBudgetForm />} />
               <Route path='/update-budget/:id' element={<UpdateBudgetForm />} />
