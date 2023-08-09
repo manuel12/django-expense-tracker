@@ -4,6 +4,11 @@
   margin: 20px;
 }
 
+.user-greet-link {
+  cursor: pointer;
+}
+
+
 .logout-text {
   cursor: pointer;
 }
