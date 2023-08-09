@@ -99,7 +99,7 @@ describe("Authentication API Tests", () => {
   });
 
   it("POST - /api/logout/ - should invalidate tokens when login out with existing user", () => {
-    // Login with existing user
+    // Log in with existing user
     cy.request({
       method: "POST",
       url: `${apiUrl}/login/`,
