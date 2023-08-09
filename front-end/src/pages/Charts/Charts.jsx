@@ -8,7 +8,7 @@ import PieChart from "../../charts/PieChart/PieChart";
 import StatisticsTable from "../../components/StatisticsTable/StatisticsTable";
 
 const Charts = ({ accessToken }) => {
-  const [budget, setBudget] = useState(0);
+  const [budget, setBudget] = useState({});
 
   const [expensesByMonth, setExpensesByMonth] = useState([]);
   const [expensesByWeek, setExpensesByWeek] = useState([]);
