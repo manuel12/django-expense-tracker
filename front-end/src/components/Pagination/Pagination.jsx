@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { API } from "../../api-service";
 
 const Pagination = ({ setExpenses }) => {
-  const [token] = useState(JSON.parse(localStorage.getItem("accessToken")));
+  const [accessToken] = useState(JSON.parse(localStorage.getItem("accessToken")));
 
   const [numPages, setNumPages] = useState(0);
   const [paginationSuffix, setPaginationSuffix] = useState(1);
@@ -16,7 +16,7 @@ const Pagination = ({ setExpenses }) => {
 
   useEffect(() => {
     API.fetchPaginatedExpenses({
-      token,
+      accessToken,
       paginationSuffix,
       setExpenses,
       setPreviousPageAvailable,
