@@ -47,7 +47,7 @@ const ExpenseTable = ({ expenses = [] }) => {
                   <td>€ {expense.amount}</td>
                   <td className='font-weight-bold'>
                     <a
-                      href={`/update/${expense.id}`}
+                      href={`/update-expense/${expense.id}`}
                       data-test='update-expense-{{ expense.pk }}'
                     >
                       <span className='badge-pill badge-warning'>✎</span>
@@ -55,7 +55,7 @@ const ExpenseTable = ({ expenses = [] }) => {
                   </td>
                   <td className='font-weight-bold'>
                     <a
-                      href={`/delete/${expense.id}`}
+                      href={`/delete-expense/${expense.id}`}
                       data-test='delete-expense-{{ expense.pk }}'
                     >
                       <span className='badge-pill badge-danger'>X</span>
