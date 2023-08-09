@@ -28,7 +28,7 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <Navbar RouterLink={Link} />
+        <Navbar />
         <UserGreet isAuthenticated={accessToken} />
         <div className='container' data-test='container'>
           {!accessToken ? (
@@ -37,7 +37,7 @@ function App() {
                 path='/accounts/login'
                 element={<Login setAccessToken={setAccessToken} />}
               />
-              <Route path='/accounts/signup' element={<Signup />} />
+              <Route path='/accounts/signup/' element={<Signup />} />
             </Routes>
           ) : (
             <Routes>
@@ -47,30 +47,36 @@ function App() {
                 element={<Home accessToken={accessToken} />}
               />
               <Route
-                path='/charts'
+                path='/charts/'
                 element={<Charts accessToken={accessToken} />}
               />
 
               <Route path='/create-expense/' element={<AddExpenseForm />} />
               <Route
-                path='/update-expense/:id'
+                path='/update-expense/:id/'
                 element={<UpdateExpenseForm />}
               />
               <Route
-                path='/delete-expense/:id'
+                path='/delete-expense/:id/'
                 element={<DeleteExpenseForm />}
               />
 
-              <Route path='/create-budget' element={<AddBudgetForm />} />
-              <Route path='/update-budget/:id' element={<UpdateBudgetForm />} />
-              <Route path='/delete-budget/:id' element={<DeleteBudgetForm />} />
+              <Route path='/create-budget/' element={<AddBudgetForm />} />
+              <Route
+                path='/update-budget/:id/'
+                element={<UpdateBudgetForm />}
+              />
+              <Route
+                path='/delete-budget/:id/'
+                element={<DeleteBudgetForm />}
+              />
 
               <Route
-                path='/accounts/login'
+                path='/accounts/login/'
                 element={<Login setAccessToken={setAccessToken} />}
               />
 
-              <Route path='/accounts/signup' element={<Signup />} />
+              <Route path='/accounts/signup/' element={<Signup />} />
             </Routes>
           )}
         </div>
