@@ -70,12 +70,12 @@ const Pagination = ({ setExpenses }) => {
           ) : (
             <>
               <li className='disabled page-item' data-test='first-button'>
-                <a className='page-link' href=''>
+                <a className='page-link'>
                   First
                 </a>
               </li>
               <li className='disabled page-item' data-test='previous-button'>
-                <a className='page-link' href=''>
+                <a className='page-link'>
                   Previous
                 </a>
               </li>
@@ -123,12 +123,12 @@ const Pagination = ({ setExpenses }) => {
           ) : (
             <>
               <li className='disabled page-item' data-test='next-button'>
-                <a className='page-link' href=''>
+                <a className='page-link'>
                   Next
                 </a>
               </li>
               <li className='disabled page-item' data-test='last-button'>
-                <a className='page-link' href=''>
+                <a className='page-link'>
                   Last
                 </a>
               </li>
