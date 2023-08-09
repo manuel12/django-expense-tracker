@@ -120,7 +120,7 @@ export class API {
     }
   }
 
-  static async logout({ navigate, setUserLoggedIn }) {
+  static async logout({ navigate, setUserLoggedIn, setAccessToken }) {
     try {
       const res = await fetch(`${apiUrl}/logout/`, {
         method: "POST",
@@ -132,8 +132,13 @@ export class API {
       if (res.status === 205) {
         // Logout successful
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshaccessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("username");
+        localStorage.clear();
+        console.log("localStorage cleared!");
+
         setUserLoggedIn(false);
+        setAccessToken(false);
         navigate("/accounts/login");
       } else {
         // Logout failure
