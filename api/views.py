@@ -1,19 +1,16 @@
 import json
 
 from django.shortcuts import get_object_or_404
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-
 from rest_framework_simplejwt.tokens import RefreshToken
 
-
 from expenses import utils
-
 from expenses.models import Budget, Expense
 from api.serializers import ExpenseSerializer, BudgetSerializer
 
@@ -50,11 +47,13 @@ def register_view(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
+    print(username, password)
+
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'},
                         status=status.HTTP_400_BAD_REQUEST)
     else:
-        user = User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(username, password)
         if user:
             return Response({'detail': 'User registered successfully!'})
         else:
@@ -94,7 +93,6 @@ def delete_user(request, username):
 
 @api_view(['GET'])
 def get_expenses(request):
-    # Expense.objects.add_testuser_expenses(request)
     expenses = Expense.objects.filter(
         owner=request.user).order_by("-date")
     serializer = ExpenseSerializer(expenses, many=True)
@@ -117,13 +115,11 @@ def get_paginated_expenses(request):
 
     # Serialize the paginated result
     serializer = ExpenseSerializer(paginated_queryset, many=True)
-
     return paginator.get_paginated_response(serializer.data)
 
 
 @api_view(['POST'])
 def create_expense(request):
-
     expense_data = {
         'owner': request.user.pk,
         'amount': request.data['amount'],
@@ -175,7 +171,8 @@ def get_budget(request):
         serializer = BudgetSerializer(budget)
         return Response(serializer.data)
     else:
-        return Response({})
+        return Response({'detail': 'Budget not found'},
+                        status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['POST'])
@@ -184,8 +181,6 @@ def create_budget(request):
         'amount': request.data['amount'],
         'owner': request.user.pk
     }
-    # budget_data = request.data
-    # budget_data['owner'] = request.user.pk
 
     serializer = BudgetSerializer(data=budget_data)
     if serializer.is_valid():
