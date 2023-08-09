@@ -30,7 +30,9 @@ const makeAPICall = (callName, data, token, cb) => {
     body: body,
   }).then((res) => {
     cb && cb(res);
+
     if (method == "POST") expect(res.status).to.eq(201);
+    if (method == "DELETE") expect(res.status).to.eq(204);
   });
 
   cy.visit("/");
@@ -70,6 +72,7 @@ const getMethodUrlAndBody = (callName, data) => {
       return [method, url, body];
 
     case "deleteExpenses":
+      method = "DELETE";
       url = "delete-testuser-data/";
       body = {
         submit: "",
@@ -85,6 +88,7 @@ const getMethodUrlAndBody = (callName, data) => {
       return [method, url, body];
 
     case "deleteBudget":
+      method = "DELETE";
       url = "delete-budget/";
       body = {
         submit: "",
@@ -112,14 +116,14 @@ Cypress.Commands.add("loginAndCleanUp", (ctx) => {
   });
 });
 
-Cypress.Commands.add("loginWithUI", (user, password) => {
+Cypress.Commands.add("loginWithUI", (username, password) => {
   /**
    * Login the a normal user by interacting with the UI.
    */
 
   cy.visit("/accounts/login");
   cy.get("[data-test=username]")
-    .type(user)
+    .type(username)
     .get("[data-test=password]")
     .type(password)
     .get("[data-test=login]")
@@ -280,7 +284,7 @@ Cypress.Commands.add("createFixtureExpenses", (ctx) => {
   const accessToken = ctx.access;
 
   const eg = new ExpenseGenerator(expensesData);
-  const expenses = eg.generateExpenses();
+  eg.generateExpenses();
   const serializedExpenses = eg.generateSerializedExpenses();
 
   let stringifyedExpenses = JSON.stringify(serializedExpenses);
@@ -299,7 +303,7 @@ Cypress.Commands.add("deleteExpensesWithAPI", (href) => {
    */
 
   cy.visit(href);
-  makeAPICall("deleteExpenses", { href: href });
+  makeAPICall("deleteExpenses", { href });
 });
 
 Cypress.Commands.add("createBudgetWithUI", (data, submit = true) => {
@@ -324,26 +328,12 @@ Cypress.Commands.add("createBudgetWithAPI", (data, ctx) => {
    */
 
   const accessToken = ctx.access;
-
-  // cy.request({
-  //   method: "POST",
-  //   url: `${apiUrl}/budget/create/`,
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: `Bearer ${accessToken}`,
-  //   },
-  //   body: data,
-  // }).then((res) => {
-  //   expect(res.status).to.eq(201);
-  // });
-
   makeAPICall("createBudget", data, accessToken);
 });
 
 Cypress.Commands.add("updateBudgetField", (value, submit = true) => {
   /**
    * Updates the amount field on a budget update form.
-   *
    * In case submit is set to false the submit button won't be clicked.
    */
 
