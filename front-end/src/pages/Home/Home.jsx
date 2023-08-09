@@ -22,12 +22,15 @@ const Home = ({ accessToken }) => {
   const [budget, setBudget] = useState(0);
   const [lineChartData, setLineChartData] = useState([]);
 
-  const token = accessToken;
-
   useEffect(() => {
     lineChartData.length === 0 &&
       API.fetchLineChartData(accessToken, setLineChartData);
-    expenses.length === 0 && API.fetchPaginatedExpenses({token, paginationSuffix: 1, setExpenses});
+    expenses.length === 0 &&
+      API.fetchPaginatedExpenses({
+        accessToken,
+        paginationSuffix: 1,
+        setExpenses,
+      });
     !budget && API.fetchBudget(accessToken, setBudget);
   }, []);
 
@@ -59,7 +62,7 @@ const Home = ({ accessToken }) => {
 
       {expenses.length > 0 && <ExpenseTable expenses={expenses} />}
 
-      <Pagination setExpenses={setExpenses}/>
+      {expenses.length > 0 && <Pagination setExpenses={setExpenses} />}
     </>
   );
 };
