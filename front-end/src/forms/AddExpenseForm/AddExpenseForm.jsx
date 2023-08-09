@@ -81,8 +81,9 @@ const AddExpenseForm = () => {
             className='form-control'
             onChange={(e) => setCategory(e.target.value)}
             data-test='expense-input-category'
+            defaultValue=''
           >
-            <option value='' selected>
+            <option value=''>
               ---------
             </option>
             <option value='Bar tabs'>Bar tabs</option>

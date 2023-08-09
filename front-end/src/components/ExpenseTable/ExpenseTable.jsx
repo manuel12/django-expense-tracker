@@ -2,6 +2,7 @@ import "./styles.css";
 
 import React from "react";
 
+
 const formatDateToYYYYMMDD = (dateString) => {
   const inputDate = new Date(dateString);
 
