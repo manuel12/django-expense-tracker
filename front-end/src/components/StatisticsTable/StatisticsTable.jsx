@@ -1,8 +1,11 @@
 import "./styles.css";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const StatisticsTable = ({ budgetData, statisticsData }) => {
+  const navigate = useNavigate();
+
   const [budget] = useState(budgetData);
 
   const [currentMonthExpenseSum] = useState(
@@ -62,30 +65,34 @@ const StatisticsTable = ({ budgetData, statisticsData }) => {
                 >
                   {`€ ${currentMonthExpenseSum}`}
 
-                  {budget && (
+                  {budget?.amount && (
                     <>
                       {`/ € ${budget.amount} `}
                       {budget.amount > currentMonthExpenseSum ? (
-                        <span className='badge badge-pill badge-success'>
+                        <span className='badge badge-pill badge-success mx-1'>
                           {" "}
                           under budget{" "}
                         </span>
                       ) : (
-                        <span className='badge badge-pill badge-danger'>
+                        <span className='badge badge-pill badge-danger mx-1'>
                           {" "}
                           over budget{" "}
                         </span>
                       )}
                       <a
-                        href={`/update-budget/${budget.id}/`}
-                        className='font-weight-bold'
+                        onClick={() => {
+                          navigate(`/update-budget/${budget.id}/`)
+                        }}
+                        className='font-weight-bold mx-1'
                         data-test='update-budget'
                       >
                         <span className='badge-pill badge-warning'>✎</span>
                       </a>
                       <a
-                        href={`/delete-budget/${budget.id}/`}
-                        className='font-weight-bold'
+                        onClick={() => {
+                          navigate(`/delete-budget/${budget.id}/`)
+                        }}
+                        className='font-weight-bold mx-1'
                         data-test='delete-budget'
                       >
                         <span className='badge-pill badge-danger'>X</span>
