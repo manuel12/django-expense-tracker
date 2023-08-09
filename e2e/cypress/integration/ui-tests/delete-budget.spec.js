@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const { Expense, Budget } = require("../../support/utils");
+const { Budget } = require("../../support/utils");
 
 const budgetData = require("../../fixtures/budget.json");
 
@@ -11,9 +11,9 @@ describe("Delete budget Tests", () => {
     // Delete budget to start clean.
     cy.loginAndCleanUp(ctx);
 
-    const budget = new Budget(budgetData);
-    cy.createBudgetWithAPI(budget, ctx);
-    ctx.budget = budget;
+    ctx.budget = new Budget(budgetData);
+    cy.createBudgetWithAPI(ctx.budget, ctx);
+
     cy.visit("/");
   });
 
