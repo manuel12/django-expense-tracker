@@ -45,6 +45,7 @@ const UpdateBudgetForm = () => {
         dataTestIdForm='update-budget-form'
         dataTestIdSubmitBtn='update-budget-save'
         cancelBtn={true}
+        cancelBtnRedirect="/charts/"
         dataTestIdCancelBtn='update-budget-cancel'
         onSubmit={handleSubmit}
       >
