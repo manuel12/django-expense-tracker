@@ -20,6 +20,11 @@
   background-color: rgb(255, 140, 0);
 }
 
+.nav-link {
+  color: white;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 600px) {
   .navbar {
     justify-content: start !important;
