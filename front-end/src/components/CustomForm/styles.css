@@ -8,6 +8,11 @@ label {
     max-width: 510px;
   }
 
+  .form-buttons-container {
+    display: flex;
+    justify-content: space-around !important;
+  }
+
   .cancel-btn {
     float: right;
   }
