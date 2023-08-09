@@ -1,7 +1,7 @@
 import "./App.css";
 
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
@@ -25,11 +25,18 @@ function App() {
     JSON.parse(localStorage.getItem("accessToken"))
   );
 
+  useEffect(() => {
+    console.log(accessToken);
+  }, [accessToken]);
+
   return (
     <Router>
       <div className='App'>
         <Navbar />
-        <UserGreet isAuthenticated={accessToken} />
+        <UserGreet
+          isAuthenticated={accessToken}
+          setAccessToken={setAccessToken}
+        />
         <div className='container' data-test='container'>
           {!accessToken ? (
             <Routes>
