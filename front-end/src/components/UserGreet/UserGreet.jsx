@@ -6,6 +6,7 @@ import { API } from "../../api-service";
 
 const UserGreet = ({ isAuthenticated }) => {
   const navigate = useNavigate();
+
   const [username, setUsername] = useState(
     JSON.parse(localStorage.getItem("username"))
   );
@@ -17,7 +18,7 @@ const UserGreet = ({ isAuthenticated }) => {
   }, [isAuthenticated]);
 
   const handleLogout = async () => {
-      API.logout({ navigate, setUserLoggedIn });
+    API.logout({ navigate, setUserLoggedIn });
   };
 
   return (
