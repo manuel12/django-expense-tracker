@@ -16,9 +16,12 @@ import LineChart from "../../charts/LineChart/LineChart";
 
 const Home = ({ accessToken }) => {
   const navigate = useNavigate();
+
   if (!accessToken) navigate("/accounts/login");
 
   const [expenses, setExpenses] = useState([]);
+  const [statisticsData, setStatisticsData] = useState({});
+
   const [budget, setBudget] = useState(0);
   const [lineChartData, setLineChartData] = useState([]);
 
@@ -31,6 +34,7 @@ const Home = ({ accessToken }) => {
         paginationSuffix: 1,
         setExpenses,
       });
+    API.fetchStatisticsData(accessToken, setStatisticsData);
     !budget && API.fetchBudget(accessToken, setBudget);
   }, []);
 
@@ -41,7 +45,11 @@ const Home = ({ accessToken }) => {
         {!budget.amount && <AddBudgetButton />}
       </div>
 
-      {expenses.length > 0 && <TotalExpensesContainer />}
+      {statisticsData.sum_expense && (
+        <TotalExpensesContainer
+          totalExpenseAmount={statisticsData.sum_expense}
+        />
+      )}
 
       {expenses.length === 0 && <Instructions />}
 
@@ -54,7 +62,7 @@ const Home = ({ accessToken }) => {
       ) : (
         <LineChart
           chartData={lineChartData}
-          title={"Total expenses by day"}
+          title={"Total amount spent per day"}
           xLabel={"Dates"}
           yLabel={"(€) Amounts"}
         />
