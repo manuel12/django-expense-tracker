@@ -6,21 +6,22 @@ const expenseData = require("../../fixtures/expense.json");
 
 describe("Miscellaneus Tests", () => {
   const ctx = {};
+  const paginationLimit = 10;
 
   before(() => {
     cy.loginAndCleanUp(ctx);
 
     const expense = new Expense(expenseData);
-    const paginationLimit = 15;
+    const numExpensesToAdd = paginationLimit + 5;
 
-    for (let i = 0; i < paginationLimit; i++) {
+    for (let i = 0; i < numExpensesToAdd; i++) {
       cy.createExpenseWithAPI(expense, ctx);
     }
     cy.visit("/");
   });
 
   it("should display multiple expenses", () => {
-    cy.get("tbody > tr").its("length").should("eq", 15);
+    cy.get("tbody > tr").its("length").should("eq", paginationLimit);
   });
 
   it("should display pagination buttons when more than 10 expenses are added", () => {
