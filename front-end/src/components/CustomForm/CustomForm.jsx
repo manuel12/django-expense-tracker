@@ -12,6 +12,7 @@ const CustomForm = ({
   submitBtnColor = "primary",
   dataTestIdSubmitBtn = "",
   cancelBtn = false,
+  cancelBtnRedirect = "/",
   dataTestIdCancelBtn = "",
   onSubmit,
   children,
@@ -34,23 +35,25 @@ const CustomForm = ({
         ))}
         {formText && <p>{formText}</p>}
         {children}
-        <button
-          type='submit'
-          className={`btn btn-${submitBtnColor}`}
-          data-test={dataTestIdSubmitBtn}
-        >
-          {submitBtnText}
-        </button>
-        {cancelBtn && (
+        <div className='form-buttons-container'>
           <button
-            type='button'
-            className='btn btn-secondary cancel-btn'
-            onClick={() => navigate("/")}
-            data-test={dataTestIdCancelBtn}
+            type='submit'
+            className={`btn btn-${submitBtnColor}`}
+            data-test={dataTestIdSubmitBtn}
           >
-            Cancel
+            {submitBtnText}
           </button>
-        )}
+          {cancelBtn && (
+            <button
+              type='button'
+              className='btn btn-secondary cancel-btn'
+              onClick={() => navigate(cancelBtnRedirect)}
+              data-test={dataTestIdCancelBtn}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );
