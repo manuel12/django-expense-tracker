@@ -1,5 +1,3 @@
-import { json } from "react-router-dom";
-
 const apiUrl = "http://127.0.0.1:8000/api";
 
 export class API {
@@ -53,7 +51,7 @@ export class API {
     setInvalidCredentialsError,
   }) {
     try {
-      const res = await fetch("http://localhost:8000/api/login/", {
+      const res = await fetch(`${apiUrl}/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,11 +64,10 @@ export class API {
         const { access, refresh } = jsonRes;
 
         localStorage.setItem("username", JSON.stringify(username));
-        localStorage.setItem("refreshToken", JSON.stringify(refresh));
+        localStorage.setItem("refreshaccessToken", JSON.stringify(refresh));
         localStorage.setItem("accessToken", JSON.stringify(access));
 
         setAccessToken(access);
-        console.log("Set access token!");
         navigate("/");
       } else {
         setInvalidCredentialsError(true);
@@ -93,7 +90,7 @@ export class API {
     setUserRegisteredSuccessfully,
   }) {
     try {
-      const res = await fetch("http://localhost:8000/api/register/", {
+      const res = await fetch(`${apiUrl}/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +101,6 @@ export class API {
       if (res.ok) {
         setUsernameTakenError(false);
         const jsonRes = await res.json();
-        console.log(jsonRes);
         setUserRegisteredSuccessfully(true);
 
         setUsername("");
@@ -117,7 +113,6 @@ export class API {
       } else {
         setUsernameTakenError(true);
         const jsonRes = await res.json();
-        console.log(jsonRes);
         throw new Error("Signup failed: " + jsonRes.error);
       }
     } catch (err) {
@@ -127,7 +122,7 @@ export class API {
 
   static async logout({ navigate, setUserLoggedIn }) {
     try {
-      const res = await fetch("http://localhost:8000/api/logout/", {
+      const res = await fetch(`${apiUrl}/logout/`, {
         method: "POST",
         header: {
           "Content-Type": "application/json",
@@ -137,7 +132,7 @@ export class API {
       if (res.status === 205) {
         // Logout successful
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("refreshaccessToken");
         setUserLoggedIn(false);
         navigate("/accounts/login");
       } else {
@@ -149,24 +144,23 @@ export class API {
     }
   }
 
-  static async fetchExpense(token, id, setExpense) {
-    const res = await API._fetch(`${apiUrl}/expenses/`, token);
-  }
+  static async fetchExpenses(accessToken, setExpenseFunc) {
+    try {
+      const res = await API._fetch(`${apiUrl}/expenses/`, accessToken);
 
-  static async fetchExpenses(token, setExpenseFunc) {
-    const res = await API._fetch(`${apiUrl}/expenses/`, token);
-
-    if (res.ok) {
-      const jsonRes = await res.json();
-      console.log(jsonRes);
-      setExpenseFunc(jsonRes);
-    } else {
-      throw new Error("Fetching expenses failed");
+      if (res.ok) {
+        const jsonRes = await res.json();
+        setExpenseFunc(jsonRes);
+      } else {
+        throw new Error("Fetching expenses failed");
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
   static async fetchPaginatedExpenses({
-    token,
+    accessToken,
     paginationSuffix,
     setExpenses,
     setPreviousPageAvailable,
@@ -174,30 +168,37 @@ export class API {
     numPages,
     setNumPages,
   }) {
-    const url = `${apiUrl}/paginated-expenses/?page=${paginationSuffix}`;
-    const res = await API._fetch(url, token);
+    try {
+      const url = `${apiUrl}/paginated-expenses/?page=${paginationSuffix}`;
+      const res = await API._fetch(url, accessToken);
 
-    if (res.ok) {
-      const paginatedExpenses = await res.json();
+      if (res.ok) {
+        const paginatedExpenses = await res.json();
 
-      setExpenses(paginatedExpenses.results);
+        setExpenses(paginatedExpenses.results);
 
-      setPreviousPageAvailable &&
-        setPreviousPageAvailable(paginatedExpenses?.previous);
-      setNextPageAvailable && setNextPageAvailable(paginatedExpenses?.next);
+        setPreviousPageAvailable &&
+          setPreviousPageAvailable(paginatedExpenses?.previous);
+        setNextPageAvailable && setNextPageAvailable(paginatedExpenses?.next);
 
-      !numPages &&
-        setNumPages &&
-        setNumPages(
-          Math.ceil(paginatedExpenses.count / paginatedExpenses.results.length)
-        );
-    } else {
-      throw new Error("Fetching expenses failed");
+        !numPages &&
+          setNumPages &&
+          setNumPages(
+            Math.ceil(
+              paginatedExpenses.count / paginatedExpenses.results.length
+            )
+          );
+      } else {
+        throw new Error("Fetching expenses failed");
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
   static async createExpense(
-    token,
+    navigate,
+    accessToken,
     body,
     setAmount,
     setCategory,
@@ -206,16 +207,19 @@ export class API {
     setSource
   ) {
     try {
-      const res = await API._post(`${apiUrl}/expenses/create/`, token, body);
+      const res = await API._post(
+        `${apiUrl}/expenses/create/`,
+        accessToken,
+        body
+      );
 
       if (res.status === 201) {
-        console.log("Creating expense successful!");
         setAmount(0);
         setCategory("");
         setContent("");
         setDate("");
         setSource("");
-        window.location = "/";
+        navigate("/");
       } else {
         throw new Error("Creating expense failed");
       }
@@ -225,7 +229,8 @@ export class API {
   }
 
   static async updateExpense(
-    token,
+    navigate,
+    accessToken,
     id,
     body,
     setAmount,
@@ -237,20 +242,17 @@ export class API {
     try {
       const res = await API._update(
         `${apiUrl}/expenses/update/${id}/`,
-        token,
+        accessToken,
         body
       );
 
-      console.log(body);
-
       if (res.status === 204) {
-        console.log("Updating expense successful!");
         setAmount(0);
         setCategory(0);
         setContent(0);
         setDate(0);
         setSource(0);
-        window.location = "/";
+        navigate("/");
       } else {
         throw new Error("Updating expense failed");
       }
@@ -259,13 +261,15 @@ export class API {
     }
   }
 
-  static async deleteExpense(token, id) {
+  static async deleteExpense(navigate, accessToken, id) {
     try {
-      const res = await API._delete(`${apiUrl}/expenses/delete/${id}/`, token);
+      const res = await API._delete(
+        `${apiUrl}/expenses/delete/${id}/`,
+        accessToken
+      );
 
       if (res.status === 204) {
-        console.log("Deleting expense successful!");
-        window.location = "/";
+        navigate("/");
       } else {
         throw new Error("Deleting expense failed");
       }
@@ -274,25 +278,32 @@ export class API {
     }
   }
 
-  static async fetchBudget(token, setBudgetFunc) {
-    const res = await API._fetch(`${apiUrl}/budget/`, token);
+  static async fetchBudget(accessToken, setBudgetFunc) {
+    try {
+      const res = await API._fetch(`${apiUrl}/budget/`, accessToken);
 
-    if (res.ok) {
-      const jsonRes = await res.json();
-      setBudgetFunc(jsonRes);
-    } else {
-      throw new Error("Fetching expenses failed");
+      if (res.ok) {
+        const jsonRes = await res.json();
+        setBudgetFunc(jsonRes);
+      } else {
+        throw new Error("Fetching expenses failed");
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
-  static async createBudget(token, body, setAmount) {
+  static async createBudget(navigate, accessToken, body, setAmount) {
     try {
-      const res = await API._post(`${apiUrl}/budget/create/`, token, body);
+      const res = await API._post(
+        `${apiUrl}/budget/create/`,
+        accessToken,
+        body
+      );
 
       if (res.status === 201) {
-        console.log("Creating budget successful!");
         setAmount(0);
-        window.location = "/";
+        navigate("/");
       } else {
         throw new Error("Creating budget failed");
       }
@@ -301,17 +312,17 @@ export class API {
     }
   }
 
-  static async updateBudget(token, id, body, setAmount) {
+  static async updateBudget(navigate, accessToken, id, body, setAmount) {
     try {
       const res = await API._update(
         `${apiUrl}/budget/update/${id}/`,
-        token,
+        accessToken,
         body
       );
 
       if (res.status === 200) {
         setAmount(0);
-        window.location = "/";
+        navigate("/");
       } else {
         throw new Error("Updating budget failed");
       }
@@ -320,13 +331,15 @@ export class API {
     }
   }
 
-  static async deleteBudget(token, id) {
+  static async deleteBudget(navigate, accessToken, id) {
     try {
-      const res = await API._delete(`${apiUrl}/budget/delete/${id}/`, token);
+      const res = await API._delete(
+        `${apiUrl}/budget/delete/${id}/`,
+        accessToken
+      );
 
       if (res.status === 204) {
-        console.log("Deleting budget successful!");
-        window.location = "/";
+        navigate("/");
       } else {
         throw new Error("Deleting budget failed");
       }
@@ -335,74 +348,96 @@ export class API {
     }
   }
 
-  static async fetchLineChartData(token, setLineChartData) {
-    const res = await API._fetch(`${apiUrl}/line-chart-data/`, token);
-    if (res.ok) {
-      const expenseData = await res.json();
-      setLineChartData(expenseData);
-    } else {
-      throw new Error("Fetching line chart data failed");
-    }
-  }
-
-  static async fetchExpensesByMonthData(token, setExpensesByMonth) {
-    const res = await API._fetch(
-      `${apiUrl}/expenses-by-month-bar-chart-data/`,
-      token
-    );
-    if (res.ok) {
-      const expensesByMonthData = await res.json();
-      setExpensesByMonth(expensesByMonthData);
-    } else {
-      throw new Error("Fetching expenses by month bar chart data failed");
-    }
-  }
-
-  static async fetchExpensesByWeekData(token, setExpensesByWeek) {
-    const res = await API._fetch(
-      `${apiUrl}/expenses-by-week-bar-chart-data/`,
-      token
-    );
-    if (res.ok) {
-      const expensesByWeekData = await res.json();
-      setExpensesByWeek(expensesByWeekData);
-    } else {
-      throw new Error("Fetching expenses by week bar chart data failed");
-    }
-  }
-
-  static async fetchTotalExpensesData(token, setTotalExpenses) {
-    const res = await API._fetch(
-      `${apiUrl}/total-expenses-pie-chart-data/`,
-      token
-    );
-    if (res.ok) {
-      const totalExpensesData = await res.json();
-      setTotalExpenses(totalExpensesData);
-    } else {
-      throw new Error("Fetching total expenses pie chart data failed");
-    }
-  }
-
-  static async fetchMonthlyExpensesData(token, setMonthlyExpenses) {
-    const res = await API._fetch(
-      `${apiUrl}/monthly-expenses-pie-chart-data/`,
-      token
-    );
-    if (res.ok) {
-      const monthlyExpensesData = await res.json();
-      setMonthlyExpenses(monthlyExpensesData);
-    } else {
-      throw new Error("Fetching monthly expenses pie chart data failed");
-    }
-  }
-
-  static async fetchStatisticsData(token, setStatisticsData) {
+  static async fetchLineChartData(accessToken, setLineChartData) {
     try {
-      const res = await API._fetch(`${apiUrl}/statistics-table-data/`, token);
+      const res = await API._fetch(`${apiUrl}/line-chart-data/`, accessToken);
+      if (res.ok) {
+        const expenseData = await res.json();
+        setLineChartData(expenseData);
+      } else {
+        throw new Error("Fetching line chart data failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  static async fetchExpensesByMonthData(accessToken, setExpensesByMonth) {
+    try {
+      const res = await API._fetch(
+        `${apiUrl}/expenses-by-month-bar-chart-data/`,
+        accessToken
+      );
+      if (res.ok) {
+        const expensesByMonthData = await res.json();
+        setExpensesByMonth(expensesByMonthData);
+      } else {
+        throw new Error("Fetching expenses by month bar chart data failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  static async fetchExpensesByWeekData(accessToken, setExpensesByWeek) {
+    try {
+      const res = await API._fetch(
+        `${apiUrl}/expenses-by-week-bar-chart-data/`,
+        accessToken
+      );
+      if (res.ok) {
+        const expensesByWeekData = await res.json();
+        setExpensesByWeek(expensesByWeekData);
+      } else {
+        throw new Error("Fetching expenses by week bar chart data failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  static async fetchTotalExpensesData(accessToken, setTotalExpenses) {
+    try {
+      const res = await API._fetch(
+        `${apiUrl}/total-expenses-pie-chart-data/`,
+        accessToken
+      );
+      if (res.ok) {
+        const totalExpensesData = await res.json();
+        setTotalExpenses(totalExpensesData);
+      } else {
+        throw new Error("Fetching total expenses pie chart data failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  static async fetchMonthlyExpensesData(accessToken, setMonthlyExpenses) {
+    try {
+      const res = await API._fetch(
+        `${apiUrl}/monthly-expenses-pie-chart-data/`,
+        accessToken
+      );
+      if (res.ok) {
+        const monthlyExpensesData = await res.json();
+        setMonthlyExpenses(monthlyExpensesData);
+      } else {
+        throw new Error("Fetching monthly expenses pie chart data failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  static async fetchStatisticsData(accessToken, setStatisticsData) {
+    try {
+      const res = await API._fetch(
+        `${apiUrl}/statistics-table-data/`,
+        accessToken
+      );
       if (res.ok) {
         const statisticsData = await res.json();
-        console.log(statisticsData);
         setStatisticsData(statisticsData);
       } else {
         throw new Error("Fetching statistics data failed");
