@@ -10,9 +10,8 @@ describe("Delete expense Tests", () => {
   beforeEach(() => {
     cy.loginAndCleanUp(ctx);
 
-    const expense = new Expense(expenseData);
-    cy.createExpenseWithAPI(expense, ctx);
-    ctx.expense = expense;
+    ctx.expense = new Expense(expenseData);
+    cy.createExpenseWithAPI(ctx.expense, ctx);
   });
 
   it("should delete an expense", () => {
