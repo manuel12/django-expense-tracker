@@ -109,10 +109,10 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-DATABASE_URL = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
-DATABASES["default"] = dj_database_url.config(
-    default=DATABASE_URL, conn_max_age=600
-)
+# DATABASE_URL = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+# DATABASES["default"] = dj_database_url.config(
+#     default=DATABASE_URL, conn_max_age=600
+# )
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
