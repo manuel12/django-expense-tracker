@@ -1,12 +1,14 @@
 import "./styles.css";
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ RouterLink }) => {
+const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <nav id='navbar' className='navbar justify-content-center'>
       <a
-        className='navbar-brand navbar-routerLink font-weight-bold'
+        className='navbar-brand font-weight-bold'
         href='/home'
       >
         Expense Tracker
@@ -14,14 +16,24 @@ const Navbar = ({ RouterLink }) => {
 
       <ul className='navbar-nav navbar-list flex-row justify-content-around'>
         <li className='nav-item active'>
-          <RouterLink className='nav-link' to='/'>
+          <div
+            className='nav-link'
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             Home <span className='sr-only'>(current)</span>
-          </RouterLink>
+          </div>
         </li>
         <li className='nav-item'>
-          <RouterLink className='nav-link' to='/charts'>
+          <div
+            className='nav-link'
+            onClick={() => {
+              navigate("charts/");
+            }}
+          >
             Charts & Statistics
-          </RouterLink>
+          </div>
         </li>
       </ul>
     </nav>
