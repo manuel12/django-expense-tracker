@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
 const UpdateExpenseForm = () => {
-  const [accessToken, setAccessToken] = useState(
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const [accessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
-  const { id } = useParams();
 
   const [expenses, setExpenses] = useState([]);
 
@@ -56,6 +58,7 @@ const UpdateExpenseForm = () => {
       setDateNotValid(true);
     } else {
       API.updateExpense(
+        navigate, 
         accessToken,
         id,
         JSON.stringify({ amount, category, content, date, source }),
