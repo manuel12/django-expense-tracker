@@ -10,8 +10,7 @@ describe("Create expense Tests", () => {
 
   beforeEach(() => {
     cy.loginAndCleanUp(ctx);
-    const expense = new Expense(expenseData);
-    ctx.expense = expense;
+    ctx.expense = new Expense(expenseData);
 
     cy.visit("/");
     cy.get("[data-test=create-expense]").click();
@@ -20,7 +19,7 @@ describe("Create expense Tests", () => {
     });
   });
 
-  it("should create an expense", function () {
+  it("should create an expense", () => {
     cy.createExpenseWithUI(ctx.expense);
 
     cy.url().should("eq", Cypress.config().baseUrl);
@@ -33,7 +32,7 @@ describe("Create expense Tests", () => {
       .and("contain", ctx.expense.date);
   });
 
-  it("should NOT allow to create an expense while leaving 'amount' field at 0", function () {
+  it("should NOT allow to create an expense while leaving 'amount' field at 0", () => {
     ctx.expense.amount = 0;
     cy.createExpenseWithUI(ctx.expense);
 
@@ -44,7 +43,7 @@ describe("Create expense Tests", () => {
   });
 
   fieldsToEmpty.forEach((fieldToEmpty) => {
-    it(`should NOT allow to create an expense while leaving ${fieldToEmpty} field empty`, function () {
+    it(`should NOT allow to create an expense while leaving ${fieldToEmpty} field empty`, () => {
       cy.createExpenseWithUI(ctx.expense, false);
 
       if (fieldToEmpty == "category")
@@ -57,7 +56,7 @@ describe("Create expense Tests", () => {
     });
   });
 
-  it("should NOT allow to create an expense with amount bigger than 9,999,999,999", function () {
+  it("should NOT allow to create an expense with amount bigger than 9,999,999,999", () => {
     ctx.expense.amount = 10000000000;
     cy.createExpenseWithUI(ctx.expense);
 
@@ -70,7 +69,7 @@ describe("Create expense Tests", () => {
       );
   });
 
-  it("should NOT allow to create an expense with an incorrect format date", function () {
+  it("should NOT allow to create an expense with an incorrect format date", () => {
     ctx.expense.date = "20201210 1200pm";
     cy.createExpenseWithUI(ctx.expense);
 
