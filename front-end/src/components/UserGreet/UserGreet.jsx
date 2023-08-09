@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../api-service";
 
-const UserGreet = ({ isAuthenticated }) => {
+const UserGreet = ({ isAuthenticated, setAccessToken }) => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState(
@@ -18,7 +18,7 @@ const UserGreet = ({ isAuthenticated }) => {
   }, [isAuthenticated]);
 
   const handleLogout = async () => {
-    API.logout({ navigate, setUserLoggedIn });
+    API.logout({ navigate, setUserLoggedIn, setAccessToken });
   };
 
   return (
@@ -41,8 +41,8 @@ const UserGreet = ({ isAuthenticated }) => {
       ) : (
         <>
           <p>You are not logged in.</p>
-          <a onClick={() => navigate("/accounts/signup")}>Sign Up</a> |
-          <a onClick={() => navigate("/accounts/login")}>Log In</a>
+          <a className="user-greet-link" onClick={() => navigate("/accounts/signup")}>Sign Up</a> |
+          <a className="user-greet-link" onClick={() => navigate("/accounts/login")}> Log In</a>
         </>
       )}
     </div>
