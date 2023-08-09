@@ -35,7 +35,7 @@ const Charts = ({ accessToken }) => {
     monthlyExpensesByCategory.length === 0 &&
       API.fetchMonthlyExpensesData(accessToken, setMonthlyExpensesByCategory);
 
-    !budget && API.fetchBudget(accessToken, setBudget);
+    isObjectEmpty(budget) && API.fetchBudget(accessToken, setBudget);
     isObjectEmpty(statisticsData) &&
       API.fetchStatisticsData(accessToken, setStatisticsData);
   }, []);
