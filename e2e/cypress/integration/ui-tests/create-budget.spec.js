@@ -10,17 +10,16 @@ describe("Create budget Tests", () => {
   beforeEach(() => {
     // Delete budget to start clean.
     cy.loginAndCleanUp(ctx);
-    const budget = new Budget(budgetData);
-    ctx.budget = budget;
+    ctx.budget = new Budget(budgetData);
 
     cy.get("[data-test=create-budget]").click();
     cy.url().then((url) => {
       ctx.createBudgetPageUrl = url;
     });
+    cy.visit("/");
   });
 
   it("should create a budget", () => {
-    cy.visit("/");
     cy.createBudgetWithUI(ctx.budget);
 
     cy.url().should("eq", Cypress.config().baseUrl);
@@ -35,8 +34,6 @@ describe("Create budget Tests", () => {
   });
 
   it("should NOT allow to create a budget while leaving a 'amount' field on 0", () => {
-    cy.visit("/");
-
     ctx.budget.amount = 0;
     cy.createBudgetWithUI(ctx.budget);
 
