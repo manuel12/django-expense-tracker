@@ -13,12 +13,10 @@ describe("Update expense Tests", () => {
     // Delete expense to start clean.
     cy.loginAndCleanUp(ctx);
 
-    const expense = new Expense(expenseData);
-    cy.createExpenseWithAPI(expense, ctx);
-    ctx.expense = expense;
+    ctx.expense = new Expense(expenseData);
+    cy.createExpenseWithAPI(ctx.expense, ctx);
 
-    const newExpense = new Expense(newExpenseData);
-    ctx.newExpense = newExpense;
+    ctx.newExpense = new Expense(newExpenseData);
 
     cy.visit("/");
     cy.get("[data-test^=update-expense]").first().click();

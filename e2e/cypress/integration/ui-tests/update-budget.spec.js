@@ -12,12 +12,10 @@ describe("Update budget Tests", () => {
     // Delete budget to start clean.
     cy.loginAndCleanUp(ctx);
 
-    const budget = new Budget(budgetData);
-    cy.createBudgetWithAPI(budget, ctx);
-    ctx.budget = budget;
+    ctx.budget = new Budget(budgetData);
+    cy.createBudgetWithAPI(ctx.budget, ctx);
 
-    const newBudget = new Budget(newBudgetData);
-    ctx.newBudget = newBudget;
+    ctx.newBudget = new Budget(newBudgetData);
 
     cy.visit("/");
     cy.get("[data-test=update-budget]").click();
