@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
 const AddBudgetForm = () => {
-  const [accessToken, setAccessToken] = useState(
+  const navigate = useNavigate();
+  const [accessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
   const [amount, setAmount] = useState(0);
@@ -15,7 +17,7 @@ const AddBudgetForm = () => {
     if (amount > 999999) {
       setBudgetTooHighError(true);
     } else {
-      API.createBudget(accessToken, JSON.stringify({ amount }), setAmount);
+      API.createBudget(navigate, accessToken, JSON.stringify({ amount }), setAmount);
     }
   };
 

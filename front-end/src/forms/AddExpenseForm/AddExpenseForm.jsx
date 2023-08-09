@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API } from "../../api-service";
 
 import CustomForm from "../../components/CustomForm/CustomForm";
 
 const AddExpenseForm = () => {
-  const [accessToken, setAccessToken] = useState(
+  const navigate = useNavigate();
+  const [accessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
 
@@ -34,6 +36,7 @@ const AddExpenseForm = () => {
       setDateNotValid(true);
     } else {
       API.createExpense(
+        navigate,
         accessToken,
         JSON.stringify({ amount, category, content, date, source }),
         setAmount,

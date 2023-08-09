@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import React, { useEffect } from "react";
+import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 
 const AddExpenseButton = () => {
@@ -10,7 +10,7 @@ const AddExpenseButton = () => {
       autoFocus={true}
       text='+Add Expense'
       className='create-expense-btn'
-      redirectTo='create/'
+      redirectTo='create-expense/'
       dataTestId='create-expense'
     />
   );
