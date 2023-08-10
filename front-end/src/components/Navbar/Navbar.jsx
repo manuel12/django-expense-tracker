@@ -9,7 +9,7 @@ const Navbar = () => {
     <nav id='navbar' className='navbar justify-content-center'>
       <a
         className='navbar-brand font-weight-bold'
-        href='/home'
+        href='/'
       >
         Expense Tracker
       </a>
