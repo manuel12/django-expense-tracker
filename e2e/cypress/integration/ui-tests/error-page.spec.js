@@ -1,21 +1,23 @@
 /// <reference types="cypress" />
 
 describe("Error page Tests", () => {
-  before(() => {
-    cy.loginAndCleanUp();
-  });
-
   // Only run this test when expense_tracker > settings.py > DEBUG = False.
-  it.skip("should display 404 page", () => {
-    const url = "/non-existing-page/";
-    cy.request({
-      url,
-      failOnStatusCode: false,
-    });
-
-    cy.visit(url, { failOnStatusCode: false });
+  it("should display 404 page", () => {
+    cy.visit("/non-existing-page/");
     cy.get("h2")
       .should("be.visible")
       .and("contain", "The item you requested is not available. (404)");
+  });
+
+  it("should display 'no access' message when  trying to access home or charts while logged out", () => {
+    cy.visit("/");
+    cy.get("h2").contains(
+      "You do not have access to this page, please log in first."
+    );
+
+    cy.visit("charts/");
+    cy.get("h2").contains(
+      "You do not have access to this page, please log in first."
+    );
   });
 });
