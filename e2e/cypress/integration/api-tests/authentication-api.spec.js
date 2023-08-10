@@ -3,6 +3,7 @@ const testuserData = require("../../fixtures/testuser.json");
 
 describe("Authentication API Tests", () => {
   const apiUrl = "http://localhost:8000/api";
+  const ctx = {};
 
   it("POST - /api/login/ - should receive refresh and access token when login inwith existing user", () => {
     // Perform a failing request due to lack of token
@@ -35,6 +36,7 @@ describe("Authentication API Tests", () => {
       expect(res.body).to.have.property("refresh");
 
       const accessToken = res.body.access;
+      ctx.accessToken = accessToken;
 
       // Use tokens to perform a succesful request
       cy.request({
@@ -155,5 +157,9 @@ describe("Authentication API Tests", () => {
         "Authentication credentials were not provided."
       );
     });
+  });
+
+  after(() => {
+    cy.deleteTestuser("newUser1", ctx.accessToken);
   });
 });
