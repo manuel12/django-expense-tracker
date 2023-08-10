@@ -96,9 +96,21 @@ The application now includes an embedded react front-end by default, in place of
 Because the current front-end is directly embedded in django (which means django settings are looking for the templates directory in the front-end's build/ directory, and also that django looks for static files in such build/ directory), this means you only need to start one server to run both the backend and the front-end of
 the application. The draw back of this is that, unlike when you work on the server specific to your react application (generally http://localhost:3000/), where you can see changes done to the application being displayed on the screen as soon as you save any changed file, now it is a bit more complicated.
 
+## How to install the Front-end
+
+First of all you have to install the front-end packages. In case you want to start the react server in order to see changes to the front-end faster just need to cd to the front-end/ directory and run:
+
+    npm install --legacy-peer-deps
+
+Once that's installed, you can run:
+
+    npm run start
+
+in order to start the react server on http://localhost:3000/.
+
 ## How to make Front-end updates
 
-So basically whenever you want to see your changes to the front-end displayed on the browser you have save your changed files and run:
+So basically whenever you want to see your changes to the front-end displayed on the browser(without starting the react server and using only the django server), you have to save your changed files, cd to the front-end/ directory  and run:
 
     npm run build
 
@@ -116,17 +128,6 @@ After that run:
 
 and you should see the changes you added previously now displayed on the page.
 
-## How to install the Front-end
-
-In case you want to start the react server in order to see changes to the front-end faster just need to cd to the front-end/ directory and run:
-
-    npm install --legacy-peer-deps
-
-Once that's installed, you can run:
-
-    npm run start
-
-in order to start the react server.
 
 ## Installation - Cypress
 
