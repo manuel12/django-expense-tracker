@@ -13,9 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from datetime import timedelta
 
-import dj_database_url
-import django_heroku
-
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -77,14 +74,17 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-
+# CORS_ORIGIN_WHITELIST = [
+#      'http://localhost:3000'
+# ]
 
 ROOT_URLCONF = "expense_tracker.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        # "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [os.path.join(BASE_DIR, 'front-end')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -109,10 +109,6 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-# DATABASE_URL = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
-# DATABASES["default"] = dj_database_url.config(
-#     default=DATABASE_URL, conn_max_age=600
-# )
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -169,23 +165,13 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STATIC_URL = "/static/"
 
-LOGIN_REDIRECT_URL = "expenses:home"
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'front-end', 'build', 'static'),
+)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-LOGOUT_REDIRECT_URL = "expenses:home"
-
-LOGIN_URL = "accounts:login"
-
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
-
-# options = DATABASES['default'].get('OPTIONS', {})
-# options.pop('sslmode', None)
