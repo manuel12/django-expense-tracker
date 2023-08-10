@@ -8,6 +8,7 @@ import Signup from "./pages/Signup/Signup";
 
 import Home from "./pages/Home/Home";
 import Charts from "./pages/Charts/Charts";
+import Error from "./pages/Error/Error";
 
 import Navbar from "./components/Navbar/Navbar";
 import UserGreet from "./components/UserGreet/UserGreet";
@@ -41,13 +42,20 @@ function App() {
           {!accessToken ? (
             <Routes>
               <Route
-                path='/accounts/login'
+                path='/accounts/login/'
                 element={<Login setAccessToken={setAccessToken} />}
               />
               <Route path='/accounts/signup/' element={<Signup />} />
+              <Route path='/' element={<Error noAccessMessage={true} />} />
+              <Route
+                path='/charts/'
+                element={<Error noAccessMessage={true} />}
+              />
+              <Route path='*' element={<Error />} />
             </Routes>
           ) : (
             <Routes>
+              <Route path='*' element={<Error />} />
               <Route
                 exact
                 path='/'
