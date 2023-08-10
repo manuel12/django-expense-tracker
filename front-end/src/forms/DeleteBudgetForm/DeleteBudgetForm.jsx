@@ -27,7 +27,6 @@ const DeleteBudgetForm = () => {
       submitBtnColor={"danger"}
       dataTestIdSubmitBtn="delete-budget-yes"
       cancelBtn={true}
-      cancelBtnRedirect="/charts/"
       dataTestIdCancelBtn="delete-budget-cancel"
       onSubmit={handleSubmit}
     />
