@@ -20,7 +20,7 @@ The project also performs operations on expenses in order deliver monthly and da
 
 You can add an expense by clicking the "Add Expense" button, filling and submitting the expense form.
 
-Once you've added the expense it will be reflected on the total expenses element, the homepage's line chart and will also be listed below on the expenses table.
+Once you've added the expense it will be displayed on the total expenses element, the homepage's line chart and will also be listed below on the expenses table.
 
 ![Display gif clicking Add Expense button, filling and submitting expense form and displaying expense on line chart and expense table](demo/add-expense-demo.gif)
 
@@ -59,7 +59,11 @@ You can check the app (please wait a bit for a free dyno to start) [here](https:
 
 ## Installation
 
-For installing the Django application clone the repository and run:
+For installing the Django application clone the repository and cd inside the directory
+
+    cd django-expense-tracker
+
+And run:
 
      pipenv install
 
@@ -68,10 +72,6 @@ This will install the virtual environments and all dependencies.
 Now start the virtual environment shell:
 
      pipenv shell
-
-**Note:**  
-_Make sure you have 'DEVELOPMENT' set to True in your environment variables, in case you want to use the sqlite db.
-Or if you want to use postgres set DB_NAME, DB_USER, DB_PASSWORD on your environment variables, otherwise psycopg2 will throw an error._
 
 Run migrations:
 
@@ -88,9 +88,49 @@ Now you can start server...
 
 ...and visit http://localhost:8000/
 
+## (NEW) React Front-end
+
+The application now includes an embedded react front-end by default, in place of the old template-based front-end. The template files and older django views, urls and other files are still included in the repository, but this is temporary. In the future those files will be removed from the repo to leave only the new react-based front-end.
+
+**Note:**  
+Because the current front-end is directly embedded in django (which means django settings are looking for the templates directory in the front-end's build/ directory, and also that django looks for static files in such build/ directory), this means you only need to start one server to run both the backend and the front-end of
+the application. The draw back of this is that, unlike when you work on the server specific to your react application (generally http://localhost:3000/), where you can see changes done to the application being displayed on the screen as soon as you save any changed file, now it is a bit more complicated.
+
+## How to make Front-end updates
+
+So basically whenever you want to see your changes to the front-end displayed on the browser you have save your changed files and run:
+
+    npm run build
+
+on the front-end directory in order to update the build/ directory with your latest changes.
+
+After that you need to cd to the root of the repository (where manage.py and this README file are located), and run:
+
+    python manage.py collectstatic
+
+Then when asked by the prompt type 'yes' to overwrite existing staticfiles.
+
+After that run:
+
+    python manage.py runserver
+
+and you should see the changes you added previously now displayed on the page.
+
+## How to install the Front-end
+
+In case you want to start the react server in order to see changes to the front-end faster just need to cd to the front-end/ directory and run:
+
+    npm install --legacy-peer-deps
+
+Once that's installed, you can run:
+
+    npm run start
+
+in order to start the react server.
+
 ## Installation - Cypress
 
-For installing Cypress go to the e2e folder and run:
+For installing Cypress go to the e2e directory and run:
 
     npm install
 
