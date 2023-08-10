@@ -27,6 +27,7 @@ a:visited,
 button {
   color: white;
   text-decoration: none;
+  min-width: 200px;
 }
 
 .black-font {
