@@ -53,8 +53,6 @@ You can find your current monthly expenses (with controls for editing or deletin
 username: testuser1  
 password: testpass1
 
-You can check the app (please wait a bit for a free dyno to start) [here](https://expense-tracker16.herokuapp.com/).
-
 <br />
 
 ## Installation
